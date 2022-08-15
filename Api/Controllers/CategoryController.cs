@@ -1,7 +1,8 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Application.Categories.Commands.CreateCategory;
 using Application.Categories.Queries.GetCategories;
-using Application.Categories.Commands.CreateCategory;
+using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts.Response;
+using System.Net;
 
 namespace Api.Controllers
 {
@@ -10,10 +11,24 @@ namespace Api.Controllers
     public class CategoryController : ApiController
     {
         [HttpGet]
-        public async Task<ActionResult<CategoryVm>> GetCategory()
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<CategoryResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        public async Task<IActionResult> GetCategory()
         {
-            return await Mediator.Send(new GetCategoryQuery());
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new BadRequestResponseDto()
+                {
+                    AdditionnatData = ModelState.Values,
+                    ErrorCode = 1001,
+                    Message = "Error validating model"
+                });
+            }
+
+            var response = await Mediator.Send(new GetCategoryQuery());
+            return Ok(response);
         }
+
         [HttpPost]
         public async Task<ActionResult<int>> CreateCategory(CreateCategoryCommand command)
         {

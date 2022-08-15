@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Contracts.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Application.Categories.Queries.GetCategories
 {
     public class CategoryVm
     {
-        public IList<CategoryDto> Lists { get; set; }
+        public IList<CategoryResponseDto> Lists { get; set; }
     }
 }

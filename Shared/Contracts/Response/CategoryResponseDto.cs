@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Shared.Contracts.Response
 {
@@ -16,5 +16,4 @@ namespace Shared.Contracts.Response
         [JsonPropertyName("createdDateTime")]
         public DateTime CreatedDateTime { get; set; }
     }
-
 }

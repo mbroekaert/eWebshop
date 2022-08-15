@@ -3,15 +3,16 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Contracts.Response;
 
 namespace Application.Categories.Queries.GetCategories
 {
 
-    public class GetCategoryQuery : IRequest<CategoryVm>
+    public class GetCategoryQuery : IRequest<IEnumerable<CategoryResponseDto>>
     {
     }
 
-    public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, CategoryVm>
+    public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, IEnumerable<CategoryResponseDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -22,16 +23,12 @@ namespace Application.Categories.Queries.GetCategories
             _mapper = mapper;
         }
 
-        public async Task<CategoryVm> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoryResponseDto>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
-
-            return new CategoryVm
-            {
-                Lists = await _context.Categories
-                .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
-                .OrderBy(t => t.DisplayOrder)
-                .ToListAsync(cancellationToken)
-            };
+            return await _context.Categories
+                            .Select(c => _mapper.Map<CategoryResponseDto>(c))
+                            .OrderBy(t => t.DisplayOrder)
+                            .ToListAsync(cancellationToken);
         }
     }
 }

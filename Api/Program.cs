@@ -1,5 +1,7 @@
 using Api.Filters;
 using Application;
+using Application.Mappers;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(configuration);
+
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new CategoryProfile());
+});
 
 builder.Services.AddMvc(options =>
 {
