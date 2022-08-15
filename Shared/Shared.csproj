@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Contracts\Response\CategoryResponseDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\Request\" />
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Contracts\Response\CategoryResponseDto.cs" />
+  </ItemGroup>
+
+</Project>
