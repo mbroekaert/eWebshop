@@ -5,6 +5,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(contentType:"application/json")]
     public class ApiController : ControllerBase
     {
         private IMediator _mediator;

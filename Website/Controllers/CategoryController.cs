@@ -9,9 +9,11 @@ namespace Website.Controllers
 {
     public class CategoryController : Controller
     {
+        /* to do : set BaseUrl in appsettings*/
         private const string BaseUrl = "https://localhost:7060/Api/Category";
         private readonly ApplicationHttpClient _client = new ApplicationHttpClient(BaseUrl);
 
+        #region Get categories
         public async Task<IActionResult> Index()
         {
                 var httpResponse = await _client.GetAsync(BaseUrl);
@@ -19,6 +21,8 @@ namespace Website.Controllers
                 var category = JsonSerializer.Deserialize<CategoryResponseDto[]>(responseAsString);
                 return View(category);
         }
+        #endregion
+
         #region Create new category
         [HttpGet]
         public IActionResult Create()
@@ -41,6 +45,10 @@ namespace Website.Controllers
         #endregion
 
         #region Update category
+        /* Note : Better to use patch instead of put
+         * Will allow to manage updates separately, and not have to change "all" fields
+         * when posting a request. Here Name & DisplayOrder must be updated in order for
+         * the request to be accepted */ 
         [Route("[controller]/[action]/{id}")]
         [HttpGet]
         public async Task<IActionResult> Edit (int? id)
@@ -63,6 +71,33 @@ namespace Website.Controllers
             var httpResponse = await _client.PutAsync($"{BaseUrl}/{category.Id}", new StringContent(content, Encoding.Default, "application/json"));
             return RedirectToAction("Index");
         }
+
+        #endregion
+
+        #region Delete category
+
+        [Route("[controller]/[action]/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var httpResponse = await _client.GetAsync($"{BaseUrl}/{id}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            var category = JsonSerializer.Deserialize<CategoryResponseDto>(responseAsString);
+            return View(category);
+        }
+        [Route("[controller]/[action]/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> Delete(Category category)
+        {
+            var content = JsonSerializer.Serialize(category);
+            var httpResponse = await _client.DeleteAsync($"{BaseUrl}/{category.Id}");
+            return RedirectToAction("Index");
+        }
+
 
         #endregion
 

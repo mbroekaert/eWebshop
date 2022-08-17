@@ -1,4 +1,5 @@
 ﻿using Application.Categories.Commands.CreateCategory;
+using Application.Categories.Commands.DeleteCategory;
 using Application.Categories.Commands.UpdateCategory;
 using Application.Categories.Queries.GetCategories;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +74,12 @@ namespace Api.Controllers
                     Message = "Validation error"
                 });
             }
+            await Mediator.Send(command);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCategory(int id, DeleteCategoryCommand command)
+        {
             await Mediator.Send(command);
             return NoContent();
         }
