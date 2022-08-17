@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Contracts.Response;
@@ -25,10 +24,10 @@ namespace Application.Categories.Queries.GetCategories
 
         public async Task<IEnumerable<CategoryResponseDto>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Categories
-                            .Select(c => _mapper.Map<CategoryResponseDto>(c))
+                var categories = await _context.Categories
                             .OrderBy(t => t.DisplayOrder)
                             .ToListAsync(cancellationToken);
+                return categories.Select(c => _mapper.Map<CategoryResponseDto>(c)).ToList();
         }
     }
 }

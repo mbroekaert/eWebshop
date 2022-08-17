@@ -1,4 +1,5 @@
-﻿@model List<CategoryDto>
+﻿@using Shared.Contracts.Response;
+@model CategoryResponseDto[]
 @{
     ViewData["Title"] = "Index";
 }
@@ -42,9 +43,15 @@
             <td width="10%">
                 @category.DisplayOrder
             </td>
+            <td>
+                <div class="w-75 btn-group" role="group">
+                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id"><i class="bi bi-pencil"></i>&nbsp; Edit</a>
+                </div>
+            </td>
         </tr>
     }
- </table>   
     </tbody>
+ </table>   
+    
 </div>
 

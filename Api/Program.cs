@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(configuration);
 
+//builder.Services.AddAutoMapper(typeof(CategoryProfile));
 var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new CategoryProfile());

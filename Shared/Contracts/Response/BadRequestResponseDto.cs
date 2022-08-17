@@ -11,6 +11,6 @@ namespace Shared.Contracts.Response
         public int ErrorCode { get; set; }
 
         [JsonPropertyName("additionnalData")]
-        public object AdditionnatData { get; set; }
+        public object AdditionnalData { get; set; }
     }
 }

@@ -5,6 +5,6 @@ namespace Shared.Contracts.Response
     public class RequestValidatorResponseDto
     {
         [JsonPropertyName("validations")]
-        public Dictionary<string, string> Validations { get; set; }
+        public Dictionary<string, List<string>> Validations { get; set; }
     }
 }

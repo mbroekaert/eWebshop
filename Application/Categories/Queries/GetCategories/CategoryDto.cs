@@ -3,7 +3,7 @@ using AutoMapper;
 using Domain.Entities;
 
 namespace Application.Categories.Queries.GetCategories
-{
+{ /* to delete */
     public class CategoryDto : IMapFrom<Category>
     {
         public int Id { get; set; }

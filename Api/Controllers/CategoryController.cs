@@ -1,4 +1,5 @@
 ﻿using Application.Categories.Commands.CreateCategory;
+using Application.Categories.Commands.UpdateCategory;
 using Application.Categories.Queries.GetCategories;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
@@ -13,26 +14,70 @@ namespace Api.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<CategoryResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-        public async Task<IActionResult> GetCategory()
+        public async Task<IActionResult> GetCategoriesAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new BadRequestResponseDto()
-                {
-                    AdditionnatData = ModelState.Values,
-                    ErrorCode = 1001,
-                    Message = "Error validating model"
-                });
-            }
-
             var response = await Mediator.Send(new GetCategoryQuery());
             return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(CategoryResponseDto))]
+        public async Task<IActionResult> GetCategoryAsync([FromRoute]int id)
+        {
+            var response = await Mediator.Send(new GetCategoryQuery());
+            return Ok(response.FirstOrDefault(c => c.Id == id));
         }
 
         [HttpPost]
         public async Task<ActionResult<int>> CreateCategory(CreateCategoryCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                var validationResponse = new RequestValidatorResponseDto()
+                {
+                    Validations = ModelState
+                               .Where(x => x.Value.Errors.Count > 0)
+                               .ToDictionary(
+                                   kvp => kvp.Key,
+                                   kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                               )
+                };
+                return BadRequest(new BadRequestResponseDto()
+                {
+                    AdditionnalData = validationResponse,
+                    ErrorCode = 1001,
+                    Message = "Validation error"
+                });
+            }
             return await Mediator.Send(command);
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id, UpdateCategoryCommand command)
+        {
+            if (id != command.Id) return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                var validationResponse = new RequestValidatorResponseDto()
+                {
+                    Validations = ModelState
+                               .Where(x => x.Value.Errors.Count > 0)
+                               .ToDictionary(
+                                   kvp => kvp.Key,
+                                   kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                               )
+                };
+                return BadRequest(new BadRequestResponseDto()
+                {
+                    AdditionnalData = validationResponse,
+                    ErrorCode = 1001,
+                    Message = "Validation error"
+                });
+            }
+
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
     }
 }
