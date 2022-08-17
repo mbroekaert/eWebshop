@@ -4,7 +4,6 @@ using Shared.Contracts.Response;
 using System.Text;
 using System.Text.Json;
 using Website.Models;
-using Website.Models.Dto;
 
 namespace Website.Controllers
 {
@@ -43,6 +42,7 @@ namespace Website.Controllers
 
         #region Update category
         [Route("[controller]/[action]/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Edit (int? id)
         {
             if (id == null || id == 0)
@@ -56,10 +56,11 @@ namespace Website.Controllers
         }
 
         [Route("[controller]/[action]/{id}")]
-        public async Task<IActionResult> Update(Category category)
+        [HttpPost]
+        public async Task<IActionResult> Edit(Category category)
         {
             var content = JsonSerializer.Serialize(category);
-            var httpResponse = await _client.PutAsync($"{BaseUrl}{category.Id}", new StringContent(content, Encoding.Default, "application/json"));
+            var httpResponse = await _client.PutAsync($"{BaseUrl}/{category.Id}", new StringContent(content, Encoding.Default, "application/json"));
             return RedirectToAction("Index");
         }
 

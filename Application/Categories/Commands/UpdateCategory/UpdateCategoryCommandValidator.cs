@@ -8,9 +8,9 @@ namespace Application.Categories.Commands.UpdateCategory
     {
         private readonly IApplicationDbContext _context;
 
-        public UpdateCategoryCommandValidator (IApplicationDbContext _context)
+        public UpdateCategoryCommandValidator (IApplicationDbContext context)
         {
-            _context = _context;
+            _context = context;
 
             RuleFor(v => v.Name)
                .NotEmpty().WithMessage("Name is required.")
@@ -20,7 +20,7 @@ namespace Application.Categories.Commands.UpdateCategory
                 .NotEmpty().WithMessage("Please specify a display order")
                 .MustAsync(BeUniqueDisplayOrder).WithMessage("This number is already used")
                 .ExclusiveBetween(1, 100).WithMessage("Must be between 1 and 100");
-                
+
         }
         public async Task<bool> BeUniqueDisplayOrder(int displayOrder, CancellationToken cancellationToken)
         {

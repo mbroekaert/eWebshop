@@ -10,6 +10,7 @@ namespace Application.Categories.Commands.UpdateCategory
         public int Id { get; set; }
         public string Name { get; set; }
         public int DisplayOrder { get; set; }
+        public DateTime CreatedDateTime { get; set; }
 
     }
 
@@ -30,6 +31,7 @@ namespace Application.Categories.Commands.UpdateCategory
                 throw new NotFoundException(nameof(Category), request.Id);
             }
             entity.Name = request.Name;
+            entity.DisplayOrder = request.DisplayOrder;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

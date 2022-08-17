@@ -52,7 +52,7 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateCategoryCommand command)
+        public async Task<ActionResult> UpdateCategory(int id, UpdateCategoryCommand command)
         {
             if (id != command.Id) return BadRequest();
             if (!ModelState.IsValid)
@@ -73,9 +73,7 @@ namespace Api.Controllers
                     Message = "Validation error"
                 });
             }
-
             await Mediator.Send(command);
-
             return NoContent();
         }
 
