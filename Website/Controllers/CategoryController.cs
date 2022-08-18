@@ -24,17 +24,21 @@ namespace Website.Controllers
         #endregion
 
         #region Create new category
+        // GET
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+
+        // POST
         public async Task<ActionResult> Create(Category category)
         {
                 var content = JsonSerializer.Serialize(category);
                 var httpResponse = await _client.PostAsync(BaseUrl, new StringContent(content, Encoding.Default, "application/json"));
                 if (httpResponse.IsSuccessStatusCode)
                 {
+                    TempData["success"] = "Category created successfully";
                     return RedirectToAction("Index");
                 }
                 var responseAsString = await httpResponse.Content.ReadAsStringAsync();
@@ -49,6 +53,8 @@ namespace Website.Controllers
          * Will allow to manage updates separately, and not have to change "all" fields
          * when posting a request. Here Name & DisplayOrder must be updated in order for
          * the request to be accepted */ 
+
+        // GET
         [Route("[controller]/[action]/{id}")]
         [HttpGet]
         public async Task<IActionResult> Edit (int? id)
@@ -63,12 +69,18 @@ namespace Website.Controllers
             return View(category);
         }
 
+        // POST
         [Route("[controller]/[action]/{id}")]
         [HttpPost]
         public async Task<IActionResult> Edit(Category category)
         {
             var content = JsonSerializer.Serialize(category);
             var httpResponse = await _client.PutAsync($"{BaseUrl}/{category.Id}", new StringContent(content, Encoding.Default, "application/json"));
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                TempData["success"] = "Category updated successfully";
+            }
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return RedirectToAction("Index");
         }
 
@@ -93,8 +105,11 @@ namespace Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Category category)
         {
-            var content = JsonSerializer.Serialize(category);
             var httpResponse = await _client.DeleteAsync($"{BaseUrl}/{category.Id}");
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                TempData["success"] = "Category deleted successfully";
+            }
             return RedirectToAction("Index");
         }
 

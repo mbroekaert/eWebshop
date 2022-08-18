@@ -78,9 +78,9 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategory(int id, DeleteCategoryCommand command)
+        public async Task<ActionResult<int>> DeleteCategory(int id)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(new DeleteCategoryCommand { Id = id });
             return NoContent();
         }
 
