@@ -10,10 +10,8 @@ namespace Infrastructure.Persistence
             : base(options)
         {
         }
-
-        public DbSet<TodoList> TodoLists { get; set; }
-        public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

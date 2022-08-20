@@ -4,11 +4,11 @@ using Shared.Contracts.Response;
 
 namespace Application.Mappers
 {
-    public class CategoryProfile : Profile
+    public class UserProfile : Profile
     {
-        public CategoryProfile()
+        public UserProfile()
         {
-            CreateMap<User, UserResponseDto>();
+            CreateMap<Category, CategoryResponseDto>();
         }
     }
 }
