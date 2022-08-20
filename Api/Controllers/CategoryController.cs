@@ -14,7 +14,7 @@ namespace Api.Controllers
     public class CategoryController : ApiController
     {
         [HttpGet]
-        //[Authorize("read:messages")]
+        [Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<CategoryResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
         public async Task<IActionResult> GetCategoriesAsync()
@@ -24,7 +24,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize("read:messages")]
+        [Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(CategoryResponseDto))]
         public async Task<IActionResult> GetCategoryAsync([FromRoute]int id)
         {
@@ -33,7 +33,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-       // [Authorize("write:messages")]
+        [Authorize("write:messages")]
         public async Task<ActionResult<int>> CreateCategory(CreateCategoryCommand command)
         {
             if (!ModelState.IsValid)
@@ -57,7 +57,7 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{id}")]
-        //[Authorize("write:messages")]
+        [Authorize("write:messages")]
         public async Task<ActionResult> UpdateCategory(int id, UpdateCategoryCommand command)
         {
             if (id != command.Id) return BadRequest();
@@ -83,7 +83,7 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        //[Authorize("write:messages")]
+        [Authorize("write:messages")]
         public async Task<ActionResult<int>> DeleteCategory(int id)
         {
             await Mediator.Send(new DeleteCategoryCommand { Id = id });

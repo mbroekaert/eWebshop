@@ -23,12 +23,12 @@ namespace Website.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                string accessToken = await HttpContext.GetTokenAsync("access_token"); // used to call API's + access rights
                 DateTime accessTokenExpiresAt = DateTime.Parse(
                     await HttpContext.GetTokenAsync("expires_at"),
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.RoundtripKind);
-                string idToken = await HttpContext.GetTokenAsync("id_token");
+                string idToken = await HttpContext.GetTokenAsync("id_token"); // Used to confirm the user is authenticated through the app
             }
             return View();
         }

@@ -14,7 +14,7 @@ namespace Api.Controllers
     public class UserController : ApiController
     {
             [HttpGet]
-            //[Authorize("read:messages")]
+            [Authorize("read:messages")]
             [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<UserResponseDto>))]
             [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
             public async Task<IActionResult> GetUsersAsync()
@@ -24,7 +24,7 @@ namespace Api.Controllers
             }
 
             [HttpGet("{id}")]
-            //[Authorize("read:messages")]
+            [Authorize("read:messages")]
             [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserResponseDto))]
             public async Task<IActionResult> GetUserAsync([FromRoute] int id)
             {
@@ -33,7 +33,7 @@ namespace Api.Controllers
             }
 
             [HttpPost]
-            //[Authorize("write:messages")]
+            [Authorize("write:messages")]
             public async Task<ActionResult<int>> CreateUser(CreateUserCommand command)
             {
                 if (!ModelState.IsValid)
@@ -57,7 +57,7 @@ namespace Api.Controllers
                 return await Mediator.Send(command);
             }
             [HttpPut("{id}")]
-            //[Authorize("write:messages")]
+            [Authorize("write:messages")]
             public async Task<ActionResult> UpdateUser(int id, UpdateUserCommand command)
             {
                 if (id != command.Id) return BadRequest();
@@ -83,7 +83,7 @@ namespace Api.Controllers
                 return NoContent();
             }
             [HttpDelete("{id}")]
-            //[Authorize("write:messages")]
+            [Authorize("write:messages")]
             public async Task<ActionResult<int>> DeleteUser(int id)
             {
                 await Mediator.Send(new DeleteUserCommand { Id = id });
