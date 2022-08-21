@@ -11,6 +11,6 @@ namespace Domain.Entities
         [Required]
         public string Email { get; set; }
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

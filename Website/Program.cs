@@ -1,5 +1,6 @@
 using Application;
 using Application.Common.Interfaces;
+using Application.Users.Services;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -23,6 +24,7 @@ builder.Services.AddSingleton(sp => new HttpClient()
 
 
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<IUserService, UserService>();
 
 builder.Services.AddAuthentication(options =>
 {

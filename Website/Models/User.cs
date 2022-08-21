@@ -18,6 +18,6 @@ namespace Website.Models
         [JsonPropertyName("isActive")]
         [Required]
         [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

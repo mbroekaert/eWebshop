@@ -44,6 +44,7 @@ builder.Services.AddInfrastructure(configuration);
 var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new CategoryProfile());
+    mc.AddProfile(new UserProfile());
 });
 
 builder.Services.AddMvc(options =>

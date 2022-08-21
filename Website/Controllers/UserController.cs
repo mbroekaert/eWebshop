@@ -1,25 +1,23 @@
-﻿using Infrastructure.Persistence;
+﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Response;
-using System.Text;
-using System.Text.Json;
-using Website.Models;
+
 
 namespace Website.Controllers
 {
     public class UserController : Controller
     {
-        /* to do : set BaseUrl in appsettings*/
-        private const string BaseUrl = "https://localhost:7060/Api/User";
-        private readonly ApplicationHttpClient _client = new ApplicationHttpClient(BaseUrl);
+        private readonly IUserService userService;
 
-        #region Get categories
+        public UserController(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
+        #region Get users
         public async Task<IActionResult> Index()
         {
-            var httpResponse = await _client.GetAsync(BaseUrl);
-            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonSerializer.Deserialize<UserResponseDto[]>(responseAsString);
-            return View(user);
+            return View(await userService.GetUsersAsync());
         }
         #endregion
 
@@ -34,21 +32,19 @@ namespace Website.Controllers
         // POST
         public async Task<ActionResult> Create(User user)
         {
-            var content = JsonSerializer.Serialize(user);
-            var httpResponse = await _client.PostAsync(BaseUrl, new StringContent(content, Encoding.Default, "application/json"));
-            if (httpResponse.IsSuccessStatusCode)
+            var result = await userService.CreateUserAsync(user);
+            if (result.success)
             {
-                TempData["success"] = "User created successfully";
+                TempData["success"] = result.content;
                 return RedirectToAction("Index");
             }
-            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-
+            else TempData["error"] = result.content;
 
             return View(user);
         }
         #endregion
 
-        #region Update category
+        #region Update user
         /* Note : Better to use patch instead of put
          * Will allow to manage updates separately, and not have to change "all" fields
          * when posting a request. Here Name & DisplayOrder must be updated in order for
@@ -57,16 +53,9 @@ namespace Website.Controllers
         // GET
         [Route("[controller]/[action]/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var httpResponse = await _client.GetAsync($"{BaseUrl}/{id}");
-            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonSerializer.Deserialize<UserResponseDto>(responseAsString);
-            return View(user);
+            return View(await userService.EditUserAsync(id));
         }
 
         // POST
@@ -74,42 +63,37 @@ namespace Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(User user)
         {
-            var content = JsonSerializer.Serialize(user);
-            var httpResponse = await _client.PutAsync($"{BaseUrl}/{user.Id}", new StringContent(content, Encoding.Default, "application/json"));
-            if (httpResponse.IsSuccessStatusCode)
+            var result = await userService.UpdateUserAsync(user);
+            if (result.success)
             {
-                TempData["success"] = "User updated successfully";
+                TempData["success"] = result.content;
             }
-            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            else TempData["error"] = result.content;
+
             return RedirectToAction("Index");
         }
 
         #endregion
 
-        #region Delete category
+        #region Delete user
 
         [Route("[controller]/[action]/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var httpResponse = await _client.GetAsync($"{BaseUrl}/{id}");
-            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonSerializer.Deserialize<UserResponseDto>(responseAsString);
-            return View(user);
+            return View(await userService.GetUserToDeleteAsync(id));
         }
         [Route("[controller]/[action]/{id}")]
         [HttpPost]
         public async Task<IActionResult> Delete(User user)
         {
-            var httpResponse = await _client.DeleteAsync($"{BaseUrl}/{user.Id}");
-            if (httpResponse.IsSuccessStatusCode)
+            var result = await userService.DeleteUserAsync(user);
+            if (result.success)
             {
-                TempData["success"] = "User deleted successfully";
+                TempData["success"] = result.content;
             }
+            else TempData["error"] = result.content;
+
             return RedirectToAction("Index");
         }
 

@@ -86,11 +86,6 @@ namespace Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Category category)
         {
-            //var httpResponse = await _client.DeleteAsync($"{BaseUrl}/{category.Id}");
-            //if (httpResponse.IsSuccessStatusCode)
-            //{
-            //    TempData["success"] = "Category deleted successfully";
-            //}
             var result = await categoryService.DeleteCategoryAsync(category);
             if (result.success)
             {
