@@ -1,8 +1,11 @@
 using Application;
+using Application.Common.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Website.Middlewares;
+using Website.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -11,6 +14,16 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(configuration);
+builder.Services.AddSession();
+
+builder.Services.AddSingleton(sp => new HttpClient()
+{
+    BaseAddress = new Uri("https://localhost:7060/Api/")
+});
+
+
+builder.Services.AddSingleton<ICategoryService, CategoryService>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -96,6 +109,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
+app.UseMiddleware<AuthMiddleware>();
+
 app.MapControllers();
 app.MapControllerRoute(
     name: "default",

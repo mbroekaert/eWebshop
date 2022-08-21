@@ -9,5 +9,9 @@
         {
             this.Url = BaseUrl;
         }
+        public void AddAuthorization (string accessToken)
+        {
+            this.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {accessToken}");
+        }
     }
 }

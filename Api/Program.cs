@@ -22,6 +22,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(options =>
 {
     options.Authority = domain;
+    options.SaveToken = true;
     options.Audience = builder.Configuration["Auth0:Audience"];
 });
 builder.Services.AddAuthorization(options =>
