@@ -11,7 +11,7 @@ namespace Shared.Contracts.Request
         public string Scope { get; set; }
 
         [JsonPropertyName("expires_in")]
-        public string ExpiresIn { get; set; } = "Test123!";
+        public int ExpiresIn { get; set; } 
         [JsonPropertyName("token_type")]
         public string TokenType { get; set; }
 

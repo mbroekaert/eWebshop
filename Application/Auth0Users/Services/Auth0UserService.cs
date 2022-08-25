@@ -10,7 +10,7 @@ namespace Application.Auth0Users.Services
     public class Auth0UserService : IAuth0UserService
     {
         private readonly HttpClient _httpClient;
-        //private readonly GetAuth0ManagementTokenService service;
+        
         public Auth0UserService(HttpClient httpClient)
         {
             _httpClient = httpClient;

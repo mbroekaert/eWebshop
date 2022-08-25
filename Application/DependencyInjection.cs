@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Auth0Users.Services;
 using Application.Common.Behaviours;
 using AutoMapper;
 using FluentValidation;
@@ -15,6 +16,7 @@ namespace Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddTransient<GetAuth0ManagementTokenService>();
             return services;
         }
     }

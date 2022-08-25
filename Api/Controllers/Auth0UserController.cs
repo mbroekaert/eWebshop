@@ -1,4 +1,5 @@
 ﻿using Application.Auth0Users.Commands.CreateAuth0User;
+using Application.Auth0Users.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
@@ -9,6 +10,13 @@ namespace Api.Controllers
     [ApiController]
     public class Auth0UserController : ApiController
     {
+        private GetAuth0ManagementTokenService _service;
+
+        public Auth0UserController(GetAuth0ManagementTokenService service)
+        {
+            _service = service; 
+        }
+
         [HttpPost]
         [Authorize("write:users")]
         public async Task<ActionResult<bool>> CreateAuth0User(CreateAuth0UserCommand command)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Shared.Contracts.Request;
+using System.Text;
 using System.Text.Json;
 
 namespace Application.Auth0Users.Services
@@ -19,7 +20,7 @@ namespace Application.Auth0Users.Services
 
         public async Task<string> GetManagementApiAccessTokenAsync()
         {
-            var httpClient = new HttpClient();
+            var _httpClient = new HttpClient();
             var request = new Auth0TokenManagementRequestDto
             {
                 Audience = $"https://{domain}/api/v2/",
@@ -27,9 +28,11 @@ namespace Application.Auth0Users.Services
                 ClientSecret = clientSecret,
                 GrantType = "client_credentials"
             };
-
-            var httpResponse = await httpClient.PostAsync(string.Empty, new StringContent(JsonSerializer.Serialize(request), System.Text.Encoding.UTF8, "application/json"));
-            return JsonSerializer.Deserialize<Auth0TokenManagementResponseDto>(await httpResponse.Content.ReadAsStringAsync())?.AccessToken;
+            var content = JsonSerializer.Serialize(request);
+            var httpResponse = await _httpClient.PostAsync("https://mathieubroekaert.eu.auth0.com/oauth/token", new StringContent(content, Encoding.Default, "application/json"));
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            var deserializedResponse = JsonSerializer.Deserialize<Auth0TokenManagementResponseDto>(responseAsString);
+            return deserializedResponse.AccessToken;
         }
     }
 }
