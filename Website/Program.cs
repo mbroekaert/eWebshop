@@ -1,4 +1,5 @@
 using Application;
+using Application.Auth0Users.Services;
 using Application.Common.Interfaces;
 using Application.Users.Services;
 using Infrastructure;
@@ -25,6 +26,7 @@ builder.Services.AddSingleton(sp => new HttpClient()
 
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
 
 builder.Services.AddAuthentication(options =>
 {

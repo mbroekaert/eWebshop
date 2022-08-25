@@ -8,10 +8,12 @@ namespace Website.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private readonly IAuth0UserService auth0UserService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IAuth0UserService auth0UserService)
         {
             this.userService = userService;
+            this.auth0UserService = auth0UserService;
         }
 
         #region Get users
@@ -32,13 +34,19 @@ namespace Website.Controllers
         // POST
         public async Task<ActionResult> Create(User user)
         {
-            var result = await userService.CreateUserAsync(user);
-            if (result.success)
+            var dbResult = await userService.CreateUserAsync(user);
+            if (dbResult.success)
             {
-                TempData["success"] = result.content;
-                return RedirectToAction("Index");
+                TempData["success"] = dbResult.content;
+                var auth0Result = await auth0UserService.CreateAuth0UserAsync(user);
+                if (auth0Result.success)
+                {
+                    TempData["success"] = auth0Result.content;
+                    return RedirectToAction("Index");
+                }
+                else TempData["error"] = auth0Result.content;
             }
-            else TempData["error"] = result.content;
+            else TempData["error"] = dbResult.content;
 
             return View(user);
         }

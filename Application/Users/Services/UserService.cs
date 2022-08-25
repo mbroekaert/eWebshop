@@ -67,7 +67,7 @@ namespace Application.Users.Services
 
         public async Task<(bool success, string content)> DeleteUserAsync(User user)
         {
-            var httpResponse = await _httpClient.DeleteAsync($"category/{user.Id}");
+            var httpResponse = await _httpClient.DeleteAsync($"user/{user.Id}");
             if (httpResponse.IsSuccessStatusCode)
             {
                 return (true, "User deleted successfully");

@@ -28,6 +28,7 @@ namespace Application.Users.Commands.CreateUser
                 Name = request.Name,
                 Email = request.Email,
                 IsActive = request.IsActive,
+                Password = "Hidden"
             };
 
             _context.Users.Add(entity);

@@ -19,5 +19,7 @@ namespace Website.Models
         [Required]
         [DisplayName("Is Active ?")]
         public bool IsActive { get; set; } = true;
+        [JsonPropertyName("password")]
+        public sbyte Password { get; set; }
     }
 }

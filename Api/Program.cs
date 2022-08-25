@@ -1,7 +1,5 @@
 using Api.Filters;
 using Application;
-using Application.Common.Middlewares;
-//using Application.Common.Middlewares;
 using Application.Common.PermissionHandler;
 using Application.Mappers;
 using AutoMapper;
@@ -19,6 +17,7 @@ builder.Services.AddSingleton(sp => new HttpClient()
 {
     BaseAddress = new Uri("https://mathieubroekaert.eu.auth0.com/api/v2/")
 });
+
 
 builder.Services.AddControllers();
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
