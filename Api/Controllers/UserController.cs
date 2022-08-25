@@ -13,83 +13,84 @@ namespace Api.Controllers
     [ApiController]
     public class UserController : ApiController
     {
-            [HttpGet]
-            [Authorize("read:users")]
-            [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<UserResponseDto>))]
-            [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-            public async Task<IActionResult> GetUsersAsync()
-            {
-                var response = await Mediator.Send(new GetUserQuery());
-                return Ok(response);
-            }
+        [HttpGet]
+        [Authorize("read:users")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<UserResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        public async Task<IActionResult> GetUsersAsync()
+        {
+            var response = await Mediator.Send(new GetUserQuery());
+            return Ok(response);
+        }
 
-            [HttpGet("{id}")]
-            [Authorize("read:users")]
-            [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserResponseDto))]
-            public async Task<IActionResult> GetUserAsync([FromRoute] int id)
-            {
-                var response = await Mediator.Send(new GetUserQuery());
-                return Ok(response.FirstOrDefault(c => c.Id == id));
-            }
+        [HttpGet("{id}")]
+        [Authorize("read:users")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserResponseDto))]
+        public async Task<IActionResult> GetUserAsync([FromRoute] int id)
+        {
+            var response = await Mediator.Send(new GetUserQuery());
+            return Ok(response.FirstOrDefault(c => c.Id == id));
+        }
 
-            [HttpPost]
-            [Authorize("write:users")]
-            public async Task<ActionResult<int>> CreateUser(CreateUserCommand command)
+        [HttpPost]
+        [Authorize("write:users")]
+        public async Task<ActionResult<int>> CreateUser(CreateUserCommand command)
+        {
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
+                var validationResponse = new RequestValidatorResponseDto()
                 {
-                    var validationResponse = new RequestValidatorResponseDto()
-                    {
-                        Validations = ModelState
-                                   .Where(x => x.Value.Errors.Count > 0)
-                                   .ToDictionary(
-                                       kvp => kvp.Key,
-                                       kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
-                                   )
-                    };
-                    return BadRequest(new BadRequestResponseDto()
-                    {
-                        AdditionnalData = validationResponse,
-                        ErrorCode = 1001,
-                        Message = "Validation error"
-                    });
-                }
-                return await Mediator.Send(command);
-            }
-            [HttpPut("{id}")]
-            [Authorize("write:users")]
-            public async Task<ActionResult> UpdateUser(int id, UpdateUserCommand command)
-            {
-                if (id != command.Id) return BadRequest();
-                if (!ModelState.IsValid)
+                    Validations = ModelState
+                               .Where(x => x.Value.Errors.Count > 0)
+                               .ToDictionary(
+                                   kvp => kvp.Key,
+                                   kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                               )
+                };
+                return BadRequest(new BadRequestResponseDto()
                 {
-                    var validationResponse = new RequestValidatorResponseDto()
-                    {
-                        Validations = ModelState
-                                   .Where(x => x.Value.Errors.Count > 0)
-                                   .ToDictionary(
-                                       kvp => kvp.Key,
-                                       kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
-                                   )
-                    };
-                    return BadRequest(new BadRequestResponseDto()
-                    {
-                        AdditionnalData = validationResponse,
-                        ErrorCode = 1001,
-                        Message = "Validation error"
-                    });
-                }
-                await Mediator.Send(command);
-                return NoContent();
+                    AdditionnalData = validationResponse,
+                    ErrorCode = 1001,
+                    Message = "Validation error"
+                });
             }
-            [HttpDelete("{id}")]
-            [Authorize("write:users")]
-            public async Task<ActionResult<int>> DeleteUser(int id)
-            {
-                await Mediator.Send(new DeleteUserCommand { Id = id });
-                return NoContent();
-            }
+            return await Mediator.Send(command);
+        }
 
-        
+        [HttpPut("{id}")]
+        [Authorize("write:users")]
+        public async Task<ActionResult> UpdateUser(int id, UpdateUserCommand command)
+        {
+            if (id != command.Id) return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                var validationResponse = new RequestValidatorResponseDto()
+                {
+                    Validations = ModelState
+                               .Where(x => x.Value.Errors.Count > 0)
+                               .ToDictionary(
+                                   kvp => kvp.Key,
+                                   kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                               )
+                };
+                return BadRequest(new BadRequestResponseDto()
+                {
+                    AdditionnalData = validationResponse,
+                    ErrorCode = 1001,
+                    Message = "Validation error"
+                });
+            }
+            await Mediator.Send(command);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        [Authorize("write:users")]
+        public async Task<ActionResult<int>> DeleteUser(int id)
+        {
+            await Mediator.Send(new DeleteUserCommand { Id = id });
+            return NoContent();
+        }
+
+
     }
 }

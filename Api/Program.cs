@@ -1,5 +1,7 @@
 using Api.Filters;
 using Application;
+using Application.Common.Middlewares;
+//using Application.Common.Middlewares;
 using Application.Common.PermissionHandler;
 using Application.Mappers;
 using AutoMapper;
@@ -12,6 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
+
+builder.Services.AddSingleton(sp => new HttpClient()
+{
+    BaseAddress = new Uri("https://mathieubroekaert.eu.auth0.com/api/v2/")
+});
 
 builder.Services.AddControllers();
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
@@ -33,6 +40,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("write:users", policy => policy.Requirements.Add(new HasScopeRequirement("write:users", domain)));
 });
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+builder.Services.AddSession();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -70,5 +78,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 app.MapControllers();
 app.Run();

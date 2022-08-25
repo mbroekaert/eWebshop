@@ -50,6 +50,7 @@ builder.Services.AddAuthentication(options =>
      options.Scope.Add("write:messages");
      options.Scope.Add("read:users");
      options.Scope.Add("write:users");
+     options.Scope.Add("create:users");
      // Define callback
      options.CallbackPath = new PathString("/callback");
      // Issuer
