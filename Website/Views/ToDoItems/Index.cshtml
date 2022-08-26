@@ -1,8 +1,16 @@
 ﻿@using Shared.Contracts.Response;
-@model ToDoItemResponseDto[]
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<ToDoItemResponseDto>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    ViewBag.Title = "ToDoItems";
+}
+
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -14,6 +22,7 @@
 
 
 <h1>To do items</h1>
+
 <table class ="table table-table-bordered table-striped" style="width:100%">
     <thead>
         <tr>
@@ -50,7 +59,13 @@
         </tr>
     }
     </tbody>
- </table>   
+ </table>
+ <br />
+ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index", 
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     
 </div>
 
