@@ -8,14 +8,14 @@ using System.Text.Json;
 
 namespace Application.Auth0Users.Commands.CreateAuth0User
 {
-    public class CreateAuth0UserCommand : IRequest<bool>
+    public class CreateAuth0UserCommand : IRequest<(bool, string)>
     {
         public string email { get; set; }
         public string password { get; set; }
 
     }
 
-    public class CreateAuth0UserCommandHandler : IRequestHandler<CreateAuth0UserCommand, bool>
+    public class CreateAuth0UserCommandHandler : IRequestHandler<CreateAuth0UserCommand, (bool, string)>
     {
         private readonly HttpClient _httpClient;
         private readonly GetAuth0ManagementTokenService service;
@@ -27,7 +27,7 @@ namespace Application.Auth0Users.Commands.CreateAuth0User
             this.service = service;
         }
 
-        public async Task<bool> Handle(CreateAuth0UserCommand request, CancellationToken cancellationToken)
+        public async Task<(bool, string)> Handle(CreateAuth0UserCommand request, CancellationToken cancellationToken)
         {
             /* Retrieve access token */
             var token = await service.GetManagementApiAccessTokenAsync();
@@ -49,22 +49,24 @@ namespace Application.Auth0Users.Commands.CreateAuth0User
 
             if (httpResponse.IsSuccessStatusCode)
             {
-                // Retrieve UserId to assign default role
+                // Retrieve UserId
 
                 Auth0UserCreationResponseDto user = JsonSerializer.Deserialize<Auth0UserCreationResponseDto>(response);
                 string userId = user.UserId;
+
+                //Assign roles
+
                 var roles = new Auth0InitialRoleRequestDto();
                 var defaultRole = JsonSerializer.Serialize(roles);
-                // Post request to add default role to user
                 var rolesHttpReponse = await _httpClient.PostAsync($"https://mathieubroekaert.eu.auth0.com/api/v2/users/{userId}/roles", new StringContent(defaultRole, Encoding.Default, "application/json"));
                 var resultoto = await rolesHttpReponse.Content.ReadAsStringAsync();
                 if (rolesHttpReponse.IsSuccessStatusCode)
                 {
-                    return true;
+                    return (true, userId);
                 }
-                return false;
+                return (false, userId);
             }
-            return false;
+            return (false, "");
 
         }
 

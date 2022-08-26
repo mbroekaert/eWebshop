@@ -21,18 +21,5 @@ namespace Shared.Contracts.Response
         [JsonPropertyName("user_id")]
         public string UserId { get; set;}
 
-        //[JsonPropertyName("identities")]
-        //public MyIdentities Identities { get; set;}
-        //public class MyIdentities
-        //{
-        //    [JsonPropertyName("connection")]
-        //    public string Connection { get; set;}
-        //    [JsonPropertyName("user_id")]
-        //    public string UserId { get; set;}
-        //    [JsonPropertyName("provider")]
-        //    public string Provider { get; set;}
-        //    [JsonPropertyName("is_social")]
-        //    public bool IsSocial { get; set;}
-        //}
     }
 }

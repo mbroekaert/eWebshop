@@ -21,5 +21,7 @@ namespace Website.Models
         public bool IsActive { get; set; } = true;
         [JsonPropertyName("password")]
         public sbyte Password { get; set; }
+        [JsonPropertyName("user_id")]
+        public string UserId { get; set; }  
     }
 }

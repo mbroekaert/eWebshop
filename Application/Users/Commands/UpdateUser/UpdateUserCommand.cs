@@ -11,6 +11,7 @@ namespace Application.Users.Commands.UpdateUser
         public string Name { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+        public string UserId { get; set; }
 
     }
 
@@ -33,6 +34,7 @@ namespace Application.Users.Commands.UpdateUser
             entity.Name = request.Name;
             entity.Email = request.Email;
             entity.IsActive = request.IsActive;
+            entity.UserId = request.UserId;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

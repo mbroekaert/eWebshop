@@ -1,4 +1,5 @@
 ﻿using Application.Auth0Users.Commands.CreateAuth0User;
+using Application.Auth0Users.Commands.DeleteAuth0User;
 using Application.Auth0Users.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [Authorize("write:users")]
-        public async Task<ActionResult<bool>> CreateAuth0User(CreateAuth0UserCommand command)
+        public async Task<ActionResult<string>> CreateAuth0User(CreateAuth0UserCommand command)
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +40,15 @@ namespace Api.Controllers
                     Message = "Validation error"
                 });
             }
-            return await Mediator.Send(command);
+            var result =  await Mediator.Send(command);
+            return result.Item2;
+        }
+        [HttpDelete("{id}")]
+        [Authorize("write:users")]
+        public async Task<ActionResult<int>> DeleteAuth0User(string id)
+        {
+            await Mediator.Send(new DeleteAuth0UserCommand { Id = id });
+            return NoContent();
         }
     }
 }

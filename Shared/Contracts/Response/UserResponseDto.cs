@@ -14,6 +14,8 @@ namespace Shared.Contracts.Response
         public bool IsActive { get; set; }
         [JsonPropertyName("password")]
         public string Password { get; set; }
+        [JsonPropertyName("user_id")]
+        public string UserId { get; set; }
 
     }
 }

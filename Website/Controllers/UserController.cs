@@ -34,19 +34,37 @@ namespace Website.Controllers
         // POST
         public async Task<ActionResult> Create(User user)
         {
-            var dbResult = await userService.CreateUserAsync(user);
-            if (dbResult.success)
+            var auth0Result = await auth0UserService.CreateAuth0UserAsync(user);
+            if (auth0Result.success)
             {
-                TempData["success"] = dbResult.content;
-                var auth0Result = await auth0UserService.CreateAuth0UserAsync(user);
-                if (auth0Result.success)
+                string userId = auth0Result.content;
+                userId = userId.Substring(1,30);
+                user.UserId = userId;
+                var dbResult = await userService.CreateUserAsync(user);
+                if (dbResult.success)
                 {
-                    TempData["success"] = auth0Result.content;
+                    TempData["success"] = dbResult.content;
                     return RedirectToAction("Index");
                 }
-                else TempData["error"] = auth0Result.content;
+                else TempData["error"] = dbResult.content;
             }
-            else TempData["error"] = dbResult.content;
+            else TempData["error"] = "User could not be created";
+            return View(user);
+
+
+            //var dbResult = await userService.CreateUserAsync(user);
+            //if (dbResult.success)
+            //{
+            //    TempData["success"] = dbResult.content;
+            //    var auth0Result = await auth0UserService.CreateAuth0UserAsync(user);
+            //    if (auth0Result.success)
+            //    {
+            //        TempData["success"] = auth0Result.content;
+            //        return RedirectToAction("Index");
+            //    }
+            //    else TempData["error"] = auth0Result.content;
+            //}
+            //else TempData["error"] = dbResult.content;
 
             return View(user);
         }
@@ -95,12 +113,19 @@ namespace Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(User user)
         {
-            var result = await userService.DeleteUserAsync(user);
-            if (result.success)
+            var dbResult = await userService.DeleteUserAsync(user);
+            if (dbResult.success)
             {
-                TempData["success"] = result.content;
+                TempData["success"] = dbResult.content;
+                var auth0Result = await auth0UserService.DeleteAuth0UserAsync(user);
+                if (auth0Result.success)
+                {
+                    TempData["success"] = auth0Result.content;
+                    return RedirectToAction("Index");
+                }
+                else TempData["error"] = auth0Result.content;
             }
-            else TempData["error"] = result.content;
+            else TempData["error"] = dbResult.content;
 
             return RedirectToAction("Index");
         }

@@ -27,8 +27,8 @@
         </div>
         <div class="mb-3">
             <label asp-for="IsActive"></label>
-            <input asp-for="IsActive" class="form-control" />
-            <span asp-validation-for="IsActive" class="text-danger"></span>
+            <input asp-for="IsActive" value="@Model.IsActive.ToString();" class="form-control" />
+            @*<span asp-validation-for="IsActive" class="text-danger"></span>*@
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
         <a asp-controller="User" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>

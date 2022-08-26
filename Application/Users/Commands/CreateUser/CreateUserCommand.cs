@@ -9,6 +9,7 @@ namespace Application.Users.Commands.CreateUser
         public string Name { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+        public string UserId { get; set; }
 
     }
 
@@ -28,7 +29,8 @@ namespace Application.Users.Commands.CreateUser
                 Name = request.Name,
                 Email = request.Email,
                 IsActive = request.IsActive,
-                Password = "Hidden"
+                Password = "Hidden",
+                UserId = request.UserId
             };
 
             _context.Users.Add(entity);

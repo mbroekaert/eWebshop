@@ -13,5 +13,6 @@ namespace Domain.Entities
         [Required]
         public bool IsActive { get; set; } = true;
         public string Password { get; set; }
+        public string UserId { get; set; } = "Default";
     }
 }

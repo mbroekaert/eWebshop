@@ -20,14 +20,25 @@ namespace Application.Auth0Users.Services
         {
             var content = JsonSerializer.Serialize(user);
             var httpResponse = await _httpClient.PostAsync("Auth0User", new StringContent(content, Encoding.Default, "application/json"));
+            var result = httpResponse.Content.ReadAsStringAsync();
             if (httpResponse.IsSuccessStatusCode)
             {
-                return (true, "User created successfully");
+                return (true, result.Result);
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
 
         }
+
+        public async Task<(bool success, string content)> DeleteAuth0UserAsync (User user)
+        {
+            var content = JsonSerializer.Serialize(user);
+            var httpResponse = await _httpClient.PostAsync("Auth0User", new StringContent(content, Encoding.Default, "application/json"));
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                return (true, "User deleted successfully");
+            }
+            return (false, await httpResponse.Content.ReadAsStringAsync());
+        }
+
     }
-
-
 }
