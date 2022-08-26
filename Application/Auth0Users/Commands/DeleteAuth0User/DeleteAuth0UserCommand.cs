@@ -35,7 +35,7 @@ namespace Application.Auth0Users.Commands.DeleteAuth0User
 
             /* Send request */
 
-            var httpResponse = await _httpClient.DeleteAsync(("$https://mathieubroekaert.eu.auth0.com/api/v2/users/{userId}"));
+            var httpResponse = await _httpClient.DeleteAsync($"https://mathieubroekaert.eu.auth0.com/api/v2/users/{userId}");
             var response = await httpResponse.Content.ReadAsStringAsync();
             if (httpResponse.IsSuccessStatusCode)
             {

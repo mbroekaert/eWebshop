@@ -43,7 +43,7 @@ namespace Api.Controllers
             var result =  await Mediator.Send(command);
             return result.Item2;
         }
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         [Authorize("write:users")]
         public async Task<ActionResult<int>> DeleteAuth0User(string id)
         {

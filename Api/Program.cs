@@ -8,6 +8,8 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Polly;
+using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -17,6 +19,11 @@ builder.Services.AddSingleton(sp => new HttpClient()
 {
     BaseAddress = new Uri("https://mathieubroekaert.eu.auth0.com/api/v2/")
 });
+
+
+
+builder.Services.AddHttpClient("resource");
+builder.Services.AddHttpClient("resource").AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(5));
 
 
 builder.Services.AddControllers();
