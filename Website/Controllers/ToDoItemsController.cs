@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
 
 namespace Website.Controllers
 {
@@ -12,23 +11,9 @@ namespace Website.Controllers
         {
             this.toDoItemsService = toDoItemsService;
         }
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.CurrentSort = sortOrder;
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-            int pageSize = 15;
-            int pageNumber = (page ?? 1);
-
-            return View((await toDoItemsService.GetTodosAsync()).ToPagedList(pageNumber, pageSize));
+            return View(await toDoItemsService.GetTodosAsync());
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿@using Shared.Contracts.Response;
-@using PagedList.Mvc;
-@using PagedList;
-@model IPagedList<ToDoItemResponseDto>
+@model ToDoItemResponseDto[];
+
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
@@ -60,12 +59,9 @@
     }
     </tbody>
  </table>
+
  <br />
- Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-
-@Html.PagedListPager(Model, page => Url.Action("Index", 
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     
 </div>
+
 
