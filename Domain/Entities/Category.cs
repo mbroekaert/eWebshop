@@ -5,12 +5,15 @@ namespace Domain.Entities
     public class Category
     {
             [Key]
-            public int Id { get; set; }
+            public int CategoryId { get; set; }
             [Required]
-            public string Name { get; set; }
-            public int DisplayOrder { get; set; }
-            public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+            public string CategoryName { get; set; }
+            [Required]
+            public int CategoryDisplayOrder { get; set; }
+            [Required]
+            public string CategoryDescription { get; set; }
+           
+            
 
-        
     }
 }

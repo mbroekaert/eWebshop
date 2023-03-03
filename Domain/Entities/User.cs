@@ -5,14 +5,13 @@ namespace Domain.Entities
     public  class User
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string UserName { get; set; }
         [Required]
-        public string Email { get; set; }
+        public string UserEmail { get; set; }
         [Required]
         public bool IsActive { get; set; } = true;
-        public string Password { get; set; }
-        public string UserId { get; set; } = "Default";
+        public string Auth0UserId { get; set; } = "Default";
     }
 }

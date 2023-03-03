@@ -46,7 +46,7 @@ namespace Application.Users.Services
         public async Task<(bool success, string content)> UpdateUserAsync(User user)
         {
             var content = JsonSerializer.Serialize(user);
-            var httpResponse = await _httpClient.PutAsync($"user/{user.Id}", new StringContent(content, Encoding.Default, "application/json"));
+            var httpResponse = await _httpClient.PutAsync($"user/{user.UserId}", new StringContent(content, Encoding.Default, "application/json"));
             if (httpResponse.IsSuccessStatusCode)
             {
                 return (true, "User updated successfully");
@@ -67,7 +67,7 @@ namespace Application.Users.Services
 
         public async Task<(bool success, string content)> DeleteUserAsync(User user)
         {
-            var httpResponse = await _httpClient.DeleteAsync($"user/{user.Id}");
+            var httpResponse = await _httpClient.DeleteAsync($"user/{user.UserId}");
             if (httpResponse.IsSuccessStatusCode)
             {
                 return (true, "User deleted successfully");

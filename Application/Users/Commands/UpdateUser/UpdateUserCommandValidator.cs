@@ -27,8 +27,8 @@ namespace Application.Users.Commands.UpdateUser
 
         public async Task<bool> BeUniqueEmailAddress(string email, CancellationToken cancellationToken)
         {
-            return await _context.Users
-                .AllAsync(l => l.Email != email);
+            return await _context.User
+                .AllAsync(l => l.UserEmail != email);
         }
     }
 }

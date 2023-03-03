@@ -22,14 +22,14 @@ namespace Application.Categories.Commands.DeleteCategory
 
             public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
             {
-                var entity = await _context.Categories.FindAsync(request.Id);
+                var entity = await _context.Category.FindAsync(request.Id);
 
                 if (entity == null)
                 {
                     throw new NotFoundException(nameof(Category), request.Id);
                 }
 
-                _context.Categories.Remove(entity);
+                _context.Category.Remove(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

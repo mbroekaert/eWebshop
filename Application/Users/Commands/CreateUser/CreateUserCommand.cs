@@ -26,16 +26,15 @@ namespace Application.Users.Commands.CreateUser
         {
             var entity = new User
             {
-                Name = request.Name,
-                Email = request.Email,
+                UserName = request.Name,
+                UserEmail = request.Email,
                 IsActive = request.IsActive,
-                Password = "Hidden",
-                UserId = request.UserId
+                Auth0UserId = request.UserId
             };
 
-            _context.Users.Add(entity);
+            _context.User.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
-            return entity.Id;
+            return entity.UserId;
         }
     }
 }

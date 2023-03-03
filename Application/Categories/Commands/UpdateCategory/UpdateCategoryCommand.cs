@@ -25,13 +25,13 @@ namespace Application.Categories.Commands.UpdateCategory
 
         public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Categories.FindAsync(request.Id);
+            var entity = await _context.Category.FindAsync(request.Id);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Category), request.Id);
             }
-            entity.Name = request.Name;
-            entity.DisplayOrder = request.DisplayOrder;
+            entity.CategoryName = request.Name;
+            entity.CategoryDisplayOrder = request.DisplayOrder;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

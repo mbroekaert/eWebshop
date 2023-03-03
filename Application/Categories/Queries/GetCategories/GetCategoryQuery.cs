@@ -24,8 +24,8 @@ namespace Application.Categories.Queries.GetCategories
 
         public async Task<IEnumerable<CategoryResponseDto>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
-                var categories = await _context.Categories
-                            .OrderBy(t => t.DisplayOrder)
+                var categories = await _context.Category
+                            .OrderBy(t => t.CategoryDisplayOrder)
                             .ToListAsync(cancellationToken);
                 return categories.Select(c => _mapper.Map<CategoryResponseDto>(c)).ToList();
         }

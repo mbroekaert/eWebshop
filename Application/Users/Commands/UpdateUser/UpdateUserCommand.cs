@@ -26,15 +26,15 @@ namespace Application.Users.Commands.UpdateUser
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Users.FindAsync(request.Id);
+            var entity = await _context.User.FindAsync(request.Id);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Category), request.Id);
             }
-            entity.Name = request.Name;
-            entity.Email = request.Email;
+            entity.UserName = request.Name;
+            entity.UserEmail = request.Email;
             entity.IsActive = request.IsActive;
-            entity.UserId = request.UserId;
+            entity.Auth0UserId = request.UserId;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

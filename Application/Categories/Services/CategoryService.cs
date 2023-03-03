@@ -47,7 +47,7 @@ namespace Website.Services
         public  async Task<(bool success, string content)> UpdateCategoryAsync (Category category)
         {
             var content = JsonSerializer.Serialize(category);
-            var httpResponse = await _httpClient.PutAsync($"category/{category.Id}", new StringContent(content, Encoding.Default, "application/json"));
+            var httpResponse = await _httpClient.PutAsync($"category/{category.CategoryId}", new StringContent(content, Encoding.Default, "application/json"));
             if (httpResponse.IsSuccessStatusCode)
             {
                 return (true,"Category updated successfully");
@@ -68,7 +68,7 @@ namespace Website.Services
 
         public async Task<(bool success, string content)> DeleteCategoryAsync (Category category)
         {
-            var httpResponse = await _httpClient.DeleteAsync($"category/{category.Id}");
+            var httpResponse = await _httpClient.DeleteAsync($"category/{category.CategoryId}");
             if (httpResponse.IsSuccessStatusCode)
             {
                 return (true, "Category deleted successfully");

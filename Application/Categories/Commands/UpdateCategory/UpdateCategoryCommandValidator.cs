@@ -24,14 +24,14 @@ namespace Application.Categories.Commands.UpdateCategory
         }
         public async Task<bool> BeUniqueDisplayOrder(int displayOrder, CancellationToken cancellationToken)
         {
-            return await _context.Categories
-                .AllAsync(l => l.DisplayOrder != displayOrder);
+            return await _context.Category
+                .AllAsync(l => l.CategoryDisplayOrder != displayOrder);
         }
 
         public async Task<bool> BeUniqueName(string name, CancellationToken cancellationToken)
         {
-            return await _context.Categories
-                .AllAsync(l => l.Name != name);
+            return await _context.Category
+                .AllAsync(l => l.CategoryName != name);
         }
     }
 }

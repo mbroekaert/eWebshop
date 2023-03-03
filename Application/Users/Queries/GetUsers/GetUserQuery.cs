@@ -24,7 +24,7 @@ namespace Application.Users.Queries.GetUsers
 
         public async Task<IEnumerable<UserResponseDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _context.Users
+            var categories = await _context.User
                         .ToListAsync(cancellationToken);
             return categories.Select(c => _mapper.Map<UserResponseDto>(c)).ToList();
         }

@@ -23,13 +23,13 @@ namespace Application.Categories.Commands.CreateCategory
         {
             var entity = new Category
             {
-                Name = request.Name,
-                DisplayOrder = request.DisplayOrder,
+                CategoryName = request.Name,
+                CategoryDisplayOrder = request.DisplayOrder,
             };
 
-            _context.Categories.Add(entity);
+            _context.Category.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
-            return entity.Id;
+            return entity.CategoryId;
         }
     }
 }
