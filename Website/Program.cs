@@ -26,6 +26,7 @@ builder.Services.AddSingleton(sp => new HttpClient()
 
 
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<IProductService, ProductService > ();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
 builder.Services.AddSingleton<ITodoItemsService, ToDoItemsService>();
