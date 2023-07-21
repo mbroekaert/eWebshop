@@ -8,7 +8,7 @@ namespace Application.Mappers
     {
         public CategoryProfile()
         {
-            CreateMap<User, UserResponseDto>();
+            CreateMap<Category, CategoryResponseDto>();
         }
     }
 }

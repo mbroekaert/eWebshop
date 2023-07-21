@@ -29,7 +29,7 @@ namespace Api.Controllers
         public async Task<IActionResult> GetCategoryAsync([FromRoute]int id)
         {
             var response = await Mediator.Send(new GetCategoryQuery());
-            return Ok(response.FirstOrDefault(c => c.Id == id));
+            return Ok(response.FirstOrDefault(c => c.CategoryId == id));
         }
 
         [HttpPost]
@@ -60,7 +60,7 @@ namespace Api.Controllers
         [Authorize("write:messages")]
         public async Task<ActionResult> UpdateCategory(int id, UpdateCategoryCommand command)
         {
-            if (id != command.Id) return BadRequest();
+            if (id != command.CategoryId) return BadRequest();
             if (!ModelState.IsValid)
             {
                 var validationResponse = new RequestValidatorResponseDto()

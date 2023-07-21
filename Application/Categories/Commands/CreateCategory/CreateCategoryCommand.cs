@@ -6,8 +6,10 @@ namespace Application.Categories.Commands.CreateCategory
 {
     public class CreateCategoryCommand : IRequest<int>
     {
-        public string Name { get; set; }
-        public int DisplayOrder { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryDisplayOrder { get; set; }
+        public string CategoryDescription { get; set; }
+
     }
 
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
@@ -23,8 +25,9 @@ namespace Application.Categories.Commands.CreateCategory
         {
             var entity = new Category
             {
-                CategoryName = request.Name,
-                CategoryDisplayOrder = request.DisplayOrder,
+                CategoryName = request.CategoryName,
+                CategoryDisplayOrder = request.CategoryDisplayOrder,
+                CategoryDescription = request.CategoryDescription
             };
 
             _context.Category.Add(entity);

@@ -56,7 +56,7 @@ namespace Api.Controllers
             }
             return await Mediator.Send(command);
         }
-        [HttpPut("{id}")]
+        [HttpPut("{ProductId}")]
         [Authorize("write:messages")]
         public async Task<ActionResult> UpdateProduct(int id, UpdateProductCommand command)
         {
@@ -82,7 +82,7 @@ namespace Api.Controllers
             await Mediator.Send(command);
             return NoContent();
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{ProductId}")]
         [Authorize("write:messages")]
         public async Task<ActionResult<int>> DeleteProduct(int id)
         {
