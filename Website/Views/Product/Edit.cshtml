@@ -1,17 +1,22 @@
 ﻿@using Shared.Contracts.Response
-@model Domain.Entities.Product
+@model ProductResponseDto
 @{
     var categories = ViewBag.Categories as CategoryResponseDto[];
 }
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <form method="post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Create Product
+            <h2 class="text-primary">Update Product</h2>
             <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ProductId"></label>
+            <input asp-for="ProductId" class="form-control" />
+            <span asp-validation-for="ProductId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="ProductName"></label>
@@ -35,17 +40,17 @@
         </div>
         <div class="mb-3">
             <label asp-for="CategoryId"></label>
-            <select asp-for="CategoryId" class="form-control" >
+            <select asp-for="CategoryId" class="form-control">
                 <option value="">Select a category...</option>
                 @foreach (var category in categories)
                 {
-                    <option value="@category.CategoryId" label=@category.CategoryName/>
+                    <option value="@category.CategoryId" label=@category.CategoryName />
                 }
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
-        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
     </div>
 </form>
 @*@section Scripts {

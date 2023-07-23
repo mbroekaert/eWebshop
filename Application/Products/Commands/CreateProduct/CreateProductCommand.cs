@@ -1,12 +1,6 @@
-﻿using Application.Categories.Commands.CreateCategory;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Products.Commands.CreateProduct
 {
@@ -16,8 +10,7 @@ namespace Application.Products.Commands.CreateProduct
         public string ProductReference { get; set; }
         public double ProductPrice { get; set; }
         public int ProductQuantity { get; set; }
-        public string ProductPicture { get; set; }
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
     }
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
@@ -36,9 +29,8 @@ namespace Application.Products.Commands.CreateProduct
                 ProductName = request.ProductName,
                 ProductReference = request.ProductReference,
                 ProductPrice = request.ProductPrice,
-                productQuantity = request.ProductQuantity,
-                productPicture = request.ProductPicture,
-                Category = request.Category
+                ProductQuantity = request.ProductQuantity,
+                CategoryId = request.CategoryId
 
             };
 

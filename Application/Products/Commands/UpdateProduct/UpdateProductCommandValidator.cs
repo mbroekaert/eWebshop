@@ -25,7 +25,7 @@ namespace Application.Products.Commands.UpdateProduct
                 .NotEmpty().WithMessage("Please specify a price")
                 .ExclusiveBetween(0.0, double.MaxValue).WithMessage("Must be >= 0");
             RuleFor(v => v.ProductQuantity)
-                .NotEmpty().WithMessage("Please specify a price")
+                .NotEmpty().WithMessage("Please specify a stock")
                 .ExclusiveBetween(0, 100000).WithMessage("Must be >= 0 and cannot exceed 100000");
 
         }

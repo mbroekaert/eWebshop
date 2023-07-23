@@ -23,9 +23,6 @@ public class Product
     [Range(0, 100000, ErrorMessage = "Stock must be positive and inferior to 100000")]
     public int productQuantity { get; set; }
     [Required]
-    [DisplayName("Photo")]
-    public string productPicture { get; set; }
-    [Required]
     [DisplayName("Catégorie")]
     public Category Category { get; set; }
 

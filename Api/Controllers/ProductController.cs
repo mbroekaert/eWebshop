@@ -23,13 +23,13 @@ namespace Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{ProductId}")]
+        [HttpGet("{productId}")]
         [Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ProductResponseDto))]
-        public async Task<IActionResult> GetProductAsync([FromRoute] int id)
+        public async Task<IActionResult> GetProductAsync([FromRoute] int productId)
         {
             var response = await Mediator.Send(new GetProductQuery());
-            return Ok(response.FirstOrDefault(c => c.ProductId == id));
+            return Ok(response.FirstOrDefault(c => c.ProductId == productId));
         }
 
         [HttpPost]
@@ -58,9 +58,9 @@ namespace Api.Controllers
         }
         [HttpPut("{ProductId}")]
         [Authorize("write:messages")]
-        public async Task<ActionResult> UpdateProduct(int id, UpdateProductCommand command)
+        public async Task<ActionResult> UpdateProduct(int ProductId, UpdateProductCommand command)
         {
-            if (id != command.ProductId) return BadRequest();
+            if (ProductId != command.ProductId) return BadRequest();
             if (!ModelState.IsValid)
             {
                 var validationResponse = new RequestValidatorResponseDto()
@@ -84,9 +84,9 @@ namespace Api.Controllers
         }
         [HttpDelete("{ProductId}")]
         [Authorize("write:messages")]
-        public async Task<ActionResult<int>> DeleteProduct(int id)
+        public async Task<ActionResult<int>> DeleteProduct(int ProductId)  
         {
-            await Mediator.Send(new DeleteProductCommand { ProductId = id });
+            await Mediator.Send(new DeleteProductCommand { ProductId = ProductId });
             return NoContent();
         }
 

@@ -13,11 +13,9 @@ namespace Domain.Entities
         [Required]
         public double ProductPrice { get; set; }
         [Required]
-        public int productQuantity { get; set; }
+        public int ProductQuantity { get; set; }
         [Required]
-        public string productPicture { get; set; }
-        [Required]
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
 
     }
 }

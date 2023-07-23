@@ -71,7 +71,7 @@ namespace Website.Services
             var httpResponse = await _httpClient.DeleteAsync($"product/{product.ProductId}");
             if (httpResponse.IsSuccessStatusCode)
             {
-                return (true, "Category deleted successfully");
+                return (true, "Product deleted successfully");
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
         }

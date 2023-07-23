@@ -13,10 +13,8 @@ namespace Shared.Contracts.Response
         [JsonPropertyName("productPrice")]
         public double ProductPrice { get; set; }
         [JsonPropertyName("productQuantity")]
-        public int productQuantity { get; set; }
-        [JsonPropertyName("productPicture")]
-        public string productPicture { get; set; }
-        [JsonPropertyName("category")]
-        public CategoryResponseDto Category { get; set; }
+        public int ProductQuantity { get; set; }
+        [JsonPropertyName("categoryId")]
+        public int CategoryId { get; set; }
     }
 }

@@ -20,25 +20,22 @@
     <table class="table table-table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
-                <th>
+                <th width="10%">
                     Product Id
                 </th>
-                <th>
+                <th width="50%">
                     Product Name
                 </th>
-                <th>
+                <th width="10%">
                     Product Reference
                 </th>
-                <th>
+                <th width="10%">
                     Product Price
                 </th>
-                <th>
+                <th width ="10%">
                     Product Quantity
                 </th>
-                <th>
-                    Product Picture
-                </th>
-                <th>
+                <th width="10%">
                     Product Category
                 </th>
             </tr>
@@ -58,23 +55,20 @@
                     </td>
                     <td width="10%">
                         @product.ProductPrice
-                    <td>
+                    </td>
                     <td width="10%">
-                        @product.productQuantity
-                    <td>
+                        @product.ProductQuantity
+                    </td>
                     <td width="10%">
-                        @product.productPicture
-                    <td>
-                    <td width="10%">
-                        @product.Category.CategoryName
+                        @product.CategoryId
                     </td>
                     <td>
-                        <div class="w-75 btn-group" role="group">
+                        <div class="w-75 btn-group" role="group" width="10%">
                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-secondary"><i class="bi bi-pencil"></i>&nbsp; Edit</a>
                         </div>
                     </td>
                     <td>
-                        <div class="w-75 btn-group" role="group">
+                        <div class="w-75 btn-group" role="group" width="10%">
                             <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-secondary"><i class="bi bi-trash3"></i>&nbsp; Delete</a>
                         </div>
                     </td>

@@ -13,8 +13,7 @@ namespace Application.Products.Commands.UpdateProduct
         public string ProductReference { get; set; }
         public double ProductPrice { get; set; }
         public int ProductQuantity { get; set; }
-        public string ProductPicture { get; set; }
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
     }
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand>
     {
@@ -34,10 +33,9 @@ namespace Application.Products.Commands.UpdateProduct
             }
             entity.ProductName = request.ProductName;
             entity.ProductPrice = request.ProductPrice;
-            entity.productPicture = request.ProductPicture;
             entity.ProductReference = request.ProductReference;
-            entity.productQuantity = request.ProductQuantity;
-            entity.Category = request.Category;
+            entity.ProductQuantity = request.ProductQuantity;
+            entity.CategoryId = request.CategoryId;
             
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;

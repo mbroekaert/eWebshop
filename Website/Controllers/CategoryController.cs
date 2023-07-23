@@ -68,7 +68,6 @@ namespace Website.Controllers
                 TempData["success"] = result.content;
             }
             else TempData["error"] = result.content;
-
             return RedirectToAction("Index");
         }
 

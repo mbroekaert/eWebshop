@@ -1,16 +1,19 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts.Response;
 
 namespace Website.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService productService;
+        private readonly ICategoryService categoryService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, ICategoryService categoryService)
         {
             this.productService = productService;
+            this.categoryService = categoryService;
         }
 
 
@@ -24,8 +27,9 @@ namespace Website.Controllers
         #region Create new product
         // GET
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Categories = await categoryService.GetCategoriesAsync();
             return View();
         }
 
@@ -39,12 +43,11 @@ namespace Website.Controllers
                 return RedirectToAction("Index");
             }
             else TempData["error"] = result.content;
-
             return View(product);
         }
         #endregion
 
-        #region Update category
+        #region Update product
         /* Note : Better to use patch instead of put
          * Will allow to manage updates separately, and not have to change "all" fields
          * when posting a request. Here Name & DisplayOrder must be updated in order for
@@ -55,6 +58,7 @@ namespace Website.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.Categories = await categoryService.GetCategoriesAsync();
             return View(await productService.EditProductAsync(id));
         }
 
