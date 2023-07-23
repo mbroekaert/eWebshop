@@ -14,7 +14,7 @@ namespace Api.Controllers
     public class ProductController : ApiController
     {
         [HttpGet]
-        [Authorize("read:messages")]
+        //[Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ProductResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
         public async Task<IActionResult> GetProductsAsync()
