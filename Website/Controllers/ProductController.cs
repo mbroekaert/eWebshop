@@ -42,7 +42,8 @@ namespace Website.Controllers
                 TempData["success"] = result.content;
                 return RedirectToAction("Index");
             }
-            else TempData["error"] = result.content;
+            TempData["error"] = result.content;
+            ViewBag.Categories = await categoryService.GetCategoriesAsync();
             return View(product);
         }
         #endregion

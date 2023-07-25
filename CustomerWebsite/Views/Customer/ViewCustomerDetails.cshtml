@@ -1,0 +1,47 @@
+﻿@model Shared.Contracts.Response.CustomerResponseDto;
+@{
+    ViewData["Title"] = "My account";
+}
+<div class="row pb-2">
+    <h2 class="text-primary">My personal details</h2>
+    <hr />
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="row p-2">
+            <div class="col-12 p-1 " style="border:1px solid #008cba; border-radius: 5px;">
+                <div class="card">
+                    <div class="pl-1">
+                        <table class="table table-table-bordered table-striped" style="width:100%">
+                            <tbody>
+                                    <tr>
+                                        <td width="50%">Customer Id </td>
+                                        <td width="50%"> @Model.CustomerId</td>
+                                    </tr>
+                                <tr>
+                                    <td width="50%">First Name</td>
+                                    <td width="50%"> @Model.CustomerFirstName</td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">Last Name</td>
+                                    <td width="50%"> @Model.CustomerLastName</td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">Email </td>
+                                    <td width="50%"> @Model.CustomerEmail</td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">Phone Number </td>
+                                    <td width="50%"> @Model.CustomerPhone</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<div class="col-2 ">
+    <a asp-controller="Customer" asp-action="Edit" class="btn btn-primary"><i class="bi bi-bookmark-plus"></i>&nbsp; Edit your details</a>
+</div>

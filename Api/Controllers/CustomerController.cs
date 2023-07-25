@@ -1,7 +1,6 @@
-﻿using Application.Products.Commands.CreateProduct;
-using Application.Products.Commands.DeleteProduct;
-using Application.Products.Commands.UpdateProduct;
-using Application.Products.Queries.GetCategories;
+﻿using Application.Customers.Commands.CreateCustomer;
+using Application.Customers.Commands.UpdateCustomer;
+using Application.Users.Queries.GetUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
@@ -11,29 +10,28 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ApiController
+    public class CustomerController : ApiController
     {
-        [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ProductResponseDto>))]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-        public async Task<IActionResult> GetProductsAsync()
-        {
-            var response = await Mediator.Send(new GetProductQuery());
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<CustomerResponseDto>))]
+        //[ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        //public async Task<IActionResult> GetCustomerAsync()
+        //{
+        //    var response = await Mediator.Send(new GetCustomerQuery());
+        //    return Ok(response);
+        //}
 
-        [HttpGet("{productId}")]
-        [Authorize("read:messages")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ProductResponseDto))]
-        public async Task<IActionResult> GetProductAsync([FromRoute] int productId)
+        // [HttpGet("{id}")]
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(CustomerResponseDto))]
+        public async Task<IActionResult> GetCustomerAsync(int id = 1)
         {
-            var response = await Mediator.Send(new GetProductQuery());
-            return Ok(response.FirstOrDefault(c => c.ProductId == productId));
+            var response = await Mediator.Send(new GetCustomerQuery());
+            return Ok(response.FirstOrDefault(c => c.CustomerId == id));
         }
 
         [HttpPost]
-        [Authorize("write:messages")]
-        public async Task<ActionResult<int>> CreateProduct(CreateProductCommand command)
+        public async Task<ActionResult<int>> CreateCustomer(CreateCustomerCommand command)
         {
             if (!ModelState.IsValid)
             {
@@ -55,11 +53,12 @@ namespace Api.Controllers
             }
             return await Mediator.Send(command);
         }
-        [HttpPut("{ProductId}")]
-        [Authorize("write:messages")]
-        public async Task<ActionResult> UpdateProduct(int ProductId, UpdateProductCommand command)
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult> UpdateCustomer(int id, UpdateCustomerCommand command)
         {
-            if (ProductId != command.ProductId) return BadRequest();
+            if (id != command.CustomerId) return BadRequest();
             if (!ModelState.IsValid)
             {
                 var validationResponse = new RequestValidatorResponseDto()
@@ -81,13 +80,5 @@ namespace Api.Controllers
             await Mediator.Send(command);
             return NoContent();
         }
-        [HttpDelete("{ProductId}")]
-        [Authorize("write:messages")]
-        public async Task<ActionResult<int>> DeleteProduct(int ProductId)  
-        {
-            await Mediator.Send(new DeleteProductCommand { ProductId = ProductId });
-            return NoContent();
-        }
-
     }
 }

@@ -1,0 +1,26 @@
+﻿@if(TempData["role"] == "user") 
+{
+    <script>
+        function myFunction() {
+        document.getElementById("roleChange").style.backgroundColor = "lightblue";
+        document.getElementById("UserAccess").style.display = "none";
+        }
+    </script>
+}
+else if (TempData["role"] == "agent") 
+{
+    <script>
+        function myFunction() {
+        document.getElementById("roleChange").style.backgroundColor = "yellow";
+        document.getElementById("UserAccess").style.display = "none";
+        document.getElementById("btnCreateCategory").style.display = "none";
+        }
+    </script>
+}
+else if (TempData["role"] == "admin") 
+{
+    <script>
+        function myFunction() {
+        document.getElementById("roleChange").style.backgroundColor = "red";}
+    </script>
+}

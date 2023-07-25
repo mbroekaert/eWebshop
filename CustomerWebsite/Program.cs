@@ -1,10 +1,11 @@
 using Application;
 using Application.Common.Interfaces;
+using Application.Customers.Services;
+using CustomerWebsite.Middlewares;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using CustomerWebsite.Middlewares;
 using Website.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +22,9 @@ builder.Services.AddSingleton(sp => new HttpClient()
 });
 
 builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<ICustomerService, CustomerService>();
 
-/* Auth0 section 
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -91,7 +93,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-*/
+
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -114,7 +116,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-//app.UseMiddleware<AuthMiddleware>();
+app.UseMiddleware<AuthMiddleware>();
 
 app.MapControllers();
 app.MapControllerRoute(
