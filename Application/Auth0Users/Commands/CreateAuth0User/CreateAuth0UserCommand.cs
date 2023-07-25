@@ -10,8 +10,8 @@ namespace Application.Auth0Users.Commands.CreateAuth0User
 {
     public class CreateAuth0UserCommand : IRequest<(bool, string)>
     {
-        public string email { get; set; }
-        public string password { get; set; }
+        public string UserEmail { get; set; }
+        public string Password { get; set; }
 
     }
 
@@ -35,8 +35,8 @@ namespace Application.Auth0Users.Commands.CreateAuth0User
             /* Post request to create user */
             var entity = new Auth0UserRequestDto
             {
-                Email = request.email,
-                Password = request.password,
+                UserEmail = request.UserEmail,
+                Password = request.Password,
             };
 
             var content = JsonSerializer.Serialize(entity);

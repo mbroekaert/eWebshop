@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -15,6 +16,7 @@ namespace Domain.Entities
         [Required]
         public int ProductQuantity { get; set; }
         [Required]
+        [ForeignKey(nameof(Product))]
         public int CategoryId { get; set; }
 
     }

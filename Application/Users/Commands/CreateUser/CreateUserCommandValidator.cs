@@ -12,12 +12,12 @@ namespace Application.Users.Commands.CreateUser
         {
             _context = context;
 
-            RuleFor(v => v.Name)
+            RuleFor(v => v.UserName)
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(50).WithMessage("Name of a user cannot exceed 50 characters");
             RuleFor(v => v.IsActive)
                 .NotNull().WithMessage("Please specify if the user is active");
-            RuleFor(v => v.Email)
+            RuleFor(v => v.UserEmail)
                 .NotEmpty().WithMessage("Email is required.")
                 .NotNull().WithMessage("Email is required.")
                 .MaximumLength(50).WithMessage("Email of a user cannot exceed 50 characters")

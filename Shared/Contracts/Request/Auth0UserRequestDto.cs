@@ -5,7 +5,7 @@ namespace Shared.Contracts.Request
     public  class Auth0UserRequestDto
     {
         [JsonPropertyName("email")]
-        public string Email { get; set; }
+        public string UserEmail { get; set; }
        
         [JsonPropertyName("connection")]
         public string Connection { get; set; } = "Username-Password-Authentication";

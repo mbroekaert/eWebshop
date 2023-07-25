@@ -6,12 +6,12 @@ namespace Application.Auth0Users.Commands.CreateAuth0User
     {
         public CreateAuth0UserCommandValidator()
         {
-            RuleFor(v => v.email)
+            RuleFor(v => v.UserEmail)
                 .NotEmpty().WithMessage("Email is required.")
                 .NotNull().WithMessage("Email is required.")
                 .MaximumLength(50).WithMessage("Email of a user cannot exceed 50 characters")
                 .EmailAddress().WithMessage("Please provide a valid email address");
-            RuleFor(v => v.password)
+            RuleFor(v => v.Password)
                 .NotEmpty().WithMessage("Please provide a password")
                 .NotNull().WithMessage("Please provide a password")
                 .MinimumLength(5).WithMessage("Your password length must be at least 5.")

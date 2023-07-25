@@ -1,15 +1,17 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using System.Security.Cryptography;
 
 namespace Application.Users.Commands.CreateUser
 {
     public class CreateUserCommand : IRequest<int>
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
         public bool IsActive { get; set; }
-        public string UserId { get; set; }
+        public string Auth0UserId { get; set; }
+        public string Password { get; set; }
 
     }
 
@@ -26,10 +28,11 @@ namespace Application.Users.Commands.CreateUser
         {
             var entity = new User
             {
-                UserName = request.Name,
-                UserEmail = request.Email,
+                UserName = request.UserName,
+                UserEmail = request.UserEmail,
                 IsActive = request.IsActive,
-                Auth0UserId = request.UserId
+                Auth0UserId = request.Auth0UserId,
+                Password = "hidden"
             };
 
             _context.User.Add(entity);

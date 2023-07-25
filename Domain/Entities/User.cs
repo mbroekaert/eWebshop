@@ -5,6 +5,7 @@ namespace Domain.Entities
     public  class User
     {
         [Key]
+        
         public int UserId { get; set; }
         [Required]
         public string UserName { get; set; }
@@ -13,5 +14,6 @@ namespace Domain.Entities
         [Required]
         public bool IsActive { get; set; } = true;
         public string Auth0UserId { get; set; } = "Default";
+        public string Password { get; set; }
     }
 }
