@@ -26,6 +26,8 @@ namespace Application.Customers.Commands.CreateCustomer
                 .NotEmpty().WithMessage("Phone number is required");
             RuleFor(v => v.Password)
                 .NotEmpty().WithMessage("Password is required");
+            RuleFor(v => v.Auth0UserId)
+                .NotEmpty();
 
 
         }

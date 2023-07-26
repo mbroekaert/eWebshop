@@ -11,6 +11,7 @@ namespace Application.Customers.Commands.CreateCustomer
         public string CustomerEmail { get; set; }
         public int CustomerPhone { get; set; }
         public string Password { get; set; }
+        public string Auth0UserId { get; set; }
 
     }
 
@@ -31,7 +32,8 @@ namespace Application.Customers.Commands.CreateCustomer
                 CustomerLastName = request.CustomerLastName,
                 CustomerEmail = request.CustomerEmail,
                 CustomerPhone = request.CustomerPhone,
-                Password = request.Password
+                Password = request.Password,
+                Auth0UserId = request.Auth0UserId
             };
 
             _context.Customer.Add(entity);

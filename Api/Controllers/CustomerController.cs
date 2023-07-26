@@ -21,13 +21,15 @@ namespace Api.Controllers
         //    return Ok(response);
         //}
 
-        // [HttpGet("{id}")]
-        [HttpGet]
+        
+        [HttpGet("{auth0UserId}")]
+        //[Authorize]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(CustomerResponseDto))]
-        public async Task<IActionResult> GetCustomerAsync(int id = 1)
+        public async Task<IActionResult> GetCustomerAsync(string auth0UserId)
         {
             var response = await Mediator.Send(new GetCustomerQuery());
-            return Ok(response.FirstOrDefault(c => c.CustomerId == id));
+
+            return Ok(response.FirstOrDefault(c => c.Auth0UserId == auth0UserId));
         }
 
         [HttpPost]

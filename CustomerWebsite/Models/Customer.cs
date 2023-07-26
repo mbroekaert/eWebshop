@@ -12,5 +12,7 @@
         
         public int CustomerPhone { get; set; }
         public string Password { get; set; }
+        public string Auth0UserId { get; set; }
+
     }
 }

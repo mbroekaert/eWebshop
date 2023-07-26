@@ -15,9 +15,9 @@ namespace Application.Customers.Services
             _httpClient = httpClient;
         }
 
-        public async Task<CustomerResponseDto> GetCustomerAsync()
+        public async Task<CustomerResponseDto> GetCustomerAsync(string Auth0userId)
         {
-            var httpResponse = await _httpClient.GetAsync("customer");
+            var httpResponse = await _httpClient.GetAsync($"customer/{Auth0userId}");
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<CustomerResponseDto>(responseAsString);
         }

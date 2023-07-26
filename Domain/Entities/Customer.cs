@@ -16,6 +16,8 @@ namespace Domain.Entities
         public int CustomerPhone { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public string Auth0UserId { get; set; }
 
     }
 }

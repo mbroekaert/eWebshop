@@ -2,14 +2,25 @@
 using Application.Common.Interfaces;
 using Application.Users.Services;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CustomerWebsite.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : CoreController
     {
         private readonly ICustomerService customerService;
         private readonly IAuth0UserService auth0UserService;
+
+        //private const string OBJECT_ID_CLAIM = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+        //public string UserId
+        //{
+        //    get
+        //    {
+        //        return User.Claims.First(c => c.Type.Equals(OBJECT_ID_CLAIM, StringComparison.InvariantCultureIgnoreCase)).Value;
+        //    }
+        //}
         public CustomerController(ICustomerService customerService, IAuth0UserService auth0UserService)
         {
             this.customerService = customerService;
@@ -22,7 +33,8 @@ namespace CustomerWebsite.Controllers
         #region Get customer details
         public async Task<IActionResult> ViewCustomerDetails ()
         {
-            return View(await customerService.GetCustomerAsync());
+            string auth0UserId = Auth0UserId;
+            return View(await customerService.GetCustomerAsync(auth0UserId));
         }
         #endregion
         #region Create a new customer
@@ -48,15 +60,16 @@ namespace CustomerWebsite.Controllers
             var auth0Result = await auth0UserService.CreateAuth0UserAsync(user);
             if (auth0Result.success)
             {
+                customer.Auth0UserId = auth0Result.content.Substring(1, 30);
                 var dbResult = await customerService.CreateCustomerAsync(customer);
                 if (dbResult.success)
                 {
                     TempData["success"] = dbResult.content;
                 }
                 else TempData["error"] = dbResult.content;
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewCustomerDetails");
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Product");
         }
 
         #endregion

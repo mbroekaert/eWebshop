@@ -38,7 +38,6 @@ namespace Website.Controllers
             if (auth0Result.success)
             {
                 string userId = auth0Result.content;
-                int x = 1;
                 userId = userId.Substring(1,30);
                 user.Auth0UserId = userId;
                 var dbResult = await userService.CreateUserAsync(user);

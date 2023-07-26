@@ -16,5 +16,7 @@ namespace Shared.Contracts.Response
         public int CustomerPhone { get; set; }
         [JsonPropertyName("password")]
         public string Password { get; set; }
+        [JsonPropertyName("auth0UserId")]
+        public string Auth0UserId { get; set; }
     }
 }
