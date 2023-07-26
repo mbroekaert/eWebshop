@@ -11,5 +11,6 @@
         public string CustomerEmail { get; set; }
         
         public int CustomerPhone { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using Application;
+using Application.Auth0Users.Services;
 using Application.Common.Interfaces;
 using Application.Customers.Services;
 using CustomerWebsite.Middlewares;
@@ -23,7 +24,7 @@ builder.Services.AddSingleton(sp => new HttpClient()
 
 builder.Services.AddSingleton<IProductService, ProductService>();
 builder.Services.AddSingleton<ICustomerService, CustomerService>();
-
+builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
 
 
 builder.Services.AddAuthentication(options =>

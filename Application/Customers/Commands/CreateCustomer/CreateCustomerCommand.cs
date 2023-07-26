@@ -6,10 +6,11 @@ namespace Application.Customers.Commands.CreateCustomer
 {
     public class CreateCustomerCommand : IRequest<int>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public int Phone { get; set; }
+        public string CustomerFirstName { get; set; }
+        public string CustomerLastName { get; set; }
+        public string CustomerEmail { get; set; }
+        public int CustomerPhone { get; set; }
+        public string Password { get; set; }
 
     }
 
@@ -26,10 +27,11 @@ namespace Application.Customers.Commands.CreateCustomer
         {
             var entity = new Customer
             {
-                CustomerFirstName = request.FirstName,
-                CustomerLastName = request.LastName,
-                CustomerEmail = request.Email,
-                CustomerPhone = request.Phone
+                CustomerFirstName = request.CustomerFirstName,
+                CustomerLastName = request.CustomerLastName,
+                CustomerEmail = request.CustomerEmail,
+                CustomerPhone = request.CustomerPhone,
+                Password = request.Password
             };
 
             _context.Customer.Add(entity);

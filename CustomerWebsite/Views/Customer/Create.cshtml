@@ -1,0 +1,40 @@
+﻿@model Domain.Entities.Customer
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create my account</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="CustomerFirstName">First Name</label>
+            <input asp-for="CustomerFirstName" class="form-control" />
+            <span asp-validation-for="CustomerFirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CustomerLastName">Last Name</label>
+            <input asp-for="CustomerLastName" class="form-control" />
+            <span asp-validation-for="CustomerLastName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CustomerEmail">Email</label>
+            <input asp-for="CustomerEmail" class="form-control" />
+            <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CustomerPhone">Phone number</label>
+            <input asp-for="CustomerPhone" class="form-control" />
+            <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="User" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+    </div>
+</form>

@@ -8,11 +8,12 @@ namespace Application.Customers.Commands.UpdateCustomer
 {
     public class UpdateCustomerCommand : IRequest
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public int Phone { get; set; }
+        public string CustomerFirstName { get; set; }
+        public string CustomerLastName { get; set; }
+        public string CustomerEmail { get; set; }
+        public int CustomerPhone { get; set; }
         public int CustomerId { get; set; }
+        public string Password { get; set; }
 
     }
 
@@ -32,10 +33,10 @@ namespace Application.Customers.Commands.UpdateCustomer
             {
                 throw new NotFoundException(nameof(Customer), request.CustomerId);
             }
-            entity.CustomerFirstName = request.FirstName;
-            entity.CustomerLastName = request.LastName;
-            entity.CustomerEmail = request.Email;
-            entity.CustomerPhone = request.Phone;
+            entity.CustomerFirstName = request.CustomerFirstName;
+            entity.CustomerLastName = request.CustomerLastName;
+            entity.CustomerEmail = request.CustomerEmail;
+            entity.CustomerPhone = request.CustomerPhone;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

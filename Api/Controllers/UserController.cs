@@ -23,13 +23,13 @@ namespace Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [Authorize("read:users")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserResponseDto))]
-        public async Task<IActionResult> GetUserAsync([FromRoute] int id)
+        public async Task<IActionResult> GetUserAsync([FromRoute] int UserId)
         {
             var response = await Mediator.Send(new GetUserQuery());
-            return Ok(response.FirstOrDefault(c => c.Id == id));
+            return Ok(response.FirstOrDefault(c => c.UserId == UserId));
         }
 
         [HttpPost]
@@ -57,11 +57,11 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{userId}")]
         [Authorize("write:users")]
-        public async Task<ActionResult> UpdateUser(int id, UpdateUserCommand command)
+        public async Task<ActionResult> UpdateUser(int Userid, UpdateUserCommand command)
         {
-            if (id != command.Id) return BadRequest();
+            if (Userid != command.UserId) return BadRequest();
             if (!ModelState.IsValid)
             {
                 var validationResponse = new RequestValidatorResponseDto()

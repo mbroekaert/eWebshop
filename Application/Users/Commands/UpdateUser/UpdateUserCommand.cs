@@ -7,11 +7,11 @@ namespace Application.Users.Commands.UpdateUser
 {
     public class UpdateUserCommand : IRequest
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
         public bool IsActive { get; set; }
-        public string UserId { get; set; }
+        public string Auth0UserId { get; set; }
 
     }
 
@@ -26,15 +26,15 @@ namespace Application.Users.Commands.UpdateUser
 
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.User.FindAsync(request.Id);
+            var entity = await _context.User.FindAsync(request.UserId);
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Category), request.Id);
+                throw new NotFoundException(nameof(Category), request.UserId);
             }
-            entity.UserName = request.Name;
-            entity.UserEmail = request.Email;
+            entity.UserName = request.UserName;
+            entity.UserEmail = request.UserEmail;
             entity.IsActive = request.IsActive;
-            entity.Auth0UserId = request.UserId;
+            entity.Auth0UserId = request.Auth0UserId;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

@@ -19,7 +19,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [Authorize("write:users")]
+        //[Authorize("write:users")]
         public async Task<ActionResult<string>> CreateAuth0User(CreateAuth0UserCommand command)
         {
             if (!ModelState.IsValid)

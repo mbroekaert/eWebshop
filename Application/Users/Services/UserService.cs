@@ -32,13 +32,13 @@ namespace Application.Users.Services
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
         }
-        public async Task<UserResponseDto> EditUserAsync(int id)
+        public async Task<UserResponseDto> EditUserAsync(int UserId)
         {
-            if (id == null || id <= 0)
+            if (UserId == null || UserId <= 0)
             {
                 return null;
             }
-            var httpResponse = await _httpClient.GetAsync($"user/{id}");
+            var httpResponse = await _httpClient.GetAsync($"user/{UserId}");
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<UserResponseDto>(responseAsString);
         }

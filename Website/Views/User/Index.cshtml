@@ -42,28 +42,28 @@
     {
         <tr>
             <td width="10%">
-                @user.Id
+                @user.UserId
             </td>
             <td width="40%">
-                @user.Name
+                @user.UserName
             </td>
             <td width="40%">
-                @user.Email
+                @user.UserEmail
             </td>
             <td width="10%">
                 @user.IsActive
             </td>
             <td width="25%">
-                @user.UserId
+                @user.Auth0UserId
             </td>
             <td>
                 <div class="w-75 btn-group" role="group">
-                    <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-secondary"><i class="bi bi-pencil"></i>&nbsp; Edit</a>
+                    <a asp-controller="User" asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-secondary"><i class="bi bi-pencil"></i>&nbsp; Edit</a>
                 </div>
             </td>
             <td>
                 <div class="w-75 btn-group" role="group">
-                    <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-secondary"><i class="bi bi-trash3"></i>&nbsp; Delete</a>
+                    <a asp-controller="User" asp-action="Delete" asp-route-id="@user.UserId" class="btn btn-secondary"><i class="bi bi-trash3"></i>&nbsp; Delete</a>
                 </div>
             </td>
         </tr>
