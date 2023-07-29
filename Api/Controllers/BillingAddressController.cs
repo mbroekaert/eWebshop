@@ -1,8 +1,7 @@
-﻿using Application.Products.Commands.CreateProduct;
-using Application.Products.Commands.DeleteProduct;
-using Application.Products.Commands.UpdateProduct;
-using Application.Products.Queries.GetCategories;
-using Application.Products.Queries.GetProducts;
+﻿using Application.BillingAddress.Commands.CreateBillingAddress;
+using Application.BillingAddress.Commands.DeleteBillingAddress;
+using Application.BillingAddress.Commands.UpdateBillingAddress;
+using Application.BillingAddress.Queries.UpdateBillingAddress;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
@@ -12,29 +11,29 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ApiController
+    public class BillingAddressController : ApiController
     {
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ProductResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<BillingAddressResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-        public async Task<IActionResult> GetProductsAsync()
+        public async Task<IActionResult> GetBillingAddressesAsync()
         {
-            var response = await Mediator.Send(new GetProductQuery());
+            var response = await Mediator.Send(new GetBillingAddressQuery());
             return Ok(response);
         }
 
-        [HttpGet("{productId}")]
-        [Authorize("read:messages")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ProductResponseDto))]
-        public async Task<IActionResult> GetProductAsync([FromRoute] int productId)
+        [HttpGet("{billingAddressId}")]
+        //[Authorize("read:messages")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BillingAddressResponseDto))]
+        public async Task<IActionResult> GetBillingAddressAsync([FromRoute] int billingAddressId)
         {
-            var response = await Mediator.Send(new GetProductQuery());
-            return Ok(response.FirstOrDefault(c => c.ProductId == productId));
+            var response = await Mediator.Send(new GetBillingAddressQuery());
+            return Ok(response.FirstOrDefault(c => c.BillingAddressId == billingAddressId));
         }
 
         [HttpPost]
-        [Authorize("write:messages")]
-        public async Task<ActionResult<int>> CreateProduct(CreateProductCommand command)
+        //[Authorize("write:messages")]
+        public async Task<ActionResult<string>> CreateBillingAddress(CreateBillingAddressCommand command)
         {
             if (!ModelState.IsValid)
             {
@@ -56,11 +55,11 @@ namespace Api.Controllers
             }
             return await Mediator.Send(command);
         }
-        [HttpPut("{ProductId}")]
-        [Authorize("write:messages")]
-        public async Task<ActionResult> UpdateProduct(int ProductId, UpdateProductCommand command)
+        [HttpPut("{billingAddressId}")]
+       // [Authorize("write:messages")]
+        public async Task<ActionResult> UpdateBillingAddress(int BillingAddressId, UpdateBillingAddressCommand command)
         {
-            if (ProductId != command.ProductId) return BadRequest();
+            if (BillingAddressId != command.BillingAddressId) return BadRequest();
             if (!ModelState.IsValid)
             {
                 var validationResponse = new RequestValidatorResponseDto()
@@ -82,11 +81,11 @@ namespace Api.Controllers
             await Mediator.Send(command);
             return NoContent();
         }
-        [HttpDelete("{ProductId}")]
-        [Authorize("write:messages")]
-        public async Task<ActionResult<int>> DeleteProduct(int ProductId)  
+        [HttpDelete("{billingAddressId}")]
+        //[Authorize("write:messages")]
+        public async Task<ActionResult<int>> DeleteBillingAddress(int billingAddressId)  
         {
-            await Mediator.Send(new DeleteProductCommand { ProductId = ProductId });
+            await Mediator.Send(new DeleteBillingAddressCommand { BillingAddressId = billingAddressId });
             return NoContent();
         }
 

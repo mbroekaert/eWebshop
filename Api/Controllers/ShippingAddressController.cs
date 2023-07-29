@@ -1,8 +1,7 @@
-﻿using Application.Products.Commands.CreateProduct;
-using Application.Products.Commands.DeleteProduct;
-using Application.Products.Commands.UpdateProduct;
-using Application.Products.Queries.GetCategories;
-using Application.Products.Queries.GetProducts;
+﻿using Application.ShippingAddress.Commands.CreateShippingAddress;
+using Application.ShippingAddress.Commands.DeleteShippingAddress;
+using Application.ShippingAddress.Commands.UpdateShippingAddress;
+using Application.ShippingAddress.Queries.GetShippingAddress;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
@@ -12,29 +11,29 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ApiController
+    public class ShippingAddressController : ApiController
     {
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ProductResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ShippingAddressResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-        public async Task<IActionResult> GetProductsAsync()
+        public async Task<IActionResult> GetShippingAddressesAsync()
         {
-            var response = await Mediator.Send(new GetProductQuery());
+            var response = await Mediator.Send(new GetShippingAddressQuery());
             return Ok(response);
         }
 
-        [HttpGet("{productId}")]
-        [Authorize("read:messages")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ProductResponseDto))]
-        public async Task<IActionResult> GetProductAsync([FromRoute] int productId)
+        [HttpGet("{shippingAddressId}")]
+        //[Authorize("read:messages")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ShippingAddressResponseDto))]
+        public async Task<IActionResult> GetShippingAddressAsync([FromRoute] int shippingAddressId)
         {
-            var response = await Mediator.Send(new GetProductQuery());
-            return Ok(response.FirstOrDefault(c => c.ProductId == productId));
+            var response = await Mediator.Send(new GetShippingAddressQuery());
+            return Ok(response.FirstOrDefault(c => c.ShippingAddressId == shippingAddressId));
         }
 
         [HttpPost]
-        [Authorize("write:messages")]
-        public async Task<ActionResult<int>> CreateProduct(CreateProductCommand command)
+       // [Authorize("write:messages")]
+        public async Task<ActionResult<string>> CreateShippingAddress(CreateShippingAddressCommand command)
         {
             if (!ModelState.IsValid)
             {
@@ -56,11 +55,11 @@ namespace Api.Controllers
             }
             return await Mediator.Send(command);
         }
-        [HttpPut("{ProductId}")]
-        [Authorize("write:messages")]
-        public async Task<ActionResult> UpdateProduct(int ProductId, UpdateProductCommand command)
+        [HttpPut("{shippingAddressId}")]
+        //[Authorize("write:messages")]
+        public async Task<ActionResult> UpdateShippingAddress(int ShippingAddressId, UpdateShippingAddressCommand command)
         {
-            if (ProductId != command.ProductId) return BadRequest();
+            if (ShippingAddressId != command.ShippingAddressId) return BadRequest();
             if (!ModelState.IsValid)
             {
                 var validationResponse = new RequestValidatorResponseDto()
@@ -82,11 +81,11 @@ namespace Api.Controllers
             await Mediator.Send(command);
             return NoContent();
         }
-        [HttpDelete("{ProductId}")]
-        [Authorize("write:messages")]
-        public async Task<ActionResult<int>> DeleteProduct(int ProductId)  
+        [HttpDelete("{shippingAddressId}")]
+        //[Authorize("write:messages")]
+        public async Task<ActionResult<int>> DeleteShippingAddressAddress(int shippingAddressId)  
         {
-            await Mediator.Send(new DeleteProductCommand { ProductId = ProductId });
+            await Mediator.Send(new DeleteShippingAddressCommand { ShippingAddressId = shippingAddressId });
             return NoContent();
         }
 

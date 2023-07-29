@@ -1,4 +1,4 @@
-﻿using Application.Categories.Commands.UpdateCategory;
+﻿using Application.Products.Commands.UpdateProduct;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;

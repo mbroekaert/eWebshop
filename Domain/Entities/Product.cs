@@ -16,7 +16,7 @@ namespace Domain.Entities
         [Required]
         public int ProductQuantity { get; set; }
         [Required]
-        [ForeignKey(nameof(Product))]
+        [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
     }

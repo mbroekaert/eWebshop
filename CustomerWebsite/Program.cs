@@ -25,6 +25,8 @@ builder.Services.AddSingleton(sp => new HttpClient()
 builder.Services.AddSingleton<IProductService, ProductService>();
 builder.Services.AddSingleton<ICustomerService, CustomerService>();
 builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
+builder.Services.AddSingleton<IBillingAddressService, BillingAddressService>();
+builder.Services.AddSingleton<IShippingAddressService, ShippingAddressService>();
 
 
 builder.Services.AddAuthentication(options =>

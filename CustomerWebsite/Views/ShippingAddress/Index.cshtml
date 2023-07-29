@@ -1,0 +1,65 @@
+﻿@model Shared.Contracts.Response.ShippingAddressResponseDto[];
+@{
+    ViewData["Title"] = "My shipping details";
+}
+<div class="row pb-2">
+    <h2 class="text-primary">My shipping addresses</h2>
+    <div class="row pt-4">
+        <div class="col-6">
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="ShippingAddress" asp-action="Create" class="btn btn-primary" id="btnCreateShippingAddress"><i class="bi bi-bookmark-plus"></i>&nbsp; Add a new shipping address</a>
+        </div>
+    </div>
+    <hr />
+</div>
+<div class="row">
+@foreach (var address in Model)
+{
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1 " style="border:1px solid #008cba; border-radius: 5px;">
+                    <div class="card">
+                        <div class="pl-1">
+                            <table class="table table-table-bordered table-striped" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="50%">Street Name </td>
+                                        <td width="50%"> @address.ShippingAddressStreetName</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%">Number</td>
+                                        <td width="50%"> @address.ShippingAddressStreetNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%">City</td>
+                                        <td width="50%"> @address.ShippingAddressCity</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%">Postal Code </td>
+                                        <td width="50%"> @address.ShippingAddressZip</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%">Country </td>
+                                        <td width="50%"> @address.ShippingAddressCountry</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a asp-controller="ShippingAddress" asp-action="Edit" asp-route-id="@address.ShippingAddressId" class="btn btn-primary mb-1"><i class="bi bi-bookmark-plus"></i>&nbsp; Edit your details</a>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <a asp-controller="ShippingAddress" asp-action="Delete" asp-route-id="@address.ShippingAddressId" class="btn btn-primary mb-1"><i class="bi bi-trash3"></i>&nbsp; Delete your address</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+}
+</div>

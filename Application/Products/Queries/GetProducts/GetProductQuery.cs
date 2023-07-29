@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Contracts.Response;
 
-namespace Application.Products.Queries.GetCategories
+namespace Application.Products.Queries.GetProducts
 {
     public class GetProductQuery : IRequest<IEnumerable<ProductResponseDto>>
     {

@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
     public  class Customer
     {
-        [Key]
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustomerId { get; set; }
         [Required]
         public string CustomerFirstName { get; set; }
@@ -16,7 +18,7 @@ namespace Domain.Entities
         public int CustomerPhone { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
+        [Key]
         public string Auth0UserId { get; set; }
 
     }

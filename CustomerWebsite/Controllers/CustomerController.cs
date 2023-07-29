@@ -12,15 +12,7 @@ namespace CustomerWebsite.Controllers
     {
         private readonly ICustomerService customerService;
         private readonly IAuth0UserService auth0UserService;
-
-        //private const string OBJECT_ID_CLAIM = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-        //public string UserId
-        //{
-        //    get
-        //    {
-        //        return User.Claims.First(c => c.Type.Equals(OBJECT_ID_CLAIM, StringComparison.InvariantCultureIgnoreCase)).Value;
-        //    }
-        //}
+        
         public CustomerController(ICustomerService customerService, IAuth0UserService auth0UserService)
         {
             this.customerService = customerService;
@@ -67,7 +59,7 @@ namespace CustomerWebsite.Controllers
                     TempData["success"] = dbResult.content;
                 }
                 else TempData["error"] = dbResult.content;
-                return RedirectToAction("ViewCustomerDetails");
+                return RedirectToAction("Index", "Product");
             }
             return RedirectToAction("Index", "Product");
         }

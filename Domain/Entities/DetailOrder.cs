@@ -8,7 +8,7 @@ namespace Domain.Entities
         [Required]
         public Order Order { get; set; }
         [Required]
-        public Product Product { get; set; }
+        public ShippingAddress Product { get; set; }
 
     }
 }

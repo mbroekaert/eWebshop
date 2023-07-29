@@ -1,0 +1,40 @@
+﻿@model Domain.Entities.ShippingAddress
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Add a new shipping address</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ShippingAddressStreetName">Street Name</label>
+            <input asp-for="ShippingAddressStreetName" class="form-control" />
+            <span asp-validation-for="ShippingAddressStreetName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ShippingAddressStreetNumber">Number</label>
+            <input asp-for="ShippingAddressStreetNumber" class="form-control" />
+            <span asp-validation-for="ShippingAddressStreetNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ShippingAddressCity">City</label>
+            <input asp-for="ShippingAddressCity" class="form-control" />
+            <span asp-validation-for="ShippingAddressCity" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ShippingAddressZip">Postal code</label>
+            <input asp-for="ShippingAddressZip" class="form-control" />
+            <span asp-validation-for="ShippingAddressZip" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ShippingAddressCountry">Country</label>
+            <input asp-for="ShippingAddressCountry" class="form-control" />
+            <span asp-validation-for="ShippingAddressCountry" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="ShippingAddress" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+    </div>
+</form>
