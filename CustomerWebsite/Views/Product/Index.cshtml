@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-    
 <div class="row pb-3">
     @foreach (var product in Model)
     {
@@ -12,9 +11,7 @@
             string formattedPrice = product.ProductPrice % 1 == 0
             ? product.ProductPrice.ToString("0")
             : product.ProductPrice.ToString("0.00");
-        
-
-
+            
             <div class="col-lg-3 col-md-6">
                 <div class="row p-2">
                     <div class="col-12 p-1 " style="border:1px solid #008cba; border-radius: 5px;">
@@ -27,14 +24,19 @@
                             </div>
                         </div>
                         <div>
-                            <a class="btn btn-primary form-control mt-1">Add to cart</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <button onclick="addToCart('@product.ProductId', '@formattedPrice', 1)" class="btn btn-primary form-control mt-1">Add to cart</button>
+                            } else
+                            {
+                                <button disabled class="btn btn-primary form-control mt-1">Add to cart</button>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         }
 }
-
 </div>
 
 
