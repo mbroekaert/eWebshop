@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.Contracts.Response
 {
-    internal class CartViewResponseDto
+    public class CartViewResponseDto
     {
+        public Dictionary<int, int> CartItems { get; set; }
     }
 }

@@ -40,6 +40,11 @@ const shoppingBasket = {
         localStorage.setItem('totalBasketPrice', totalBasketPrice);
     },
 
+    getProductQuantity(productId) {
+        const productQuantity = currentBasket[productId];
+        return productQuantity;
+    }
+
     
 };
 //export default shoppingBasket;
@@ -70,9 +75,19 @@ function updateBasketTotalPrice() {
     itemPriceElement.textContent = shoppingBasket.getBasketTotalPrice();
 };
 
+//function updateItemQuantity(productId) {
+//    const itemQuantity = document.getElementById('itemQuantity');
+//    itemQuantity.textContent = shoppingBasket.getProductQuantity(productId)
+//};
+
 function convertPriceToNumber(formattedPrice) {
     // Remove any existing commas and replace them with dots
     const priceWithDots = formattedPrice.replace(',', '.');
     // Parse the result to a floating-point number
     return parseFloat(priceWithDots);
+};
+function UpdateBasketOnPageLoad() {
+    updateBasketItemCount();
+    updateBasketTotalPrice();
 }
+document.addEventListener('DOMContentLoaded', UpdateBasketOnPageLoad);

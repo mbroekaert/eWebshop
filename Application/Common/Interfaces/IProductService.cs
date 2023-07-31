@@ -11,6 +11,7 @@ namespace Application.Common.Interfaces
         Task<(bool success, string content)> UpdateProductAsync(Product product);
         Task<ProductResponseDto> GetProductToDeleteAsync(int id);
         Task<(bool success, string content)> DeleteProductAsync(Product product);
+        
 
     }
 }

@@ -1,5 +1,6 @@
 using Application;
 using Application.Auth0Users.Services;
+using Application.Cart.Services;
 using Application.Common.Interfaces;
 using Application.Customers.Services;
 using CustomerWebsite.Middlewares;
@@ -27,6 +28,8 @@ builder.Services.AddSingleton<ICustomerService, CustomerService>();
 builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
 builder.Services.AddSingleton<IBillingAddressService, BillingAddressService>();
 builder.Services.AddSingleton<IShippingAddressService, ShippingAddressService>();
+builder.Services.AddSingleton<ICartService, CartService>();
+builder.Services.AddMemoryCache();
 
 
 builder.Services.AddAuthentication(options =>
