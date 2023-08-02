@@ -16,7 +16,7 @@
                             Shopping Cart
                         </div>
                         <div class="col-6 text-end">
-                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-warning btn-sm">Continue Shopping</a>
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-warning btn-sm">Continue Shopping</a>
                         </div>
                     </div>
 
@@ -32,25 +32,16 @@
                                 </div>
                                 <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
                                     <div class="col-4 text-md-right" style="padding-top:5px;">
-                                        <h6><strong>EUR @item.ProductPrice<span class="text-muted"> x <span id="itemQuantity">0</span> </span></strong></h6>
-                                        @*<script>document.addEventListener('DOMContentLoaded', updateItemQuantity(@item.ProductId));</script>*@
+                                        <h6><strong>EUR @item.ProductPrice<span class="text-muted"> x <span id="itemQuantity_@item.ProductId">0</span> </span></strong></h6>
                                     </div>
                                     <div class="col-6 col-sm-4 col-lg-6">
-                                        <div class="float-right mx-1">
-                                            <a asp-action="plus" asp-route-cartId="@item.ProductId" class="btn btn-primary">
-                                                <i class="fas fa-plus"></i>
-                                            </a>
+                                        <div class="float-right mx-1 m-1">
+                                            <button onClick="addToCart('@item.ProductId', '@item.ProductPrice', 1)" class="btn btn-primary" style="width: 140px;"><i class="bi bi-plus"></i>Add</button>
                                         </div>
-                                        <div class="float-right mx-1">
-                                            <a asp-action="minus" asp-route-cartId="@item.ProductId" class="btn btn-danger">
-                                                <i class="fas fa-minus"></i>
-                                            </a>
+                                        <div class="float-right mx-1 m-1">
+                                            <button onClick="removeFromCart('@item.ProductId', '@item.ProductPrice', 1)" class="btn btn-primary" style="width: 140px;"><i class="bi bi-dash"></i>Remove</button>
+                                           
                                         </div>
-                                    </div>
-                                    <div class="col-2 col-sm-4 col-lg-2 text-right">
-                                        <a asp-action="remove" asp-route-cartId="@item.ProductId" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +53,7 @@
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex justify-content-between bg-light">
                                         <span class="text-info"> Total (EUR)</span>
-                                        <strong class="text-info">$ <span id="txtOrderTotal">Total Price</span></strong>
+                                        <strong class="text-info">EUR <span id="basketItemPriceBody">Total Price</span></strong>
                                     </li>
                                 </ul>
                             </div>
@@ -74,8 +65,7 @@
                         <div class="card-footer row">
                            
                                 <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
-
-                                    <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Summary</a>
+                                    <a asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Summary</a>
                                 </div>
                             
                         </div>
@@ -92,3 +82,5 @@
         </div>
     }
 </form>
+
+

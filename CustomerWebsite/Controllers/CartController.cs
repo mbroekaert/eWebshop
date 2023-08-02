@@ -37,5 +37,10 @@ namespace CustomerWebsite.Controllers
             }
             else return View(emptyResponse);
         }
+
+        public async Task<IActionResult> Summary()
+        {
+            return View();
+        }
     }
 }

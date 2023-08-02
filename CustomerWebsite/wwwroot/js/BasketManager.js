@@ -15,14 +15,22 @@ const shoppingBasket = {
     removeItem(productId, productPrice, quantity) {
         const currentBasket = JSON.parse(localStorage.getItem('basket')) || {};
 
-        // Remove the item from the basket or set the quantity to 0 if not found
-        currentBasket[productId] = currentBasket[productId]- quantity;
+        // Calculate the new quantity for the item (never less than 0)
+        const newQuantity = Math.max((currentBasket[productId] || 0) - quantity, 0);
 
-        // Save the updated basket data back to localStorage
-        localStorage.setItem('basket', JSON.stringify(currentBasket));
+        // Only update the basket if the new quantity is different from the old quantity
+        if (newQuantity !== currentBasket[productId]) {
+            // Update the quantity in the basket
+            currentBasket[productId] = newQuantity;
 
-        // Update the basket total price
-        this.updateTotalPrice(productPrice, -1);
+            // Save the updated basket data back to localStorage
+            localStorage.setItem('basket', JSON.stringify(currentBasket));
+
+            // Update the basket total price if the new quantity is greater than 0
+            if (newQuantity > -1) {
+                this.updateTotalPrice(productPrice, -1);
+            }
+        }
     },
 
     getBasketItemCount() {
@@ -72,13 +80,24 @@ function updateBasketItemCount() {
 
 function updateBasketTotalPrice() {
     const itemPriceElement = document.getElementById('basketItemPrice');
+    const itemPriceElementBody = document.getElementById('basketItemPriceBody');
     itemPriceElement.textContent = shoppingBasket.getBasketTotalPrice();
+    itemPriceElementBody.textContent = shoppingBasket.getBasketTotalPrice();
 };
 
-//function updateItemQuantity(productId) {
-//    const itemQuantity = document.getElementById('itemQuantity');
-//    itemQuantity.textContent = shoppingBasket.getProductQuantity(productId)
-//};
+
+
+function updateItemQuantities() {
+    const quantities = JSON.parse(localStorage.getItem('basket')) || {};
+
+    for (const productId in quantities) {
+        const quantityElement = document.getElementById(`itemQuantity_${productId}`);
+        if (quantityElement) {
+            quantityElement.textContent = quantities[productId];
+        }
+    }
+}
+
 
 function convertPriceToNumber(formattedPrice) {
     // Remove any existing commas and replace them with dots
@@ -88,6 +107,8 @@ function convertPriceToNumber(formattedPrice) {
 };
 function UpdateBasketOnPageLoad() {
     updateBasketItemCount();
+    updateItemQuantities();
     updateBasketTotalPrice();
+    
 }
 document.addEventListener('DOMContentLoaded', UpdateBasketOnPageLoad);
