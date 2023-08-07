@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Shared.Contracts.Response;
+using Website.Services;
 
 namespace CustomerWebsite.Controllers
 {
@@ -9,6 +10,8 @@ namespace CustomerWebsite.Controllers
     {
         private readonly IMemoryCache memoryCache;
         private readonly ICartService cartService;
+        private readonly IBillingAddressService billingAddressService;
+        private readonly IShippingAddressService shippingAddressService;
         public CartController(IMemoryCache memoryCache, ICartService cartService)
         {
             this.memoryCache = memoryCache;
@@ -40,6 +43,32 @@ namespace CustomerWebsite.Controllers
 
         public async Task<IActionResult> Summary()
         {
+            /* Variables */
+
+            ProductResponseDto[] basketSummaryDto;
+            BillingAddressResponseDto[] billingAddressSummaryDto;
+            ShippingAddressResponseDto[] shippingAddressSummaryDto;
+
+            /* Retrieve cart data */
+
+            CartViewResponseDto cartData;
+            bool result = memoryCache.TryGetValue(Auth0UserId, out cartData);
+            if (cartData.CartItems != null && result == true)
+            {
+                var cartIds = cartData.CartItems.Keys.ToList();
+                basketSummaryDto = await cartService.GetSpecificProductsAsync(cartIds);
+            }
+            else basketSummaryDto= new ProductResponseDto[0];
+
+            /* Retrieve Billing address */
+
+            billingAddressSummaryDto = await billingAddressService.GetBillingAddressAsync();
+
+            /* Retrieve Shipping address */
+
+            shippingAddressSummaryDto = await shippingAddressService.GetShippingAddressAsync();
+
+
             return View();
         }
     }
