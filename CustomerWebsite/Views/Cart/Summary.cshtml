@@ -1,6 +1,202 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<div>Hello</div>
+﻿@using Shared.Contracts.Request;
+@model BasketSummaryDto;
+
+<form method="post">
+
+    @*Shopping cart*@
+
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 d-flex justify-content-between align-items-center">
+                    <div class="col-6 ">
+                        <i class="bi bi-cart-check-fill"></i> &nbsp;
+                        Shopping Cart
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @foreach (var item in Model.ProductResponseDtos)
+                    {
+                        <div class="row">
+                            <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                <img src="~/images/@(item.ProductId).jpg" class="rounded" width="100%" />
+                            </div>
+                            <div class="col-12 text-sm-center col-lg-6 text-lg-left">
+                                <h5><strong>@item.ProductName</strong></h5>
+                            </div>
+                            <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
+                                <div class="col-4 text-md-right" style="padding-top:5px;">
+                                    <h6><strong>EUR @item.ProductPrice<span class="text-muted"> x <span id="itemQuantity_@item.ProductId">0</span> </span></strong></h6>
+                                </div>
+                            </div>
+                        </div>
+                        @*Hidden form to retrieve data*@
+                        <input type="hidden" name="productId[]" value="@item.ProductId" />
+                        <input type="hidden" name="quantity[]" id="quantity_@item.ProductId" value="">
+                        <hr />
+                    }
+
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light">
+                                    <span class="text-info"> Total (EUR)</span>
+                                    <strong class="text-info">EUR <span id="basketItemPriceBody">Total Price</span></strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    @*Billing address*@
+
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 d-flex justify-content-between align-items-center">
+                    <div class="col-6 ">
+                        <i class="bi bi-cart-check-fill"></i> &nbsp;
+                        Chose your billing address
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var address in Model.BillingAddressResponseDtos)
+                        {
+                            <div class="col-lg-3 col-md-6">
+                                <div class="row p-2">
+                                    <div class="col-12 p-1 " style="border:1px solid #008cba; border-radius: 5px;">
+                                        <div>
+                                            <input type="radio" id="selectBilling" onchange="checkRadioButtons()" name="selectBilling" value="@address.BillingAddressId">
+                                            <label for="selectBilling">Select this address</label>
+                                        </div>
+                                        <div class="card">
+                                            <div class="pl-1">
+                                                <table class="table table-table-bordered table-striped" style="width:100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="50%">Street Name </td>
+                                                            <td width="50%"> @address.BillingAddressStreetName</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">Number</td>
+                                                            <td width="50%"> @address.BillingAddressStreetNumber</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">City</td>
+                                                            <td width="50%"> @address.BillingAddressCity</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">Postal Code </td>
+                                                            <td width="50%"> @address.BillingAddressZip</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">Country </td>
+                                                            <td width="50%"> @address.BillingAddressCountry</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    @*Shipping address *@
+
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 d-flex justify-content-between align-items-center">
+                    <div class="col-6 ">
+                        <i class="bi bi-cart-check-fill"></i> &nbsp;
+                        Chose your shipping address
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var address in Model.shippingAddressResponseDtos)
+                        {
+                            <div class="col-lg-3 col-md-6">
+                                <div class="row p-2">
+                                    <div class="col-12 p-1 " style="border:1px solid #008cba; border-radius: 5px;">
+                                        <div>
+                                            <input type="radio" id="selectShipping" onchange="checkRadioButtons()" name="selectShipping" value="@address.ShippingAddressId">
+                                            <label for="selectShipping">Select this address</label>
+                                        </div>
+                                        <div class="card">
+                                            <div class="pl-1">
+                                                <table class="table table-table-bordered table-striped" style="width:100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="50%">Street Name </td>
+                                                            <td width="50%"> @address.ShippingAddressStreetName</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">Number</td>
+                                                            <td width="50%"> @address.ShippingAddressStreetNumber</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">City</td>
+                                                            <td width="50%"> @address.ShippingAddressCity</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">Postal Code </td>
+                                                            <td width="50%"> @address.ShippingAddressZip</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%">Country </td>
+                                                            <td width="50%"> @address.ShippingAddressCountry</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    @* Hidden fields to retrieve the selected Id of billing & shipping address // Default 1*@
+
+    <input type="hidden" name="billingAddressId" value="1" />
+    <input type="hidden" name="shippingAddressId" value="1" />
+
+    @*Next*@
+
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card-footer">
+                <div class="card-footer row">
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 d-flex justify-content-end">
+                        <button asp-controller="Order" asp-action="Create" id="proceedButton" class="btn btn-primary" disabled>Proceed with payment</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</form>

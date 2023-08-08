@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <Folder Include="Auth0Users\Queries\" />
+    <Folder Include="DetailOrders\Queries\" />
+    <Folder Include="Orders\Queries\" />
   </ItemGroup>
 
 </Project>

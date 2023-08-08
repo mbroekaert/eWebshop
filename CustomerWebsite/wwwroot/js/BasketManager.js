@@ -105,10 +105,27 @@ function convertPriceToNumber(formattedPrice) {
     // Parse the result to a floating-point number
     return parseFloat(priceWithDots);
 };
+
+function populateHiddenQuantityFields() {
+    // Select all hidden input fields
+    const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+    // loop and populate
+    quantityInputs.forEach(populateUniqueHiddenQuantityField);
+}
+
+function populateUniqueHiddenQuantityField(input) {
+    const productId = input.getAttribute('id').split('_')[1];
+    const quantity = shoppingBasket.getProductQuantity(productId);
+    input.value = quantity;
+}
+
 function UpdateBasketOnPageLoad() {
     updateBasketItemCount();
     updateItemQuantities();
     updateBasketTotalPrice();
+    populateHiddenQuantityFields();
     
-}
+};
+
 document.addEventListener('DOMContentLoaded', UpdateBasketOnPageLoad);
+

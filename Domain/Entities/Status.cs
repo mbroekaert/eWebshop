@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+// to delete
+
 namespace Domain.Entities
 {
     public class Status

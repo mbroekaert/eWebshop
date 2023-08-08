@@ -75,6 +75,14 @@ namespace Website.Services
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
         }
+
+        public async Task<double>GetProductPrice (int id)
+        {
+            var httpResponse = await _httpClient.GetAsync($"product/{id}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            var deserializedResponse = JsonSerializer.Deserialize<ProductResponseDto>(responseAsString);
+            return deserializedResponse.ProductPrice;
+        }
         
     }
 }

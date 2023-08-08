@@ -1,30 +1,36 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Entities;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace CustomerWebsite.Models
 {
     public class Order
     {
         [Key]
+        [DisplayName("Id")]
         public int OrderId { get; set; }
         [Required]
+        [DisplayName("Order reference")]
         public string OrderReference { get; set; } = Guid.NewGuid().ToString();
         [Required]
+        [DisplayName("Total amount")]
         public double OrderAmount { get; set; }
         [Required]
+        [DisplayName("Order date")]
         public DateTime OrderDate { get; set; } = DateTime.Now;
         [Required]
+        [DisplayName("Status")]
         public string Status { get; set; } = "Created";
-
+        [DisplayName("Payment Id")]
+        public Payment Payment { get; set; }
         [Required]
-        [ForeignKey(nameof(Customer))]
-        public string CustomerAuth0UserId { get; set; }
+        [DisplayName("Customer Id")]
+        public Customer Customer { get; set; }
         [Required]
-        [ForeignKey(nameof(BillingAddress))]
+        [DisplayName("Billing address Id")]
         public int BillingAddressId { get; set; }
         [Required]
-        [ForeignKey(nameof(ShippingAddress))]
+        [DisplayName("Shipping address Id")]
         public int ShippingAddressId { get; set; }
-       
     }
 }

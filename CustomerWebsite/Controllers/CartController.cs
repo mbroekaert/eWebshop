@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Shared.Contracts.Request;
 using Shared.Contracts.Response;
 using Website.Services;
 
@@ -12,10 +13,12 @@ namespace CustomerWebsite.Controllers
         private readonly ICartService cartService;
         private readonly IBillingAddressService billingAddressService;
         private readonly IShippingAddressService shippingAddressService;
-        public CartController(IMemoryCache memoryCache, ICartService cartService)
+        public CartController(IMemoryCache memoryCache, ICartService cartService, IBillingAddressService billingAddressService, IShippingAddressService shippingAddressService)
         {
             this.memoryCache = memoryCache;
             this.cartService = cartService;
+            this.billingAddressService = billingAddressService;
+            this.shippingAddressService = shippingAddressService;
         }
 
         #region Mapping logic
@@ -45,9 +48,10 @@ namespace CustomerWebsite.Controllers
         {
             /* Variables */
 
-            ProductResponseDto[] basketSummaryDto;
+            ProductResponseDto[] cartSummaryDto;
             BillingAddressResponseDto[] billingAddressSummaryDto;
             ShippingAddressResponseDto[] shippingAddressSummaryDto;
+            BasketSummaryDto basketSummaryDto;
 
             /* Retrieve cart data */
 
@@ -56,9 +60,9 @@ namespace CustomerWebsite.Controllers
             if (cartData.CartItems != null && result == true)
             {
                 var cartIds = cartData.CartItems.Keys.ToList();
-                basketSummaryDto = await cartService.GetSpecificProductsAsync(cartIds);
+                cartSummaryDto = await cartService.GetSpecificProductsAsync(cartIds);
             }
-            else basketSummaryDto= new ProductResponseDto[0];
+            else cartSummaryDto = new ProductResponseDto[0];
 
             /* Retrieve Billing address */
 
@@ -68,8 +72,16 @@ namespace CustomerWebsite.Controllers
 
             shippingAddressSummaryDto = await shippingAddressService.GetShippingAddressAsync();
 
+            /* Map to a new Dto */
 
-            return View();
+            basketSummaryDto = new BasketSummaryDto()
+            {
+                ProductResponseDtos = cartSummaryDto,
+                BillingAddressResponseDtos = billingAddressSummaryDto,
+                shippingAddressResponseDtos = shippingAddressSummaryDto
+            };
+
+            return View(basketSummaryDto);
         }
     }
 }

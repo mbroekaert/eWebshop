@@ -24,7 +24,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{productId}")]
-        [Authorize("read:messages")]
+        //[Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ProductResponseDto))]
         public async Task<IActionResult> GetProductAsync([FromRoute] int productId)
         {
@@ -57,7 +57,7 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{ProductId}")]
-        [Authorize("write:messages")]
+        //[Authorize("write:messages")]
         public async Task<ActionResult> UpdateProduct(int ProductId, UpdateProductCommand command)
         {
             if (ProductId != command.ProductId) return BadRequest();

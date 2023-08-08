@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Domain.Entities
 {
     public class DetailOrder
@@ -6,9 +8,13 @@ namespace Domain.Entities
         [Key]
         public int DetailOrderId { get; set; }
         [Required]
-        public Order Order { get; set; }
+        [ForeignKey(nameof(Order))]
+        public int OrderId { get; set; }
         [Required]
-        public ShippingAddress Product { get; set; }
+        [ForeignKey(nameof(Product))]
+        public int ProductId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
 
     }
 }

@@ -57,7 +57,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CustomerAuth0UserId");
 
-                    b.ToTable("BillingAddress");
+                    b.ToTable("BillingAddress", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
@@ -84,7 +84,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Customer", b =>
@@ -116,7 +116,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Auth0UserId");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.DetailOrder", b =>
@@ -139,7 +139,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("DetailOrder");
+                    b.ToTable("DetailOrder", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -178,7 +178,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Payment", b =>
@@ -201,7 +201,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("PaymentId");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -231,7 +231,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.ShippingAddress", b =>
@@ -269,7 +269,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CustomerAuth0UserId");
 
-                    b.ToTable("ShippingAddress");
+                    b.ToTable("ShippingAddress", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Status", b =>
@@ -286,7 +286,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("Status");
+                    b.ToTable("Status", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -318,7 +318,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.BillingAddress", b =>
