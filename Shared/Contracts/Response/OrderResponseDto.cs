@@ -22,8 +22,8 @@ namespace Shared.Contracts.Response
         public string Status { get; set; }
         [JsonPropertyName("paymentId")]
         public int PaymentId { get; set; }
-        [JsonPropertyName("customerId")]
-        public string CustomerId { get; set; }
+        [JsonPropertyName("customerAuth0UserId")]
+        public string CustomerAuth0UserId { get; set; }
         [JsonPropertyName("BillingAddressId")]
         public int BillingAddressId { get; set; }
         [JsonPropertyName("shippingAddressId")]

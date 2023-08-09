@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts.Response;
 
 namespace CustomerWebsite.Controllers
 {
@@ -33,6 +34,11 @@ namespace CustomerWebsite.Controllers
                 return View(newOrder);
             }
             return View(newOrder);
+        }
+        public async Task<ActionResult> ViewOrders ()
+        {
+            string userId = Auth0UserId;
+            return View (await _orderService.GetCustomerOrders(userId));
         }
     }
 }

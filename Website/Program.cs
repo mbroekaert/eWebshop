@@ -1,6 +1,7 @@
 using Application;
 using Application.Auth0Users.Services;
 using Application.Common.Interfaces;
+using Application.Orders.Services;
 using Application.TodoItems.Services;
 using Application.Users.Services;
 using Infrastructure;
@@ -29,6 +30,7 @@ builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IProductService, ProductService > ();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
+builder.Services.AddSingleton<IOrderService,OrderService>();
 builder.Services.AddSingleton<ITodoItemsService, ToDoItemsService>();
 
 builder.Services.AddAuthentication(options =>

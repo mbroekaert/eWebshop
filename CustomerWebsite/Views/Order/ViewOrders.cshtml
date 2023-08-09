@@ -1,0 +1,76 @@
+﻿@using Shared.Contracts.Response;
+@model OrderResponseDto[]
+@{
+    ViewData["Title"] = "Orders summary";
+}
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Orders List</h2>
+        </div>
+    </div>
+    <br /><br />
+
+
+    <h1>Index Orders</h1>
+    <table class="table table-table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Reference
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    User Id
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    View details
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td width="10%">
+                        @order.OrderId
+                    </td>
+                    <td width="50%">
+                        @order.OrderReference
+                    </td>
+                    <td width="50%">
+                        @order.OrderAmount
+                    </td>
+                    <td width="30%">
+                        @order.OrderDate
+                    </td>
+                    <td width="30%">
+                        @order.CustomerAuth0UserId
+                    </td>
+                    <td width="30%">
+                        @order.Status
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Home" asp-action="ViewDetails" asp-route-id="@order.OrderId" class="btn btn-secondary">&nbsp; View details</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

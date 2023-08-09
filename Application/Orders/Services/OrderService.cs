@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using Shared.Contracts.Response;
 using System.Text;
 using System.Text.Json;
 
@@ -15,6 +16,21 @@ namespace Application.Orders.Services
         {
             _httpClient = httpClient;
             _productService = productService;
+        }
+
+        public async Task<OrderResponseDto[]> GetOrdersAsync ()
+        {
+            var httpResponse = await _httpClient.GetAsync("order");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
+        }
+
+        public async Task<OrderResponseDto[]> GetCustomerOrders(string customerId)
+        {
+            var httpResponse = await _httpClient.GetAsync($"order/{customerId}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            var temp = JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
+            return JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
         }
 
         public async Task<(bool success, string content)> CreateOrder(Order order, List<int> productIds, List<int> quantities)

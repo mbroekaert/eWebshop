@@ -1,10 +1,9 @@
 ﻿using Application.Orders.Commands.CreateOrder;
 using Application.Orders.Commands.DeleteOrder;
-using Application.Products.Commands.CreateProduct;
-using Application.Products.Commands.DeleteProduct;
-using Microsoft.AspNetCore.Authorization;
+using Application.Orders.Queries.GetOrders;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
+using System.Net;
 
 namespace Api.Controllers
 {
@@ -12,6 +11,25 @@ namespace Api.Controllers
     [ApiController]
     public class OrderController : ApiController
     {
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        public async Task<IActionResult> GetOrdersAsync()
+        {
+            var response = await Mediator.Send(new GetOrderQuery());
+            return Ok(response);
+        }
+
+        [HttpGet("{customerId}")]
+        //[Authorize("read:messages")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        public async Task<IActionResult> GetCustomerOrdersAsync([FromRoute] string customerId)
+        {
+            var response = await Mediator.Send(new GetOrderQuery());
+            return Ok(response.Where(c => c.CustomerAuth0UserId == customerId));
+        }
+
 
         [HttpPost]
         //[Authorize]
