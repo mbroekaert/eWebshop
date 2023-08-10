@@ -1,9 +1,11 @@
 using Application;
 using Application.Auth0Users.Services;
+using Application.Billing.Services;
 using Application.Cart.Services;
 using Application.Common.Interfaces;
 using Application.Customers.Services;
 using Application.Orders.Services;
+using Application.Worldline.Services;
 using CustomerWebsite.Middlewares;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -31,6 +33,10 @@ builder.Services.AddSingleton<IBillingAddressService, BillingAddressService>();
 builder.Services.AddSingleton<IShippingAddressService, ShippingAddressService>();
 builder.Services.AddSingleton<ICartService, CartService>();
 builder.Services.AddSingleton<IOrderService, OrderService>();
+
+builder.Services.AddSingleton<IPaymentService, PaymentService>();
+builder.Services.AddSingleton<IBillingService, BillingService>();
+
 builder.Services.AddMemoryCache();
 
 

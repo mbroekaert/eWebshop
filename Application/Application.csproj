@@ -19,11 +19,13 @@
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="OnlinePayments.Sdk" Version="3.18.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Auth0Users\Queries\" />
     <Folder Include="DetailOrders\Queries\" />
+    <Folder Include="Worldline\HostedCheckout\Queries\" />
   </ItemGroup>
 
 </Project>

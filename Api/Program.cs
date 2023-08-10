@@ -1,7 +1,10 @@
 using Api.Filters;
 using Application;
+using Application.Billing.Services;
+using Application.Common.Interfaces;
 using Application.Common.PermissionHandler;
 using Application.Mappers;
+using Application.Worldline.Services;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using Infrastructure;
@@ -20,7 +23,8 @@ builder.Services.AddSingleton(sp => new HttpClient()
     BaseAddress = new Uri("https://mathieubroekaert.eu.auth0.com/api/v2/")
 });
 
-
+builder.Services.AddSingleton<IPaymentService, PaymentService>();
+builder.Services.AddSingleton<IBillingService, BillingService>();
 
 builder.Services.AddHttpClient("resource");
 builder.Services.AddHttpClient("resource").AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(5));
