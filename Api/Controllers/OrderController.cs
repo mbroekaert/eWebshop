@@ -30,6 +30,16 @@ namespace Api.Controllers
             return Ok(response.Where(c => c.CustomerAuth0UserId == customerId));
         }
 
+        [HttpGet("order/{orderId}")]
+        //[Authorize("read:messages")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        public async Task<IActionResult> GetOrderById([FromRoute] int orderId)
+        {
+            var response = await Mediator.Send(new GetOrderQuery());
+            return Ok(response.Where(c => c.OrderId == orderId));
+        }
+
 
         [HttpPost]
         //[Authorize]

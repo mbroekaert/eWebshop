@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using OnlinePayments.Sdk.Domain;
 using Shared.Contracts.Response;
 using System.Text;
 using System.Text.Json;
@@ -21,6 +22,17 @@ namespace Website.Services
             var httpResponse = await _httpClient.GetAsync("shippingAddress");
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<ShippingAddressResponseDto[]>(responseAsString);
+        }
+
+        public async Task<ShippingAddressResponseDto> GetShippingAddressById(int shippingAddressId)
+        {
+            if (shippingAddressId == null || shippingAddressId <= 0)
+            {
+                return null;
+            }
+            var httpResponse = await _httpClient.GetAsync($"shippingAddress/{shippingAddressId}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<ShippingAddressResponseDto>(responseAsString);
         }
 
         public async Task<(bool success, string content)> CreateShippingAddressAsync(ShippingAddress shippingAddress)

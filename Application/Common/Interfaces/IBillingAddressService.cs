@@ -16,5 +16,6 @@ namespace Application.Common.Interfaces
         Task<(bool success, string content)> UpdateBillingAddressAsync(Domain.Entities.BillingAddress BillingAddress);
         Task<BillingAddressResponseDto> GetBillingAddressToDeleteAsync(int id);
         Task<(bool success, string content)> DeleteBillingAddressAsync(Domain.Entities.BillingAddress BillingAddress);
+        Task<BillingAddressResponseDto> GetBillingAddressById(int billingAddressId);
     }
 }

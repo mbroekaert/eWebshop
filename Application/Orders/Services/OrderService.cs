@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using OnlinePayments.Sdk.Domain;
 using Shared.Contracts.Response;
 using System.Text;
 using System.Text.Json;
@@ -33,7 +34,7 @@ namespace Application.Orders.Services
             return JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
         }
 
-        public async Task<(bool success, string content)> CreateOrder(Order order, List<int> productIds, List<int> quantities)
+        public async Task<(bool success, string content, int OrderId)> CreateOrder(Domain.Entities.Order order, List<int> productIds, List<int> quantities)
         {
             /* Calculate full amount of the order */
 
@@ -74,7 +75,7 @@ namespace Application.Orders.Services
                     // Update the product
                     var productResult = await _productService.UpdateProductAsync(newProduct);
                 }
-                return (true, "Order created successfully");
+                return (true, "Order created successfully", orderId);
             }
             /* Delete order if not successfull */
             else
@@ -82,12 +83,12 @@ namespace Application.Orders.Services
                 var deleteResult = await DeleteOrderAsync(order);
             }
 
-            return (false, await httpResponse.Content.ReadAsStringAsync());
+            return (false, await httpResponse.Content.ReadAsStringAsync(), 0);
 
             
         }
 
-        public async Task<(bool success, string content)> CreateOrderDetail(Order order, List<int> productIds, List<int> quantities)
+        public async Task<(bool success, string content)> CreateOrderDetail(Domain.Entities.Order order, List<int> productIds, List<int> quantities)
         {
             bool success = true;
             for (int i = 0; i < productIds.Count; i++)
@@ -108,7 +109,7 @@ namespace Application.Orders.Services
             return (success, "All details inserted successfully!");
         }
 
-        public async Task<(bool success, string content)> DeleteOrderAsync(Order order)
+        public async Task<(bool success, string content)> DeleteOrderAsync(Domain.Entities.Order order)
         {
             var httpResponse = await _httpClient.DeleteAsync($"order/{order.OrderId}");
             if (httpResponse.IsSuccessStatusCode)
@@ -130,6 +131,13 @@ namespace Application.Orders.Services
             return finalAmount;
 
         }
-        
+
+        public async Task<OrderResponseDto[]> GetOrderById(int orderId)
+        {
+            var httpResponse = await _httpClient.GetAsync($"order/order/{orderId}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
+        }
+
     }
 }

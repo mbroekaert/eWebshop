@@ -10,5 +10,6 @@ namespace Application.Common.Interfaces
         Task<(bool success, string content)> UpdateShippingAddressAsync(Domain.Entities.ShippingAddress shippingAddress);
         Task<ShippingAddressResponseDto> GetShippingAddressToDeleteAsync(int id);
         Task<(bool success, string content)> DeleteShippingAddressAsync(Domain.Entities.ShippingAddress shippingAddress);
+        Task<ShippingAddressResponseDto> GetShippingAddressById(int shippingAddressId);
     }
 }

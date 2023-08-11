@@ -23,6 +23,17 @@ namespace Website.Services
             return JsonSerializer.Deserialize<BillingAddressResponseDto[]>(responseAsString);
         }
 
+        public async Task<BillingAddressResponseDto> GetBillingAddressById(int BillingAddressId)
+        {
+            if (BillingAddressId == null || BillingAddressId <= 0)
+            {
+                return null;
+            }
+            var httpResponse = await _httpClient.GetAsync($"billingAddress/{BillingAddressId}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<BillingAddressResponseDto>(responseAsString);
+        }
+
         public async Task<(bool success, string content)> CreateBillingAddressAsync(BillingAddress billingAddress)
         {
             var content = JsonSerializer.Serialize(billingAddress);

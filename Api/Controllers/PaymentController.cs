@@ -21,7 +21,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CreateHostedCheckoutResponse>> CreateHostedCheckoutAsync(CreateHostedCheckoutCommand command)
+        public async Task<CreateHostedCheckoutResponse> CreateHostedCheckoutAsync(CreateHostedCheckoutCommand command)
         {
             return await Mediator.Send(command);
         }

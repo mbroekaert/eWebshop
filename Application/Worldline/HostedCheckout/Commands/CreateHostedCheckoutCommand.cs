@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Worldline.HostedCheckout.Commands;
 using MediatR;
 using OnlinePayments.Sdk.Domain;
 
@@ -6,13 +7,12 @@ namespace Application.Worldline.HostedCheckout.Commands
 {
     public class CreateHostedCheckoutCommand : IRequest<CreateHostedCheckoutResponse>
     {
-        public double amount;
-        public string currency;
-        public string orderReference;
-        public string returnUrl;
-        public Domain.Entities.BillingAddress billingAddress;
-        public Domain.Entities.ShippingAddress shippingAddress;
-
+        public double amount { get; set; }
+        public string currencyCode { get; set; }
+        public string orderReference { get; set; }
+        public string returnUrl { get; set; }
+        //public Domain.Entities.BillingAddress billingAddress { get; set; }
+        //public Domain.Entities.ShippingAddress shippingAddress { get; set; }
     }
 
     public class CreateHostedCheckoutCommandHandler : IRequestHandler<CreateHostedCheckoutCommand, CreateHostedCheckoutResponse>
@@ -35,7 +35,7 @@ namespace Application.Worldline.HostedCheckout.Commands
                     AmountOfMoney = new AmountOfMoney
                     {
                         Amount = (long)(request.amount * 100),
-                        CurrencyCode = request.currency
+                        CurrencyCode = request.currencyCode
                     },
                     References = new OrderReferences
                     {
@@ -43,26 +43,26 @@ namespace Application.Worldline.HostedCheckout.Commands
                     },
                     Customer = new Customer
                     {
-                        BillingAddress = new Address
-                        {
-                            City = request.billingAddress.BillingAddressCity,
-                            Zip = request.billingAddress.BillingAddressZip,
-                            Street = request.billingAddress.BillingAddressStreetName,
-                            HouseNumber = request.billingAddress.BillingAddressStreetNumber.ToString(),
-                            CountryCode = request.billingAddress.BillingAddressCountry.Substring(0, 2)
-                        }
+                        //BillingAddress = new Address
+                        //{
+                        //    City = request.billingAddress.BillingAddressCity,
+                        //    Zip = request.billingAddress.BillingAddressZip,
+                        //    Street = request.billingAddress.BillingAddressStreetName,
+                        //    HouseNumber = request.billingAddress.BillingAddressStreetNumber.ToString(),
+                        //    CountryCode = request.billingAddress.BillingAddressCountry.Substring(0, 2)
+                        //}
                     },
                     Shipping = new Shipping
                     {
-                        Address = new AddressPersonal
-                        {
-                            City = request.shippingAddress.ShippingAddressCity,
-                            Zip = request.shippingAddress.ShippingAddressZip,
-                            Street = request.shippingAddress.ShippingAddressStreetName,
-                            HouseNumber = request.shippingAddress.ShippingAddressStreetNumber.ToString(),
-                            CountryCode = request.shippingAddress.ShippingAddressCountry.Substring(0, 2)
+                        //Address = new AddressPersonal
+                        //{
+                        //    City = request.shippingAddress.ShippingAddressCity,
+                        //    Zip = request.shippingAddress.ShippingAddressZip,
+                        //    Street = request.shippingAddress.ShippingAddressStreetName,
+                        //    HouseNumber = request.shippingAddress.ShippingAddressStreetNumber.ToString(),
+                        //    CountryCode = request.shippingAddress.ShippingAddressCountry.Substring(0, 2)
 
-                        }
+                        //}
                     }
                 }
 
