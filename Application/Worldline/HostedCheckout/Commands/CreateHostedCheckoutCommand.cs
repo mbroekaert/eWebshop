@@ -2,6 +2,7 @@
 using Application.Worldline.HostedCheckout.Commands;
 using MediatR;
 using OnlinePayments.Sdk.Domain;
+using Shared.Contracts.Request;
 
 namespace Application.Worldline.HostedCheckout.Commands
 {
@@ -11,8 +12,8 @@ namespace Application.Worldline.HostedCheckout.Commands
         public string currencyCode { get; set; }
         public string orderReference { get; set; }
         public string returnUrl { get; set; }
-        //public Domain.Entities.BillingAddress billingAddress { get; set; }
-        //public Domain.Entities.ShippingAddress shippingAddress { get; set; }
+        public BillingAddressRequestDto billingAddress { get; set; }
+        public ShippingAddressRequestDto shippingAddress { get; set; }
     }
 
     public class CreateHostedCheckoutCommandHandler : IRequestHandler<CreateHostedCheckoutCommand, CreateHostedCheckoutResponse>
@@ -43,29 +44,35 @@ namespace Application.Worldline.HostedCheckout.Commands
                     },
                     Customer = new Customer
                     {
-                        //BillingAddress = new Address
-                        //{
-                        //    City = request.billingAddress.BillingAddressCity,
-                        //    Zip = request.billingAddress.BillingAddressZip,
-                        //    Street = request.billingAddress.BillingAddressStreetName,
-                        //    HouseNumber = request.billingAddress.BillingAddressStreetNumber.ToString(),
-                        //    CountryCode = request.billingAddress.BillingAddressCountry.Substring(0, 2)
-                        //}
+                        BillingAddress = new Address
+                        {
+                            City = request.billingAddress.billingAddressCity,
+                            Zip = request.billingAddress.billingAddressZip,
+                            Street = request.billingAddress.billingAddressStreetName,
+                            HouseNumber = request.billingAddress.billingAddressStreetNumber.ToString(),
+                            CountryCode = request.billingAddress.billingAddressCountry.Substring(0, 2)
+                        }
                     },
                     Shipping = new Shipping
                     {
-                        //Address = new AddressPersonal
-                        //{
-                        //    City = request.shippingAddress.ShippingAddressCity,
-                        //    Zip = request.shippingAddress.ShippingAddressZip,
-                        //    Street = request.shippingAddress.ShippingAddressStreetName,
-                        //    HouseNumber = request.shippingAddress.ShippingAddressStreetNumber.ToString(),
-                        //    CountryCode = request.shippingAddress.ShippingAddressCountry.Substring(0, 2)
-
-                        //}
+                        Address = new AddressPersonal
+                        {
+                            City = request.shippingAddress.ShippingAddressCity,
+                            Zip = request.shippingAddress.ShippingAddressZip,
+                            Street = request.shippingAddress.ShippingAddressStreetName,
+                            HouseNumber = request.shippingAddress.ShippingAddressStreetNumber.ToString(),
+                            CountryCode = request.shippingAddress.ShippingAddressCountry.Substring(0, 2)
+                        }
                     }
+                },
+                HostedCheckoutSpecificInput = new HostedCheckoutSpecificInput
+                {
+                    ReturnUrl = request.returnUrl
+                },
+                CardPaymentMethodSpecificInput = new CardPaymentMethodSpecificInputBase
+                {
+                    AuthorizationMode = "SALE"
                 }
-
             };
             return await _paymentService.CreateHostedCheckout(entity);
         }

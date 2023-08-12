@@ -30,9 +30,6 @@ namespace Application.Billing.Services
             var content = JsonSerializer.Serialize(request);
             var httpResponse = await _httpClient.PostAsync("payment", new StringContent(content, Encoding.Default, "application/json"));
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-
-            var test = JsonSerializer.Deserialize<CreateHostedCheckoutResponseDto>(responseAsString);
-
             return JsonSerializer.Deserialize<CreateHostedCheckoutResponseDto>(responseAsString);
 
         }

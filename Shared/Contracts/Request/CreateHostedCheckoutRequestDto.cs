@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Shared.Contracts.Request
 {
@@ -14,10 +13,9 @@ namespace Shared.Contracts.Request
         [JsonPropertyName("returnUrl")]
         public string returnUrl { get; set; }
         [JsonPropertyName("billingAddress")]
-        public BillingAddress billingAddress { get; set; } 
-
+        public BillingAddressRequestDto billingAddressRequestDto { get; set; }
         [JsonPropertyName("shippingAddress")]
-        public ShippingAddress shippingAddress { get; set; }
+        public ShippingAddressRequestDto shippingAddressRequestDto { get; set; }
 
     }
 }

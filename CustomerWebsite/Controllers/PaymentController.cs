@@ -14,7 +14,6 @@ namespace CustomerWebsite.Controllers
             _billingService = billingService;
         }
 
-        
         //public async Task<IActionResult> CreateHostedCheckout(CreateHostedCheckoutRequestDto request)
         //{
         //    var response = await _billingService.CreateHostedCheckout(request);

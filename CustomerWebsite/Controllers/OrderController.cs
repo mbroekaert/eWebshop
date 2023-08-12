@@ -49,31 +49,31 @@ namespace CustomerWebsite.Controllers
                     currency = "EUR",
                     orderReference = order.OrderReference,
                     returnUrl = "https://google.com",
-                    //billingAddress = new BillingAddress
-                    //{
-                    //    BillingAddressId = billingAddress.BillingAddressId,
-                    //    BillingAddressCity = billingAddress.BillingAddressCity,
-                    //    BillingAddressCountry = billingAddress.BillingAddressCountry,
-                    //    BillingAddressZip = billingAddress.BillingAddressZip,
-                    //    BillingAddressStreetName = billingAddress.BillingAddressStreetName,
-                    //    BillingAddressStreetNumber = billingAddress.BillingAddressStreetNumber
-                    //},
-                    //shippingAddress = new ShippingAddress
-                    //{
-                    //    ShippingAddressId = shippingAddress.ShippingAddressId,
-                    //    ShippingAddressCity = shippingAddress.ShippingAddressCity,
-                    //    ShippingAddressCountry = shippingAddress.ShippingAddressCountry,
-                    //    ShippingAddressZip = shippingAddress.ShippingAddressZip,
-                    //    ShippingAddressStreetName = shippingAddress.ShippingAddressStreetName,
-                    //    ShippingAddressStreetNumber = shippingAddress.ShippingAddressStreetNumber
-                    //}
+                    billingAddressRequestDto = new BillingAddressRequestDto
+                    {
+                        billingAddressId = billingAddress.BillingAddressId,
+                        billingAddressCity = billingAddress.BillingAddressCity,
+                        billingAddressCountry = billingAddress.BillingAddressCountry,
+                        billingAddressZip = billingAddress.BillingAddressZip,
+                        billingAddressStreetName = billingAddress.BillingAddressStreetName,
+                        billingAddressStreetNumber = billingAddress.BillingAddressStreetNumber
+                    },
+                    shippingAddressRequestDto = new ShippingAddressRequestDto
+                    {
+                        ShippingAddressId = shippingAddress.ShippingAddressId,
+                        ShippingAddressCity = shippingAddress.ShippingAddressCity,
+                        ShippingAddressCountry = shippingAddress.ShippingAddressCountry,
+                        ShippingAddressZip = shippingAddress.ShippingAddressZip,
+                        ShippingAddressStreetName = shippingAddress.ShippingAddressStreetName,
+                        ShippingAddressStreetNumber = shippingAddress.ShippingAddressStreetNumber
+                    }
                 };
 
-
+                TempData["HostedCheckout"] = JsonSerializer.Serialize(request);
 
                 /* Calling controller to create Hosted Checkout */
 
-                return RedirectToAction("CreateHostedCheckout", request);
+                return RedirectToAction("CreateHostedCheckout");
             }
             return RedirectToAction("ViewOrders");
         }
@@ -81,8 +81,10 @@ namespace CustomerWebsite.Controllers
 
         /* test */
         
-        public async Task<IActionResult> CreateHostedCheckout(CreateHostedCheckoutRequestDto request)
+        public async Task<IActionResult> CreateHostedCheckout()
         {
+            var serializedRequest = TempData["HostedCheckout"] as string;
+            var request = JsonSerializer.Deserialize<CreateHostedCheckoutRequestDto>(serializedRequest);
             var response = await _billingService.CreateHostedCheckout(request);
             return Redirect(response.redirectUrl);
         }
