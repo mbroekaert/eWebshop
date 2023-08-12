@@ -48,7 +48,7 @@ namespace CustomerWebsite.Controllers
                     amount = order.OrderAmount,
                     currency = "EUR",
                     orderReference = order.OrderReference,
-                    returnUrl = "https://google.com",
+                    returnUrl = "https://localhost:7276/payment/orderconfirmation",
                     billingAddressRequestDto = new BillingAddressRequestDto
                     {
                         billingAddressId = billingAddress.BillingAddressId,
@@ -78,9 +78,6 @@ namespace CustomerWebsite.Controllers
             return RedirectToAction("ViewOrders");
         }
 
-
-        /* test */
-        
         public async Task<IActionResult> CreateHostedCheckout()
         {
             var serializedRequest = TempData["HostedCheckout"] as string;
@@ -88,10 +85,6 @@ namespace CustomerWebsite.Controllers
             var response = await _billingService.CreateHostedCheckout(request);
             return Redirect(response.redirectUrl);
         }
-
-
-
-
         public async Task<ActionResult> ViewOrders ()
         {
             string userId = Auth0UserId;

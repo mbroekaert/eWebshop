@@ -36,6 +36,7 @@ builder.Services.AddSingleton<IOrderService, OrderService>();
 
 builder.Services.AddSingleton<IPaymentService, PaymentService>();
 builder.Services.AddSingleton<IBillingService, BillingService>();
+builder.Services.AddSingleton<IWebhookService, WebhookService>();
 
 builder.Services.AddMemoryCache();
 
