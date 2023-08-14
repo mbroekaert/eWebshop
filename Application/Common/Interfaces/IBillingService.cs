@@ -9,5 +9,9 @@ namespace Application.Common.Interfaces
         /* Services to call internal Payment API's */
         Task<string> TestConnection();
         public Task<CreateHostedCheckoutResponseDto> CreateHostedCheckout(CreateHostedCheckoutRequestDto request);
+        public Task<(bool result, string content)> CreatePayment(PaymentRequestDto request);
+        public Task<bool> CheckPaymentExistence(string PaymentPayid);
+        public Task<PaymentResponseDto> GetPaymentByPaymentPayid (string PaymentPayid);
+        public Task<(bool result, string content)> UpdatePaymentAsync(PaymentRequestDto request);
     }
 }

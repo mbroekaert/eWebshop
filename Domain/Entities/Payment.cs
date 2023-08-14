@@ -13,7 +13,7 @@ namespace Domain.Entities
 
         /* Références Worldline */
         [Required]
-        public int PaymentPayid { get; set; }
+        public string PaymentPayid { get; set; }
         [Required]
         public string PaymentReference { get; set; }
         [Required]

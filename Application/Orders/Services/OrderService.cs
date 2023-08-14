@@ -139,5 +139,23 @@ namespace Application.Orders.Services
             return JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
         }
 
+        public async Task<OrderResponseDto[]> GetOrderByOrderReference(string orderReference)
+        {
+            var httpResponse = await _httpClient.GetAsync($"order/reference/{orderReference}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<OrderResponseDto[]>(responseAsString);
+        }
+
+        public async Task<(bool success, string content)> UpdateOrderStatus(OrderResponseDto order, string OrderStatus)
+        {
+            order.Status = OrderStatus;
+            var content = JsonSerializer.Serialize(order);
+            var httpResponse = await _httpClient.PutAsync($"order/{order.OrderId}", new StringContent(content, Encoding.Default, "application/json"));
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                return (true, "Order updated successfully");
+            }
+            return (false, await httpResponse.Content.ReadAsStringAsync());
+        }
     }
 }

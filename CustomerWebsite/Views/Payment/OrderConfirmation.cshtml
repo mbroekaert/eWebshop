@@ -1,48 +1,16 @@
-﻿@*@using OnlinePayments.Sdk.Domain;
-@model GetHostedCheckoutResponse;
-
-
-<form method="post">
-    <br />
-    @if (Model.CreatedPaymentOutput.Payment.StatusOutput.StatusCode == 51 || Model.CreatedPaymentOutput.Payment.StatusOutput.StatusCode == 5 || Model.CreatedPaymentOutput.Payment.StatusOutput.StatusCode == 91 || Model.CreatedPaymentOutput.Payment.StatusOutput.StatusCode == 9)
-    {
-
-        <div class="backgroundWhiteBorder">
-            <div class="container">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-primary">Thank you for your order ! </h2>
-                    </div>
-                    <div class="card-header bg-dark text-light ml-0 d-flex justify-content-between align-items-center">
-                        <div class="col-6 text-end">
-                            <a asp-controller="Product" asp-action="Index" class="btn btn-warning btn-sm">Continue Shopping</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+﻿<div class="container p-3">
+    <div class="row pt-4" id="ContentToBeUpdateOrderConfirmed">
+        <div class="Hourglass" id="hourGlassToDelete"></div>
+        <div class="col-6">
+            </br>
+            <h2 class="text-primary" id="MainTextToUpdate">We are currently processing your order...</h2>
         </div>
-    }
-    else
-    {
-        <div class="backgroundWhiteBorder">
-            <div class="container">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-primary">Oops... Something went wrong !</h2>
-                    </div>
-                    <div class="card-header bg-dark text-light ml-0 d-flex justify-content-between align-items-center">
-                        <div class="col-6 text-end">
-                            <a asp-controller="Product" asp-action="Index" class="btn btn-warning btn-sm">Continue Shopping</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-</form>
-
-
-*@
-
-
-<div>Order confirmed</div>
+    </div>
+</div>
+<div class="container p-3">
+    <div class="col-6 text-start">
+        <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-sm">Continue Shopping</a>
+    </div>
+</div>
+@*Hourglass source code : https://codepen.io/tychic-obanda/pen/ZEOPpLa*@
+<script src="~/js/checkPaymentStatus.js"></script>

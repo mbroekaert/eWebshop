@@ -24,6 +24,7 @@ namespace Application.Worldline.Services
 
         public async Task<WebhooksEvent> HandleWebhook(HttpRequest httpRequest)
         {
+            InMemorySecretKeyStore.Instance.Clear();
             InMemorySecretKeyStore.Instance.StoreSecretKey(keyId, secretKey);
             WebhooksHelper helper = Webhooks.CreateHelper(InMemorySecretKeyStore.Instance);
 

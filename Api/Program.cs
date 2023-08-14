@@ -31,6 +31,18 @@ builder.Services.AddHttpClient("resource").AddPolicyHandler(Policy.TimeoutAsync<
 
 
 builder.Services.AddControllers();
+
+// Add CORS Policy - needed for ajax call on order confirmation page
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("https://localhost:7276") 
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
 builder.Services.AddAuthentication(options =>
 {
@@ -85,6 +97,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

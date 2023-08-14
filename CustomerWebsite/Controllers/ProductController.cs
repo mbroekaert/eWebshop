@@ -5,16 +5,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using CustomerWebsite.Models;
+using Application.Billing.Services;
+using Shared.Contracts.Response;
+using Shared.Contracts.Request;
 
 namespace CustomerWebsite.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService productService;
+        private readonly IBillingService billingService;
+        private readonly IOrderService orderService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IBillingService billingService, IOrderService orderService)
         {
             this.productService = productService;
+            this.billingService = billingService;
+            this.orderService = orderService;
         }
 
         #region Get products
@@ -48,5 +55,23 @@ namespace CustomerWebsite.Controllers
         }
 
         #endregion
+        //test functionalities
+        //public async Task<ActionResult<OrderResponseDto>> Test()
+        //{
+        //    OrderResponseDto order = new OrderResponseDto
+        //    {
+        //        OrderId = 123,
+        //        OrderReference = "02c9c887-1676-4cb8-aa50-c7977857653a",
+        //        OrderAmount = 15,
+        //        OrderDate = DateTime.Now,
+        //        CustomerAuth0UserId = "auth0|63029c4e95ed75a8a6b2343b",
+        //        ShippingAddressId = 1,
+        //        BillingAddressId = 1,
+        //        Status = "Paid"
+        //    };
+
+        //    var paymentResult = await orderService.UpdateOrderStatus(order, "Paid");
+        //    return View();
+        //}
     }
 }

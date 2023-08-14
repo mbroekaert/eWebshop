@@ -13,5 +13,7 @@ namespace Application.Common.Interfaces
         Task<double> CalculateTotalAmount(List<int> productIds, List<int> quantities);
         Task<(bool success, string content)> CreateOrderDetail (Order order, List<int> productIds, List<int> quantities);
         Task<OrderResponseDto[]> GetOrderById(int id);
+        Task<OrderResponseDto[]> GetOrderByOrderReference (string OrderReference);
+        Task<(bool success, string content)> UpdateOrderStatus (OrderResponseDto order, string orderStatus);
     }
 }
