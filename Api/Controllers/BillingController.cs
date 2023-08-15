@@ -1,12 +1,8 @@
 ﻿using Application.Billing.Commands.CreateBilling;
 using Application.Billing.Commands.UpdateBilling;
 using Application.Billing.Queries.GetPayment;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using Shared.Contracts.Request;
 using Shared.Contracts.Response;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Api.Controllers
 {
@@ -45,6 +41,14 @@ namespace Api.Controllers
             var tempResponse = response.FirstOrDefault(c => c.PaymentPayid == paymentPayid);
             return response.FirstOrDefault(c => c.PaymentPayid == paymentPayid);
         }
+        [HttpGet("order/{orderId}")]
+        public async Task<PaymentResponseDto> GetPaymentByOrderId(int orderId)
+        {
+            var response = await Mediator.Send(new GetPaymentQuery());
+            var tempResponse = response.FirstOrDefault(c => c.OrderId == orderId);
+            return response.FirstOrDefault(c => c.OrderId == orderId);
+        }
+
 
         /* Check payment status to update order confirmation page*/
         [HttpGet("confirm/GetPaymentByPayidFromQuery")]

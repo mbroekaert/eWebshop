@@ -46,7 +46,11 @@ namespace Application.Worldline.Services
         {
             var httpResponse = await merchantClient.HostedCheckout.CreateHostedCheckout(request);
             return httpResponse;
-
+        }
+        public async Task<RefundResponse> CreateRefund (string PaymentId, RefundRequest request)
+        {
+            var httpResponse = await merchantClient.Payments.RefundPayment(PaymentId, request);
+            return httpResponse;
         }
     }
 }

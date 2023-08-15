@@ -12,5 +12,6 @@ namespace Application.Common.Interfaces
     {
         public Task<string> TestConnection();
         public Task<CreateHostedCheckoutResponse> CreateHostedCheckout(CreateHostedCheckoutRequest request);
+        public Task<RefundResponse> CreateRefund(string PaymentId, RefundRequest request);
     }
 }

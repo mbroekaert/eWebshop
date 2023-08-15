@@ -1,5 +1,6 @@
 ﻿using Application.Worldline.Connection.Queries.TestConnection;
 using Application.Worldline.HostedCheckout.Commands;
+using Application.Worldline.Refund.Commands;
 using Microsoft.AspNetCore.Mvc;
 using OnlinePayments.Sdk.Domain;
 using Shared.Contracts.Response;
@@ -22,6 +23,11 @@ namespace Api.Controllers
 
         [HttpPost]
         public async Task<CreateHostedCheckoutResponse> CreateHostedCheckoutAsync(CreateHostedCheckoutCommand command)
+        {
+            return await Mediator.Send(command);
+        }
+        [HttpPost("refund")]
+        public async Task<RefundResponse> CreateRefundAsync(CreateRefundCommand command)
         {
             return await Mediator.Send(command);
         }

@@ -80,5 +80,22 @@ namespace Application.Billing.Services
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
         }
+
+        public async Task<PaymentResponseDto> GetPaymentByOrderId(int orderId)
+        {
+            var httpResponse = await _httpClient.GetAsync($"billing/order/{orderId}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            var deserializedResponse = JsonSerializer.Deserialize<PaymentResponseDto>(responseAsString);
+            return deserializedResponse;
+        }
+
+        public async Task<RefundResponse> CreateRefund(RefundRequestDto request)
+        {
+            var content = JsonSerializer.Serialize(request);
+            var httpResponse = await _httpClient.PostAsync("payment/refund", new StringContent(content, Encoding.Default, "application/json"));
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            var deserializedResponse = JsonSerializer.Deserialize<RefundResponse>(responseAsString);
+            return JsonSerializer.Deserialize<RefundResponse>(responseAsString);
+        }
     }
 }

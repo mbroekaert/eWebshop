@@ -13,5 +13,7 @@ namespace Application.Common.Interfaces
         public Task<bool> CheckPaymentExistence(string PaymentPayid);
         public Task<PaymentResponseDto> GetPaymentByPaymentPayid (string PaymentPayid);
         public Task<(bool result, string content)> UpdatePaymentAsync(PaymentRequestDto request);
+        public Task<PaymentResponseDto> GetPaymentByOrderId(int orderId);
+        public Task<RefundResponse> CreateRefund (RefundRequestDto request);
     }
 }

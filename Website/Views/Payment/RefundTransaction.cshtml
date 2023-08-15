@@ -1,0 +1,32 @@
+﻿@using Shared.Contracts.Request;
+@model RefundRequestDto;
+@{
+    ViewData["Title"] = "Refund";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Refund an order</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            
+            <input type="hidden" asp-for="PaymentPayid" class="form-control"/>
+            
+        </div>
+        <div class="mb-3">
+            <label asp-for="OrderAmount"></label>
+            <input asp-for="OrderAmount" class="form-control" readonly />
+            <span asp-validation-for="OrderAmount" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="OrderReference"></label>
+            <input type="text" asp-for="OrderReference" class="form-control" readonly />
+            <span asp-validation-for="OrderReference" class="text-danger"></span>
+        </div>
+        <button type="submit" asp-controller="Payment" asp-action="ProcessRefund" class="btn btn-primary" style="width:150px">Refund</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+    </div>
+</form>
+
