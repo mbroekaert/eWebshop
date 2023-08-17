@@ -20,6 +20,7 @@ namespace Infrastructure.Persistence
         public DbSet<ShippingAddress> ShippingAddress { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<DetailOrder> DetailOrder { get; set; }
+        public DbSet<Token> Token { get; set; }
         
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

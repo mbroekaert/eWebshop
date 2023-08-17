@@ -1,12 +1,6 @@
-﻿using Application.Billing.Services;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using OnlinePayments.Sdk;
-using OnlinePayments.Sdk.Domain;
-using OnlinePayments.Sdk.Webhooks;
 using Shared.Contracts.Request;
-using System.Text;
 
 namespace CustomerWebsite.Controllers
 {
@@ -15,13 +9,15 @@ namespace CustomerWebsite.Controllers
         private readonly IBillingService _billingService;
         private readonly IWebhookService _webhookService;
         private readonly IOrderService _orderService;
+        private readonly ITokenService _tokenService;
 
 
-        public PaymentController(IBillingService billingService, IWebhookService webhookService, IOrderService orderService)
+        public PaymentController(IBillingService billingService, IWebhookService webhookService, IOrderService orderService, ITokenService tokenService)
         {
             _billingService = billingService;
             _webhookService = webhookService;
             _orderService = orderService;
+            _tokenService = tokenService;
         }
 
         public async Task<IActionResult> OrderConfirmation([FromQuery] string RETURNMAC, int HostedCheckoutId)
@@ -73,6 +69,24 @@ namespace CustomerWebsite.Controllers
                             {
                                 var orderUpdateResult = await _orderService.UpdateOrderStatus(order, "Paid");
                             }
+                            ///* Create token on successful status */
+                            //if (result.Payment.StatusOutput.StatusCode == 5 || result.Payment.StatusOutput.StatusCode == 9)
+                            //{
+                            //    /* Handle credit card token */
+                            //    if (result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token is not null)
+                            //    {
+                            //        TokenRequestDto token = new TokenRequestDto
+                            //        {
+                            //            TokenId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token,
+                            //            PaymentProductId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.PaymentProductId,
+                            //            CardNumber = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.CardNumber,
+                            //            ExpiryDate = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.ExpiryDate,
+                            //            CustomerAuth0UserId = Auth0UserId
+                            //        };
+                                   
+                            //        var tokenResponse = await _tokenService.CreateTokenAsync(token);
+                            //    }
+                            //}
                             break;
                     }
                 }

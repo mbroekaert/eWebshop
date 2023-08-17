@@ -5,6 +5,7 @@ using Application.Cart.Services;
 using Application.Common.Interfaces;
 using Application.Customers.Services;
 using Application.Orders.Services;
+using Application.Token.Services;
 using Application.Worldline.Services;
 using CustomerWebsite.Middlewares;
 using Infrastructure;
@@ -37,6 +38,7 @@ builder.Services.AddSingleton<IOrderService, OrderService>();
 builder.Services.AddSingleton<IPaymentService, PaymentService>();
 builder.Services.AddSingleton<IBillingService, BillingService>();
 builder.Services.AddSingleton<IWebhookService, WebhookService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
 
 builder.Services.AddMemoryCache();
 

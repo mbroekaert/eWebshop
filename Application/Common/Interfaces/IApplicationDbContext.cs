@@ -15,6 +15,7 @@ namespace Application.Common.Interfaces
         public DbSet<Domain.Entities.ShippingAddress> ShippingAddress { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<DetailOrder> DetailOrder { get; set; }
+        public DbSet<Domain.Entities.Token> Token { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

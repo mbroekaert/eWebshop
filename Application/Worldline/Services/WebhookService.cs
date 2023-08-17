@@ -1,13 +1,8 @@
 ﻿using Application.Common.Interfaces;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using OnlinePayments.Sdk;
 using OnlinePayments.Sdk.Webhooks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Worldline.Services
 {

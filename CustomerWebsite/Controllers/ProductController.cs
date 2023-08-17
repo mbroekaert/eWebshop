@@ -8,20 +8,18 @@ using CustomerWebsite.Models;
 using Application.Billing.Services;
 using Shared.Contracts.Response;
 using Shared.Contracts.Request;
+using Application.Token.Services;
 
 namespace CustomerWebsite.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService productService;
-        private readonly IBillingService billingService;
-        private readonly IOrderService orderService;
 
-        public ProductController(IProductService productService, IBillingService billingService, IOrderService orderService)
+        public ProductController(IProductService productService)
         {
             this.productService = productService;
-            this.billingService = billingService;
-            this.orderService = orderService;
+            
         }
 
         #region Get products
@@ -58,20 +56,16 @@ namespace CustomerWebsite.Controllers
         //test functionalities
         //public async Task<ActionResult<OrderResponseDto>> Test()
         //{
-        //    OrderResponseDto order = new OrderResponseDto
+        //    TokenRequestDto token = new TokenRequestDto
         //    {
-        //        OrderId = 123,
-        //        OrderReference = "02c9c887-1676-4cb8-aa50-c7977857653a",
-        //        OrderAmount = 15,
-        //        OrderDate = DateTime.Now,
-        //        CustomerAuth0UserId = "auth0|63029c4e95ed75a8a6b2343b",
-        //        ShippingAddressId = 1,
-        //        BillingAddressId = 1,
-        //        Status = "Paid"
+        //        TokenId = "test123",
+        //        PaymentProductId = 1,
+        //        CardNumber = "XXXXXXXX1111",
+        //        ExpiryDate = "1225",
+        //        CustomerAuth0UserId= "auth0|63029c4e95ed75a8a6b2343b"
         //    };
-
-        //    var paymentResult = await orderService.UpdateOrderStatus(order, "Paid");
-        //    return View();
+        //    var tokenResponse = await tokenService.CreateTokenAsync(token);
+        //    return View(tokenResponse);
         //}
     }
 }

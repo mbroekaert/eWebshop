@@ -31,13 +31,7 @@
                     Date
                 </th>
                 <th>
-                    User Id
-                </th>
-                <th>
                     Status
-                </th>
-                <th>
-                    View details
                 </th>
             </tr>
         </thead>
@@ -58,15 +52,7 @@
                         @order.OrderDate
                     </td>
                     <td width="30%">
-                        @order.CustomerAuth0UserId
-                    </td>
-                    <td width="30%">
                         @order.Status
-                    </td>
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Home" asp-action="ViewDetails" asp-route-id="@order.OrderId" class="btn btn-secondary">&nbsp; View details</a>
-                        </div>
                     </td>
                 </tr>
             }
