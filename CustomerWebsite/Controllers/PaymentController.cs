@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using OnlinePayments.Sdk.Domain;
 using Shared.Contracts.Request;
 
 namespace CustomerWebsite.Controllers
@@ -69,24 +70,23 @@ namespace CustomerWebsite.Controllers
                             {
                                 var orderUpdateResult = await _orderService.UpdateOrderStatus(order, "Paid");
                             }
-                            ///* Create token on successful status */
-                            //if (result.Payment.StatusOutput.StatusCode == 5 || result.Payment.StatusOutput.StatusCode == 9)
-                            //{
-                            //    /* Handle credit card token */
-                            //    if (result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token is not null)
-                            //    {
-                            //        TokenRequestDto token = new TokenRequestDto
-                            //        {
-                            //            TokenId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token,
-                            //            PaymentProductId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.PaymentProductId,
-                            //            CardNumber = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.CardNumber,
-                            //            ExpiryDate = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.ExpiryDate,
-                            //            CustomerAuth0UserId = Auth0UserId
-                            //        };
-                                   
-                            //        var tokenResponse = await _tokenService.CreateTokenAsync(token);
-                            //    }
-                            //}
+                            /* Create token on successful status */
+                            if (result.Payment.StatusOutput.StatusCode == 5 || result.Payment.StatusOutput.StatusCode == 9)
+                            {
+                                /* Handle credit card token */
+                                if (result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token is not null)
+                                {
+                                    TokenRequestDto token = new TokenRequestDto
+                                    {
+                                        TokenId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token,
+                                        PaymentProductId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.PaymentProductId,
+                                        CardNumber = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.CardNumber,
+                                        ExpiryDate = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.ExpiryDate,
+                                        CustomerAuth0UserId = order.CustomerAuth0UserId
+                                    };
+                                    var tokenResponse = await _tokenService.CreateTokenAsync(token);
+                                }
+                            }
                             break;
                     }
                 }
@@ -117,7 +117,25 @@ namespace CustomerWebsite.Controllers
                             {
                                 var orderUpdateResult = await _orderService.UpdateOrderStatus(order, "Paid");
                             }
+                            /* Create token on successful status */
+                            if (result.Payment.StatusOutput.StatusCode == 5 || result.Payment.StatusOutput.StatusCode == 9)
+                            {
+                                /* Handle credit card token */
+                                if (result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token is not null)
+                                {
+                                    TokenRequestDto token = new TokenRequestDto
+                                    {
+                                        TokenId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token,
+                                        PaymentProductId = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.PaymentProductId,
+                                        CardNumber = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.CardNumber,
+                                        ExpiryDate = result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Card.ExpiryDate,
+                                        CustomerAuth0UserId = order.CustomerAuth0UserId
+                                    };
+                                    var tokenResponse = await _tokenService.CreateTokenAsync(token);
+                                }
+                            }
                             break;
+
                         /* Manage refunds */
                         case 9:
                             if (result.Payment.StatusOutput.StatusCode == 8 || result.Payment.StatusOutput.StatusCode == 81)
