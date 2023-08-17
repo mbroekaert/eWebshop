@@ -1,0 +1,62 @@
+﻿@using Shared.Contracts.Response;
+@model TokenViewModel;
+@{
+    ViewData["Title"] = "My saved cards";
+}
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">My saved cards</h2>
+        </div>
+    </div>
+    <br /><br />
+
+
+    <table class="table table-table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Brand
+                </th>
+                <th>
+                    Card number
+                </th>
+                <th>
+                    Expiration Date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var token in Model.Tokens)
+            {
+                <tr>
+                    <td width="40%">
+                        @token.TokenId
+                    </td>
+                    <td width="40%">
+                        @if (token.PaymentProductId.HasValue)
+                        {
+                            @Model.PaymentProductMapping[token.PaymentProductId.Value]
+                        }
+                        else
+                        {
+                            <div>Oops ! Your card brand seems to be missing.</div>
+                        }
+                    </td>
+                    <td width="40%">
+                        @token.CardNumber
+                    </td>
+                    <td width="40%">
+                        @token.ExpiryDate
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

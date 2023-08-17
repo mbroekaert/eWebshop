@@ -1,14 +1,11 @@
 ﻿using Shared.Contracts.Request;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.Contracts.Response;
 
 namespace Application.Common.Interfaces
 {
     public interface ITokenService
     {
         Task<(bool success, string content)> CreateTokenAsync(TokenRequestDto token);
+        Task<TokenResponseDto[]> GetTokensAsync(string userId);
     }
 }

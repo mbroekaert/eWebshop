@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Shared.Contracts.Request;
+using Shared.Contracts.Response;
 using System.Text;
 using System.Text.Json;
 
@@ -23,6 +24,17 @@ namespace Application.Token.Services
                 return (true, "Token created successfully");
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
+        }
+
+        public async Task<TokenResponseDto[]> GetTokensAsync(string userId)
+        {
+            if (userId == null)
+            {
+                return null;
+            }
+            var httpResponse = await _httpClient.GetAsync($"token/{userId}");
+            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TokenResponseDto[]>(responseAsString);
         }
     }
 }

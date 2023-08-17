@@ -1,6 +1,10 @@
-﻿using Application.Tokens.Commands.CreateToken;
+﻿using Application.Categories.Queries.GetCategories;
+using Application.Tokens.Commands.CreateToken;
+using Application.Tokens.Commands.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
+using System.Net;
 
 namespace Api.Controllers
 {
@@ -30,6 +34,13 @@ namespace Api.Controllers
                 });
             }
             return await Mediator.Send(command);
+        }
+        [HttpGet("{userId}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(TokenResponseDto[]))]
+        public async Task<IActionResult> GetTokensAsync([FromRoute] string userId)
+        {
+            var response = await Mediator.Send(new GetTokenQuery());
+            return Ok(response.Where(c => c.CustomerAuth0UserId == userId));
         }
     }
 }
