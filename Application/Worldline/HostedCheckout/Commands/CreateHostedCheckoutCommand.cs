@@ -14,6 +14,7 @@ namespace Application.Worldline.HostedCheckout.Commands
         public string returnUrl { get; set; }
         public BillingAddressRequestDto billingAddress { get; set; }
         public ShippingAddressRequestDto shippingAddress { get; set; }
+        public string tokens { get; set; }
     }
 
     public class CreateHostedCheckoutCommandHandler : IRequestHandler<CreateHostedCheckoutCommand, CreateHostedCheckoutResponse>
@@ -67,7 +68,8 @@ namespace Application.Worldline.HostedCheckout.Commands
                 },
                 HostedCheckoutSpecificInput = new HostedCheckoutSpecificInput
                 {
-                    ReturnUrl = request.returnUrl
+                    ReturnUrl = request.returnUrl,
+                    Tokens = request.tokens,
                 },
                 CardPaymentMethodSpecificInput = new CardPaymentMethodSpecificInputBase
                 {

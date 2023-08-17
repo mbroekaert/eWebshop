@@ -14,12 +14,14 @@ namespace CustomerWebsite.Controllers
         private readonly IShippingAddressService _shippingAddressService;
         private readonly IBillingAddressService _billingAddressService;
         private readonly IBillingService _billingService;
-        public OrderController(IOrderService orderService, IShippingAddressService shippingAddressService, IBillingAddressService billingAddressService, IBillingService billingService)
+        private readonly ITokenService _tokenService;
+        public OrderController(IOrderService orderService, IShippingAddressService shippingAddressService, IBillingAddressService billingAddressService, IBillingService billingService, ITokenService tokenService)
         {
             _orderService = orderService;
             _shippingAddressService = shippingAddressService;
             _billingAddressService = billingAddressService;
             _billingService = billingService;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -42,6 +44,15 @@ namespace CustomerWebsite.Controllers
                 var order = (await _orderService.GetOrderById(OrderId))[0];
                 var shippingAddress = await _shippingAddressService.GetShippingAddressById(order.ShippingAddressId);
                 var billingAddress = await _billingAddressService.GetBillingAddressById (order.BillingAddressId);
+                TokenResponseDto[] tokensList = await _tokenService.GetTokensAsync(Auth0UserId);
+
+                /* Retrieving the tokenIds and concatenate them into a comma separated string */
+                List<string> tokenIds = new List<string>();
+                foreach (var token in tokensList)
+                {
+                    tokenIds.Add(token.TokenId);
+                }
+                string tokens = string.Join(",", tokenIds);
 
                 CreateHostedCheckoutRequestDto request = new CreateHostedCheckoutRequestDto
                 {
@@ -66,7 +77,8 @@ namespace CustomerWebsite.Controllers
                         ShippingAddressZip = shippingAddress.ShippingAddressZip,
                         ShippingAddressStreetName = shippingAddress.ShippingAddressStreetName,
                         ShippingAddressStreetNumber = shippingAddress.ShippingAddressStreetNumber
-                    }
+                    },
+                    tokens = tokens
                 };
 
                 TempData["HostedCheckout"] = JsonSerializer.Serialize(request);

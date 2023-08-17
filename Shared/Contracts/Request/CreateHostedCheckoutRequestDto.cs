@@ -16,6 +16,8 @@ namespace Shared.Contracts.Request
         public BillingAddressRequestDto billingAddressRequestDto { get; set; }
         [JsonPropertyName("shippingAddress")]
         public ShippingAddressRequestDto shippingAddressRequestDto { get; set; }
+        [JsonPropertyName("tokens")]
+        public string tokens { get; set; }
 
     }
 }
