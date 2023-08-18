@@ -17,9 +17,9 @@ namespace Website.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ShippingAddressResponseDto[]> GetShippingAddressAsync()
+        public async Task<ShippingAddressResponseDto[]> GetShippingAddressAsync(string userId)
         {
-            var httpResponse = await _httpClient.GetAsync("shippingAddress");
+            var httpResponse = await _httpClient.GetAsync($"shippingAddress/user/{userId}");
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<ShippingAddressResponseDto[]>(responseAsString);
         }

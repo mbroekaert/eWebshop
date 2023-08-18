@@ -16,9 +16,13 @@ namespace Website.Services
             _httpClient = httpClient;
         }
 
-        public async Task<BillingAddressResponseDto[]> GetBillingAddressAsync()
+        public async Task<BillingAddressResponseDto[]> GetBillingAddressAsync(string userId)
         {
-            var httpResponse = await _httpClient.GetAsync("billingAddress");
+            if (userId == null)
+            {
+                return null;
+            }
+            var httpResponse = await _httpClient.GetAsync($"billingAddress/user/{userId}");
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<BillingAddressResponseDto[]>(responseAsString);
         }

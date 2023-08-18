@@ -52,6 +52,7 @@ namespace CustomerWebsite.Controllers
             BillingAddressResponseDto[] billingAddressSummaryDto;
             ShippingAddressResponseDto[] shippingAddressSummaryDto;
             BasketSummaryDto basketSummaryDto;
+            string userId = Auth0UserId;
 
             /* Retrieve cart data */
 
@@ -66,11 +67,11 @@ namespace CustomerWebsite.Controllers
 
             /* Retrieve Billing address */
 
-            billingAddressSummaryDto = await billingAddressService.GetBillingAddressAsync();
+            billingAddressSummaryDto = await billingAddressService.GetBillingAddressAsync(userId);
 
             /* Retrieve Shipping address */
 
-            shippingAddressSummaryDto = await shippingAddressService.GetShippingAddressAsync();
+            shippingAddressSummaryDto = await shippingAddressService.GetShippingAddressAsync(userId);
 
             /* Map to a new Dto */
 

@@ -13,13 +13,13 @@ namespace Api.Controllers
     [ApiController]
     public class ShippingAddressController : ApiController
     {
-        [HttpGet]
+        [HttpGet("user/{userId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ShippingAddressResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-        public async Task<IActionResult> GetShippingAddressesAsync()
+        public async Task<IActionResult> GetShippingAddressesAsync([FromRoute] string userId)
         {
             var response = await Mediator.Send(new GetShippingAddressQuery());
-            return Ok(response);
+            return Ok(response.Where(c=>c.CustomerAuth0UserId == userId));
         }
 
         [HttpGet("{shippingAddressId}")]

@@ -13,13 +13,13 @@ namespace Api.Controllers
     [ApiController]
     public class BillingAddressController : ApiController
     {
-        [HttpGet]
+        [HttpGet("user/{userId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<BillingAddressResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
-        public async Task<IActionResult> GetBillingAddressesAsync()
+        public async Task<IActionResult> GetBillingAddressesAsync([FromRoute]string userId)
         {
             var response = await Mediator.Send(new GetBillingAddressQuery());
-            return Ok(response);
+            return Ok(response.Where(c=>c.CustomerAuth0UserId == userId));
         }
 
         [HttpGet("{billingAddressId}")]

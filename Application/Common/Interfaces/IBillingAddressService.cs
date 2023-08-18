@@ -10,7 +10,7 @@ namespace Application.Common.Interfaces
 {
     public interface IBillingAddressService
     {
-        Task<BillingAddressResponseDto[]> GetBillingAddressAsync();
+        Task<BillingAddressResponseDto[]> GetBillingAddressAsync(string userId);
         Task<(bool success, string content)> CreateBillingAddressAsync(Domain.Entities.BillingAddress BillingAddress);
         Task<BillingAddressResponseDto> EditBillingAddressAsync(int id);
         Task<(bool success, string content)> UpdateBillingAddressAsync(Domain.Entities.BillingAddress BillingAddress);

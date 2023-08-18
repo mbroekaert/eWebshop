@@ -16,7 +16,8 @@ namespace CustomerWebsite.Controllers
         #region Get shipping address
         public async Task<IActionResult> Index()
         {
-            return View(await _shippingAddressService.GetShippingAddressAsync());
+            string userId = Auth0UserId;
+            return View(await _shippingAddressService.GetShippingAddressAsync(userId));
         }
         #endregion
         #region Create a new shipping address

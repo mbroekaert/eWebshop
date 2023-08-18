@@ -14,7 +14,8 @@ namespace CustomerWebsite.Controllers
         #region Get billing address
         public async Task<IActionResult> Index()
         {
-            return View(await _billingAddressService.GetBillingAddressAsync());
+            string userId = Auth0UserId;
+            return View(await _billingAddressService.GetBillingAddressAsync(userId));
         }
         #endregion
         #region Create a new billing address
