@@ -51,6 +51,11 @@ const shoppingBasket = {
     getProductQuantity(productId) {
         const productQuantity = currentBasket[productId];
         return productQuantity;
+    },
+
+    emptyBasket() {
+        localStorage.removeItem('basket');
+        localStorage.removeItem('totalBasketPrice');
     }
 
     
@@ -126,6 +131,9 @@ function UpdateBasketOnPageLoad() {
     populateHiddenQuantityFields();
     
 };
+function EmptyBasket() {
+    shoppingBasket.emptyBasket();
+}
 
 document.addEventListener('DOMContentLoaded', UpdateBasketOnPageLoad);
 

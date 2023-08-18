@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Shared.Contracts.Request;
 using Shared.Contracts.Response;
 using System.Text;
@@ -35,6 +36,20 @@ namespace Application.Token.Services
             var httpResponse = await _httpClient.GetAsync($"token/{userId}");
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<TokenResponseDto[]>(responseAsString);
+        }
+
+        public async Task<(bool success, string content)> DeleteTokenAsync(string tokenId)
+        {
+            if (string.IsNullOrEmpty(tokenId))
+            {
+                return (false, "Something went wrong");
+            }
+            var httpResponse = await _httpClient.DeleteAsync($"token/{tokenId}"); 
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                return (true, "Token deleted successfully");
+            }
+            return (false, await httpResponse.Content.ReadAsStringAsync());
         }
     }
 }

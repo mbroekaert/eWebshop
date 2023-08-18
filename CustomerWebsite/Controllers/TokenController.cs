@@ -33,5 +33,11 @@ namespace CustomerWebsite.Controllers
             }; 
             return View(mapping);
         }
+        [HttpPost("tokenId")]
+        public async Task<ActionResult> RemoveToken(string tokenId)
+        {
+            var result = await _tokenService.DeleteTokenAsync(tokenId);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -51,12 +51,21 @@
                     <td width="40%">
                         @token.CardNumber
                     </td>
-                    <td width="40%">
+                    <td width="50%">
                         @token.ExpiryDate
+                    </td>
+                    <td>
+                        <form method="post" asp-controller="Token" asp-action="RemoveToken" asp-route-tokenId="@token.TokenId">
+                            <input type="hidden" name="tokenId" value="@token.TokenId" />
+                            <button type="submit" class="btn btn-secondary" style="width:150px;">Delete your card</button>
+                        </form>
                     </td>
                 </tr>
             }
         </tbody>
+
+
+
     </table>
 
 </div>

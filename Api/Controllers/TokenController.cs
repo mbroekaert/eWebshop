@@ -1,7 +1,6 @@
-﻿using Application.Categories.Queries.GetCategories;
-using Application.Tokens.Commands.CreateToken;
+﻿using Application.Tokens.Commands.CreateToken;
+using Application.Tokens.Commands.DeleteToken;
 using Application.Tokens.Commands.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
 using System.Net;
@@ -41,6 +40,13 @@ namespace Api.Controllers
         {
             var response = await Mediator.Send(new GetTokenQuery());
             return Ok(response.Where(c => c.CustomerAuth0UserId == userId));
+        }
+
+        [HttpDelete("{tokenId}")]
+        public async Task<ActionResult<(bool result, string content)>> DeleteTokenAsync(string tokenId)
+        {
+            await Mediator.Send(new DeleteTokenCommand { TokenId = tokenId });
+            return NoContent();
         }
     }
 }
