@@ -37,6 +37,11 @@ namespace CustomerWebsite.Controllers
         public async Task<ActionResult> RemoveToken(string tokenId)
         {
             var result = await _tokenService.DeleteTokenAsync(tokenId);
+            if (result.success)
+            {
+                TempData["success"] = result.content;
+            }
+            else TempData["error"] = result.content;
             return RedirectToAction("Index");
         }
     }

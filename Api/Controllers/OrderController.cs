@@ -79,7 +79,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{OrderId}")]
-        public async Task<ActionResult<int>> DeleteProduct(int OrderId)
+        public async Task<ActionResult<int>> DeleteOrder(int OrderId)
         {
             await Mediator.Send(new DeleteOrderCommand { OrderId = OrderId });
             return NoContent();

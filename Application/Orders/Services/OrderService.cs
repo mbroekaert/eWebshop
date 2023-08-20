@@ -114,7 +114,7 @@ namespace Application.Orders.Services
             var httpResponse = await _httpClient.DeleteAsync($"order/{order.OrderId}");
             if (httpResponse.IsSuccessStatusCode)
             {
-                return (true, "Product deleted successfully");
+                return (true, "Order deleted successfully");
             }
             return (false, await httpResponse.Content.ReadAsStringAsync());
         }

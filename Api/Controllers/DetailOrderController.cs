@@ -1,7 +1,9 @@
 ﻿using Application.DetailOrders.Commands.CreateDetailOrder;
-using Microsoft.AspNetCore.Authorization;
+using Application.DetailOrders.Commands.DeleteDetailsOrder;
+using Application.DetailOrders.Queries.GetDetailOrders;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
+using System.Net;
 
 namespace Api.Controllers
 {
@@ -33,6 +35,21 @@ namespace Api.Controllers
                 });
             }
             return await Mediator.Send(command);
+        }
+        [HttpGet("orderId")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<DetailOrdersResponseDto>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        public async Task<IActionResult> GetDetailOrdersDetail ([FromRoute] int orderId)
+        {
+            var response = await Mediator.Send(new GetDetailOrdersQuery());
+            return Ok(response.Where(c => c.OrderId == orderId));
+        }
+
+        [HttpDelete("detailOrder/{orderId}")]
+        public async Task<ActionResult<int>> DeleteProduct(int orderId)
+        {
+            await Mediator.Send(new DeleteDetailOrdersCommand { OrderId = orderId });
+            return NoContent();
         }
     }
 }

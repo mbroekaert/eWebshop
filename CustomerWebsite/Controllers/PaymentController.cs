@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
+using AutoMapper;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using OnlinePayments.Sdk.Domain;
 using Shared.Contracts.Request;
 
 namespace CustomerWebsite.Controllers
@@ -11,14 +12,17 @@ namespace CustomerWebsite.Controllers
         private readonly IWebhookService _webhookService;
         private readonly IOrderService _orderService;
         private readonly ITokenService _tokenService;
+        private readonly IDetailOrdersService _detailOrdersService;
+        private readonly IProductService _productService;
 
-
-        public PaymentController(IBillingService billingService, IWebhookService webhookService, IOrderService orderService, ITokenService tokenService)
+        public PaymentController(IBillingService billingService, IWebhookService webhookService, IOrderService orderService, ITokenService tokenService, IDetailOrdersService detailOrdersService, IProductService productService)
         {
             _billingService = billingService;
             _webhookService = webhookService;
             _orderService = orderService;
             _tokenService = tokenService;
+            _detailOrdersService = detailOrdersService;
+            _productService = productService;
         }
 
         public async Task<IActionResult> OrderConfirmation([FromQuery] string RETURNMAC, int HostedCheckoutId)
@@ -88,6 +92,42 @@ namespace CustomerWebsite.Controllers
                                 }
                             }
                             break;
+                        /* If status = 1 (cancelled), delete order, restock products & delete orderDetails */
+                        case 1:
+                            Domain.Entities.Order orderToDelete = new Domain.Entities.Order
+                            {
+                                OrderId = order.OrderId,
+                                OrderReference = order.OrderReference,
+                                OrderAmount = order.OrderAmount,
+                                OrderDate = order.OrderDate,
+                                Status = order.Status,
+                                CustomerAuth0UserId = order.CustomerAuth0UserId,
+                                BillingAddressId = order.BillingAddressId,
+                                ShippingAddressId = order.ShippingAddressId
+                            };
+                            var deleteOrderResult = await _orderService.DeleteOrderAsync(orderToDelete);
+                            /* get orderDetails */
+                            var detailsResult = await _detailOrdersService.GetDetailsOrder(order.OrderId);
+                            /* Update stock */
+                            foreach (var details in detailsResult)
+                            {
+                                /* Retrieve product details */
+                                var productResult = await _productService.EditProductAsync(details.ProductId);
+                                /* Update existing product with new quantity */
+                                var product = new Product
+                                {
+                                    ProductId = productResult.ProductId,
+                                    ProductName = productResult.ProductName,
+                                    ProductReference = productResult.ProductReference,
+                                    ProductPrice = productResult.ProductPrice,
+                                    ProductQuantity = productResult.ProductQuantity + details.Quantity,
+                                    CategoryId = productResult.CategoryId,
+                                };
+                                var updatedProduct = await _productService.UpdateProductAsync(product);
+                            }
+                            /* Delete order details */
+                            var deleteDetails = await _detailOrdersService.DeleteDetailsOrder(order.OrderId);
+                            break;
                     }
                 }
                 /* If yes, update existing payment */
@@ -154,6 +194,43 @@ namespace CustomerWebsite.Controllers
                                 var orderUpdateResult = await _orderService.UpdateOrderStatus(order, "Refunded");
                             };
                             break;
+                        /* If status = 1 (cancelled), delete order, restock products & delete orderDetails */
+                        case 1:
+                            Domain.Entities.Order orderToDelete = new Domain.Entities.Order
+                            {
+                                OrderId = order.OrderId,
+                                OrderReference = order.OrderReference,
+                                OrderAmount = order.OrderAmount,
+                                OrderDate = order.OrderDate,
+                                Status = order.Status,
+                                CustomerAuth0UserId = order.CustomerAuth0UserId,
+                                BillingAddressId = order.BillingAddressId,
+                                ShippingAddressId = order.ShippingAddressId
+                            };
+                            var deleteOrderResult = await _orderService.DeleteOrderAsync(orderToDelete);
+                            /* get orderDetails */
+                            var detailsResult = await _detailOrdersService.GetDetailsOrder(order.OrderId);
+                            /* Update stock */
+                            foreach (var details in detailsResult)
+                            {
+                                /* Retrieve product details */
+                                var productResult = await _productService.EditProductAsync(details.ProductId);
+                                /* Update existing product with new quantity */
+                                var product = new Product
+                                {
+                                    ProductId = productResult.ProductId,
+                                    ProductName = productResult.ProductName,
+                                    ProductReference = productResult.ProductReference,
+                                    ProductPrice = productResult.ProductPrice,
+                                    ProductQuantity = productResult.ProductQuantity + details.Quantity,
+                                    CategoryId = productResult.CategoryId,
+                                };
+                                var updatedProduct = await _productService.UpdateProductAsync(product);
+                            }
+                            /* Delete order details */
+                            var deleteDetails = await _detailOrdersService.DeleteDetailsOrder(order.OrderId);
+                            break;
+
                     }
 
                 }
@@ -185,6 +262,6 @@ namespace CustomerWebsite.Controllers
             }
             return Ok();
         }
-        
+
     }
 }

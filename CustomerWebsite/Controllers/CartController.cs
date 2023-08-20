@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Shared.Contracts.Request;
 using Shared.Contracts.Response;
-using Website.Services;
 
 namespace CustomerWebsite.Controllers
 {

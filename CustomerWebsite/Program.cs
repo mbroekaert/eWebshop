@@ -4,6 +4,7 @@ using Application.Billing.Services;
 using Application.Cart.Services;
 using Application.Common.Interfaces;
 using Application.Customers.Services;
+using Application.DetailOrders.Services;
 using Application.Orders.Services;
 using Application.Token.Services;
 using Application.Worldline.Services;
@@ -34,6 +35,7 @@ builder.Services.AddSingleton<IBillingAddressService, BillingAddressService>();
 builder.Services.AddSingleton<IShippingAddressService, ShippingAddressService>();
 builder.Services.AddSingleton<ICartService, CartService>();
 builder.Services.AddSingleton<IOrderService, OrderService>();
+builder.Services.AddSingleton<IDetailOrdersService, DetailOrdersService>();
 
 builder.Services.AddSingleton<IPaymentService, PaymentService>();
 builder.Services.AddSingleton<IBillingService, BillingService>();
