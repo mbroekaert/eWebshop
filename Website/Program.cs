@@ -3,7 +3,6 @@ using Application.Auth0Users.Services;
 using Application.Billing.Services;
 using Application.Common.Interfaces;
 using Application.Orders.Services;
-using Application.TodoItems.Services;
 using Application.Users.Services;
 using Application.Worldline.Services;
 using Infrastructure;
@@ -33,7 +32,6 @@ builder.Services.AddSingleton<IProductService, ProductService > ();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IAuth0UserService, Auth0UserService>();
 builder.Services.AddSingleton<IOrderService,OrderService>();
-builder.Services.AddSingleton<ITodoItemsService, ToDoItemsService>();
 
 builder.Services.AddSingleton<IPaymentService, PaymentService>();
 builder.Services.AddSingleton<IBillingService, BillingService>();
