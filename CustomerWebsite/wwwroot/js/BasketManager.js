@@ -62,12 +62,22 @@ const shoppingBasket = {
 };
 //export default shoppingBasket;
 
-function addToCart(productId, productPrice, quantity) {
+async function addToCart(productId, productPrice, quantity) {
     const priceAsNumber = convertPriceToNumber(productPrice);
-    shoppingBasket.addItem(productId, priceAsNumber, quantity);
-    console.log('product added to cart');
-    updateBasketItemCount();
-    updateBasketTotalPrice();
+
+    // Check available stock
+    const response = await fetch(`/api/product/stock/${productId}`);
+    const availableStock = await response.json();
+
+    if (availableStock >= quantity) {
+        shoppingBasket.addItem(productId, priceAsNumber, quantity);
+        console.log('product added to cart');
+        updateBasketItemCount();
+        updateBasketTotalPrice();
+    }
+    else {
+        window.alert('Sorry! We dont have enough stock of this product to answer your demand');
+    }
 };
 
 function removeFromCart(productId, productPrice, quantity) {

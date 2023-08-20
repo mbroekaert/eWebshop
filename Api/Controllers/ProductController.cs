@@ -1,7 +1,6 @@
 ﻿using Application.Products.Commands.CreateProduct;
 using Application.Products.Commands.DeleteProduct;
 using Application.Products.Commands.UpdateProduct;
-using Application.Products.Queries.GetCategories;
 using Application.Products.Queries.GetProducts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +23,19 @@ namespace Api.Controllers
         }
 
         [HttpGet("{productId}")]
-        //[Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ProductResponseDto))]
         public async Task<IActionResult> GetProductAsync([FromRoute] int productId)
         {
             var response = await Mediator.Send(new GetProductQuery());
             return Ok(response.FirstOrDefault(c => c.ProductId == productId));
+        }
+
+        [HttpGet("stock/{productId}")]
+        public async Task<int> GetProductStock([FromRoute] int productId)
+        {
+            var response = await Mediator.Send(new GetProductQuery());
+            var product = response.FirstOrDefault(c => c.ProductId == productId);
+            return product.ProductQuantity;
         }
 
         [HttpPost]
