@@ -53,19 +53,6 @@ namespace CustomerWebsite.Controllers
         }
 
         #endregion
-        //test functionalities
-        //public async Task<ActionResult<OrderResponseDto>> Test()
-        //{
-        //    TokenRequestDto token = new TokenRequestDto
-        //    {
-        //        TokenId = "test123",
-        //        PaymentProductId = 1,
-        //        CardNumber = "XXXXXXXX1111",
-        //        ExpiryDate = "1225",
-        //        CustomerAuth0UserId= "auth0|63029c4e95ed75a8a6b2343b"
-        //    };
-        //    var tokenResponse = await tokenService.CreateTokenAsync(token);
-        //    return View(tokenResponse);
-        //}
+        
     }
 }

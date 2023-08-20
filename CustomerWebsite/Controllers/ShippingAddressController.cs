@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Website.Services;
 
@@ -14,6 +15,7 @@ namespace CustomerWebsite.Controllers
             _shippingAddressService = shippingAddressService;
         }
         #region Get shipping address
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             string userId = Auth0UserId;

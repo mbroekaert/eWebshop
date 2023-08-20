@@ -23,7 +23,6 @@ namespace Api.Controllers
         }
 
         [HttpGet("{shippingAddressId}")]
-        //[Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ShippingAddressResponseDto))]
         public async Task<IActionResult> GetShippingAddressAsync([FromRoute] int shippingAddressId)
         {
