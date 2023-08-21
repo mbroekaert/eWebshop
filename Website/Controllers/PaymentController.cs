@@ -30,15 +30,22 @@ namespace Website.Controllers
             // Retrieve order
             var orderList = await _orderService.GetOrderById(orderId);
             var order = orderList[0];
-            // Create Dto
-            RefundRequestDto refundRequest = new RefundRequestDto
+            // Check if order can be refunded
+            if (order.Status == "Paid")
             {
-                OrderAmount = order.OrderAmount,
-                PaymentPayid = payment.PaymentPayid,
-                OrderReference = order.OrderReference
-            };
+                // Create Dto
+                RefundRequestDto refundRequest = new RefundRequestDto
+                {
+                    OrderAmount = order.OrderAmount,
+                    PaymentPayid = payment.PaymentPayid,
+                    OrderReference = order.OrderReference
+                };
 
-            return View(refundRequest);
+                return View(refundRequest);
+            }
+            else TempData["error"] = "Order cannot be refunded";
+            return RedirectToAction("Index", "Home");
+            
         }
         public async Task<IActionResult> ProcessRefund (RefundRequestDto refundRequest)
         {

@@ -67,9 +67,18 @@
                             @order.Status
                         </td>
                         <td>
-                            <div class="w-75 btn-group" role="group">
-                                <a asp-controller="Payment" asp-action="RefundTransaction" asp-route-id="@order.OrderId" class="btn btn-secondary">&nbsp; Refund transaction</a>
-                            </div>
+                            @if (order.Status == "Paid")
+                            {
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-controller="Payment" asp-action="RefundTransaction" asp-route-id="@order.OrderId" class="btn btn-secondary">&nbsp; Refund transaction</a>
+                                </div>
+                            }
+                            else if (@order.Status == "Refunded")
+                            {
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" onclick="ShipTransaction()">&nbsp; Ship transaction</a>
+                                </div>
+                            }
                         </td>
                     </tr>
                 }
@@ -87,4 +96,8 @@ else
     </div>
 }
 
-
+<script>
+    function ShipTransaction() {
+        alert("Ship transaction button clicked! Logic to be implemented");
+    }
+</script>
