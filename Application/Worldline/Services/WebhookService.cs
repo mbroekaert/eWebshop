@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using OnlinePayments.Sdk;
 using OnlinePayments.Sdk.Webhooks;
 using System.Text;
@@ -10,11 +11,15 @@ namespace Application.Worldline.Services
     {
         private string keyId;
         private string secretKey;
+        private readonly IConfiguration _configuration;
 
-        public WebhookService()
+        public WebhookService(IConfiguration configuration)
         {
-            keyId = "666af1f1e4ee4c2ea4bb39172f6102";
-            secretKey = "4c99c280-f82b-4e8a-a3f2-e7d84ac90774";
+            this._configuration = configuration;
+            keyId = _configuration["Worldline:WebhookKey"];
+            secretKey = _configuration["Worldline:WebhookKeySecret"];
+            //666af1f1e4ee4c2ea4bb39172f6102";
+            //secretKey = "4c99c280-f82b-4e8a-a3f2-e7d84ac90774";
         }
 
         public async Task<WebhooksEvent> HandleWebhook(HttpRequest httpRequest)

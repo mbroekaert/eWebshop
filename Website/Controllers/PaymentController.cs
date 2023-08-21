@@ -43,11 +43,6 @@ namespace Website.Controllers
         public async Task<IActionResult> ProcessRefund (RefundRequestDto refundRequest)
         {
             var result = await _billingService.CreateRefund(refundRequest);
-            //if (result.StatusOutput.StatusCode != 8 || result.StatusOutput.StatusCode != 81)
-            //{
-            //    TempData["Error"] = "Refund processed successfully!";
-            //}
-            //else TempData["Error"] = "Something went wrong during the process";
             return RedirectToAction("Index", "Home");
         }
     }

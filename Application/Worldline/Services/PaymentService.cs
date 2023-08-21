@@ -1,11 +1,8 @@
 ﻿using Application.Common.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using OnlinePayments.Sdk;
 using OnlinePayments.Sdk.Domain;
 using OnlinePayments.Sdk.Merchant;
-using Shared.Contracts.Response;
-using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 
 namespace Application.Worldline.Services
@@ -20,16 +17,16 @@ namespace Application.Worldline.Services
         private string apiSecret;
         private string integrator;
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
 
-        public PaymentService(HttpClient httpClient)
+        public PaymentService(HttpClient httpClient, IConfiguration configuration)
         {
-            //this.apiKey = builder.Configuration["Worldline:ApiKey"];
-            //this.apiSecret = builder.Configuration["Worldline:ApiSecret"];
-            //this.merchantId = builder.Configuration["Worldline:MerchantId"];
+            this._configuration = configuration;
+
+            this.apiKey = _configuration["Worldline:ApiKey"];
+            this.apiSecret = _configuration["Worldline:ApiSecret"];
+            this.merchantId = _configuration["Worldline:MerchantId"];
             this._httpClient = httpClient;
-            this.merchantId = "MTBTfe";
-            this.apiKey = "C0C57F9A9F962A0E10CB";
-            this.apiSecret = "SHwQAj56Q+ktRWdCRR+bSkfiL9MztJYKY6AyxWe60nNOHLHtcGwnpHS8FeW6YHykCWzg7D6N+ZA6U0mKDbRWrA==";
             this.integrator = "MTB-PSR11069";
             Uri apiEndpoint = new Uri("https://payment.preprod.direct.worldline-solutions.com");		
             client = Factory.CreateClient(apiKey, apiSecret, apiEndpoint, integrator);
