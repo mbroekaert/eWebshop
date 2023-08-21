@@ -44,6 +44,10 @@ namespace CustomerWebsite.Controllers
             });
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+        public IActionResult Privacy ()
+        {
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
