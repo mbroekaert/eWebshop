@@ -65,15 +65,28 @@ namespace CustomerWebsite.Controllers
             else cartSummaryDto = new ProductResponseDto[0];
 
             /* Retrieve Billing address */
-
-            billingAddressSummaryDto = await billingAddressService.GetBillingAddressAsync(userId);
+            try
+            {
+                billingAddressSummaryDto = await billingAddressService.GetBillingAddressAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index", "Product");
+            }
 
             /* Retrieve Shipping address */
-
-            shippingAddressSummaryDto = await shippingAddressService.GetShippingAddressAsync(userId);
+            try
+            {
+                shippingAddressSummaryDto = await shippingAddressService.GetShippingAddressAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index", "Product");
+            }
 
             /* Map to a new Dto */
-
             basketSummaryDto = new BasketSummaryDto()
             {
                 ProductResponseDtos = cartSummaryDto,
