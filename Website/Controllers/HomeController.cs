@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts.Response;
 using System.Diagnostics;
 using Website.Models;
 using Website.Services;
@@ -22,7 +23,12 @@ namespace Website.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _orderService.GetOrdersAsync());
+            if (User.Identity.IsAuthenticated)
+            {
+                return View(await _orderService.GetOrdersAsync());
+            }
+            OrderResponseDto[] emptyOrder = new OrderResponseDto[0];
+            return View(emptyOrder);
         }
 
         public IActionResult Privacy()

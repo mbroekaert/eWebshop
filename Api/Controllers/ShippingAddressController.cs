@@ -16,6 +16,7 @@ namespace Api.Controllers
         [HttpGet("user/{userId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<ShippingAddressResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        [Authorize]
         public async Task<IActionResult> GetShippingAddressesAsync([FromRoute] string userId)
         {
             var response = await Mediator.Send(new GetShippingAddressQuery());
@@ -24,6 +25,7 @@ namespace Api.Controllers
 
         [HttpGet("{shippingAddressId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ShippingAddressResponseDto))]
+        [Authorize]
         public async Task<IActionResult> GetShippingAddressAsync([FromRoute] int shippingAddressId)
         {
             var response = await Mediator.Send(new GetShippingAddressQuery());
@@ -31,7 +33,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-       // [Authorize("write:messages")]
+        [Authorize]
         public async Task<ActionResult<string>> CreateShippingAddress(CreateShippingAddressCommand command)
         {
             if (!ModelState.IsValid)
@@ -55,7 +57,7 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{shippingAddressId}")]
-        //[Authorize("write:messages")]
+        [Authorize]
         public async Task<ActionResult> UpdateShippingAddress(int ShippingAddressId, UpdateShippingAddressCommand command)
         {
             if (ShippingAddressId != command.ShippingAddressId) return BadRequest();
@@ -81,7 +83,7 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpDelete("{shippingAddressId}")]
-        //[Authorize("write:messages")]
+        [Authorize]
         public async Task<ActionResult<int>> DeleteShippingAddressAddress(int shippingAddressId)  
         {
             await Mediator.Send(new DeleteShippingAddressCommand { ShippingAddressId = shippingAddressId });

@@ -16,6 +16,7 @@ namespace Api.Controllers
         [HttpGet("user/{userId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<BillingAddressResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        [Authorize]
         public async Task<IActionResult> GetBillingAddressesAsync([FromRoute]string userId)
         {
             var response = await Mediator.Send(new GetBillingAddressQuery());
@@ -23,7 +24,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{billingAddressId}")]
-        //[Authorize("read:messages")]
+        [Authorize]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BillingAddressResponseDto))]
         public async Task<IActionResult> GetBillingAddressAsync([FromRoute] int billingAddressId)
         {
@@ -32,7 +33,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        //[Authorize("write:messages")]
+        [Authorize]
         public async Task<ActionResult<string>> CreateBillingAddress(CreateBillingAddressCommand command)
         {
             if (!ModelState.IsValid)
@@ -56,7 +57,7 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{billingAddressId}")]
-       // [Authorize("write:messages")]
+        [Authorize]
         public async Task<ActionResult> UpdateBillingAddress(int BillingAddressId, UpdateBillingAddressCommand command)
         {
             if (BillingAddressId != command.BillingAddressId) return BadRequest();
@@ -82,7 +83,7 @@ namespace Api.Controllers
             return NoContent();
         }
         [HttpDelete("{billingAddressId}")]
-        //[Authorize("write:messages")]
+        [Authorize]
         public async Task<ActionResult<int>> DeleteBillingAddress(int billingAddressId)  
         {
             await Mediator.Send(new DeleteBillingAddressCommand { BillingAddressId = billingAddressId });

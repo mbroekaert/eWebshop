@@ -25,7 +25,7 @@ builder.Services.AddInfrastructure(configuration);
 builder.Services.AddSession();
 builder.Services.AddSingleton(sp => new HttpClient()
 {
-    BaseAddress = new Uri("https://localhost:7276/Api/")
+    BaseAddress = new Uri("https://localhost:7060/Api/")
 });
 
 builder.Services.AddSingleton<IProductService, ProductService>();

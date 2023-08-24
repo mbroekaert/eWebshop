@@ -1,6 +1,7 @@
 ﻿using Application.Billing.Commands.CreateBilling;
 using Application.Billing.Commands.UpdateBilling;
 using Application.Billing.Queries.GetPayment;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
 
@@ -52,6 +53,7 @@ namespace Api.Controllers
 
         /* Check payment status to update order confirmation page*/
         [HttpGet("confirm/GetPaymentByPayidFromQuery")]
+        
         public async Task<PaymentResponseDto> GetPaymentByPayidFromQuery()
         {
             string paymentPayid = HttpContext.Request.Query["paymentPayid"].ToString();
@@ -61,6 +63,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("{paymentId}")]
+        
         public async Task<ActionResult> UpdatePayment (UpdateBillingCommand command, int paymentId)
         {
             if (paymentId != command.PaymentId) return BadRequest();

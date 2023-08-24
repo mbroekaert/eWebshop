@@ -13,7 +13,6 @@ namespace Api.Controllers
     {
 
         [HttpPost]
-        //[Authorize]
         public async Task<ActionResult<int>> CreateDetailOrder (CreateDetailOrderCommand command)
         {
             if (!ModelState.IsValid)

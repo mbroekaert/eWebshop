@@ -23,7 +23,7 @@ namespace Api.Controllers
 
         
         [HttpGet("{auth0UserId}")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(CustomerResponseDto))]
         public async Task<IActionResult> GetCustomerAsync(string auth0UserId)
         {

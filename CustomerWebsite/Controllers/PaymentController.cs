@@ -78,7 +78,7 @@ namespace CustomerWebsite.Controllers
                             if (result.Payment.StatusOutput.StatusCode == 5 || result.Payment.StatusOutput.StatusCode == 9)
                             {
                                 /* Handle credit card token */
-                                if (result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token is not null)
+                                if (result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput is not null && result.Payment.PaymentOutput.CardPaymentMethodSpecificOutput.Token is not null)
                                 {
                                     TokenRequestDto token = new TokenRequestDto
                                     {

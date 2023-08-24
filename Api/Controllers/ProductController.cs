@@ -63,7 +63,6 @@ namespace Api.Controllers
             return await Mediator.Send(command);
         }
         [HttpPut("{ProductId}")]
-        //[Authorize("write:messages")]
         public async Task<ActionResult> UpdateProduct(int ProductId, UpdateProductCommand command)
         {
             if (ProductId != command.ProductId) return BadRequest();

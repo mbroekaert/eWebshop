@@ -3,6 +3,7 @@ using Application.Orders.Commands.DeleteOrder;
 using Application.Orders.Commands.UpdateOrder;
 using Application.Orders.Queries.GetOrders;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts.Response;
 using System.Net;
@@ -16,6 +17,7 @@ namespace Api.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
+        [Authorize]
         public async Task<IActionResult> GetOrdersAsync()
         {
             var response = await Mediator.Send(new GetOrderQuery());
@@ -23,7 +25,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{customerId}")]
-        //[Authorize("read:messages")]
+        [Authorize]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
         public async Task<IActionResult> GetCustomerOrdersAsync([FromRoute] string customerId)
@@ -33,7 +35,6 @@ namespace Api.Controllers
         }
 
         [HttpGet("order/{orderId}")]
-        //[Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
         public async Task<IActionResult> GetOrderById([FromRoute] int orderId)
@@ -43,7 +44,6 @@ namespace Api.Controllers
         }
 
         [HttpGet("reference/{orderReference}")]
-        //[Authorize("read:messages")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<OrderResponseDto>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(BadRequestResponseDto))]
         public async Task<IActionResult> GetOrderByOrderReference([FromRoute] string orderReference)
@@ -54,7 +54,7 @@ namespace Api.Controllers
 
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<ActionResult<int>> CreateOrder(CreateOrderCommand command)
         {
             if (!ModelState.IsValid)
