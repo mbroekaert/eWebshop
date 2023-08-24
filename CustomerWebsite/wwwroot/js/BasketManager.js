@@ -68,8 +68,12 @@ async function addToCart(productId, productPrice, quantity) {
     // Check available stock
     const response = await fetch(`/api/product/stock/${productId}`);
     const availableStock = await response.json();
+    // Get quantity from basket
+    const quantityInBasket = shoppingBasket.getProductQuantity(productId);
+    // Calculate total quantity 
+    const totalQuantity = quantityInBasket + quantity;
 
-    if (availableStock >= quantity) {
+    if (availableStock >= totalQuantity) {
         shoppingBasket.addItem(productId, priceAsNumber, quantity);
         console.log('product added to cart');
         updateBasketItemCount();
