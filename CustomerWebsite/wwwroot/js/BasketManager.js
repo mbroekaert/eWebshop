@@ -66,13 +66,18 @@ async function addToCart(productId, productPrice, quantity) {
     const priceAsNumber = convertPriceToNumber(productPrice);
 
     // Check available stock
-    const response = await fetch(`/api/product/stock/${productId}`);
-    const availableStock = await response.json();
+    let response = await fetch(`/api/product/stock/${productId}`);
+    let availableStock = await response.json();
     // Get quantity from basket
-    const quantityInBasket = shoppingBasket.getProductQuantity(productId);
-    // Calculate total quantity 
-    const totalQuantity = quantityInBasket + quantity;
+    let quantityInBasket = shoppingBasket.getProductQuantity(productId);
+    // Check if we already have something in basket
 
+    if (isNaN(quantityInBasket)) {
+        quantityInBasket = 0; 
+    }
+    // Calculate total quantity 
+    let totalQuantity = quantityInBasket + quantity;
+    
     if (availableStock >= totalQuantity) {
         shoppingBasket.addItem(productId, priceAsNumber, quantity);
         console.log('product added to cart');
